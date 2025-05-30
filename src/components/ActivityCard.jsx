@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 const ActivityCard = ({ activity }) => {
   return (
-    <div className="rounded-xl overflow-hidden shadow-lg border">
+    <div className="rounded-xl overflow-hidden shadow-lg hover:shadow-lg/20 transition duration-300">
       <img
         src={activity.imageUrls[0]}
         alt={activity.title}
@@ -16,6 +18,12 @@ const ActivityCard = ({ activity }) => {
           </span>
           <span className="text-yellow-500">⭐ {activity.rating}</span>
         </div>
+        <Link
+          to={`/activities/${activity.id}`}
+          className="text-blue-600 hover:underline mt-5"
+        >
+          Lihat Detail
+        </Link>
       </div>
     </div>
   );
