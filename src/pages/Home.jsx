@@ -1,7 +1,7 @@
 const HomePage = () => {
     return (
-        <div>
-            <h1>Halaman Home</h1>
+        <div className="flex items-center justify-center h-screen">
+            <h1>Home</h1>
         </div>
     );
 }
