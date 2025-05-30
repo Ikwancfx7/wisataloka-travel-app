@@ -40,26 +40,34 @@ const Navbar = () => {
     // }
 
     return (
-        <div className="flex flex-row justify-between px-18 py-2">
+        <div className="flex flex-row justify-between items-center px-7 md:px-13 lg:px-15 py-2">
             <div>
-                <h1>WISTALOKA</h1>
-            </div>
-            <div className="flex flex-row gap-5">
                 <Link to="/">
-                    Home
+                    WISTALOKA
+                </Link>
+            </div>
+            <div className="flex flex-row gap-5 items-center">
+                <Link to="/activities">
+                    Explore
                 </Link>
                 <Link to="/cart">
                     Cart
                 </Link>
-                <Link to="/activities">
-                    Activities
+                <Link to="/transactions">
+                    Transactions
                 </Link>
                 {!token && !loading && (
-                    <div className="flex flex-row gap-5">
-                        <Link to="/login">
+                    <div className="flex flex-row gap-1">
+                        <Link 
+                            to="/login"
+                            className="flex justify-center border rounded-xl py-2 w-20"
+                        >
                             Login
                         </Link>
-                        <Link to="/register">
+                        <Link 
+                            to="/register"
+                            className="flex justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-20 py-2"
+                        >
                             Register
                         </Link>
                     </div>
