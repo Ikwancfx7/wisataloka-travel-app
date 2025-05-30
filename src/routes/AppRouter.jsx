@@ -4,7 +4,6 @@ import Register from "../pages/Register";
 import Activities from "../pages/Activities";
 import ActivityDetail from "../pages/ActivityDetail";
 import Cart from "../pages/Cart";
-import CheckOut from "../pages/Checkout";
 import Transactions from "../pages/Transactions";
 import MainLayout from "../layout/MainLayout";
 import AuthLayout from "../layout/AuthLayout";
@@ -40,19 +39,15 @@ const AppRouter = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/activities" element={
-          <UserRoute>
             <Activities />
-          </UserRoute>
         } />
-        <Route path="/activities/:id" element={<UserRoute><ActivityDetail /></UserRoute>}/>
+        <Route path="/activities/:id" element={
+          <UserRoute>
+            <ActivityDetail />
+          </UserRoute>}/>
         <Route path="/cart" element={
           <UserRoute>
             <Cart />
-          </UserRoute>
-        } />
-        <Route path="/checkout" element={
-          <UserRoute>
-            <CheckOut />
           </UserRoute>
         } />
         <Route path="/transactions" element={
