@@ -5,7 +5,6 @@ const axiosInstance = axios.create({
   // timeout: 10000,
   headers: {
     "apiKey": import.meta.env.VITE_API_KEY,
-    "Content-Type": "application/json",
   },
 });
 
