@@ -7,7 +7,7 @@ const LoginPage = () => {
   // console.log("API KEY:", import.meta.env.VITE_API_KEY);
 
   return (
-    <div className="flex flex-col items-center py-10 w-[40%] bg-white p-6 rounded shadow-md">
+    <div className="flex flex-col items-center py-10 w-[30%] bg-white p-6 rounded shadow-md">
       <LoginForm setMessage={setMessage}/>
       {message &&  (
         <div className='mt-5'>
