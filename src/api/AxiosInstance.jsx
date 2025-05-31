@@ -23,14 +23,9 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      window.location.pathname !== "/login"
-    ) {
-      console.log("Unauthorized! Redirect to login");
+    if (error.response && error.response.status === 401) {
+      console.log("Unauthorized! Removing token.");
       localStorage.removeItem("token");
-      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
