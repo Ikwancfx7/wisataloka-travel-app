@@ -15,7 +15,6 @@ const Activities = () => {
         let response;
         if (selectedCategory) {
           response = await axiosInstance.get(`/api/v1/activities-by-category/${selectedCategory}`);
-          // setActivities(response.data.data.activities);
         }
         else {
           response = await axiosInstance.get("/api/v1/activities");
@@ -34,14 +33,24 @@ const Activities = () => {
   if (loading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="flex flex-row px-20 lg:px-30 py-4 gap-10 items-start">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 w-4/5">
-        {activities.map((activity) => (
-          <ActivityCard key={activity.id} activity={activity} />
-        ))}
+    <div>
+      <div className="flex justify-center text-2xl py-5 md:py-10">
+        <h1 className="text-xl md:text-3xl font-semibold">
+          Your Next Adventure Starts Here
+        </h1>
       </div>
-      <div className="w-1/5 sticky top-10 h-fit">
-        <CategoryFilter selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
+      <div className="flex flex-col md:flex-row px-20 lg:px-30 py-4 gap-10 justify-center md:items-start">
+        {/* <div className="flex justify-center md:hidden px-20">
+          <CategoryFilter selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
+        </div> */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 md:w-4/5">
+          {activities.map((activity) => (
+            <ActivityCard key={activity.id} activity={activity} />
+          ))}
+        </div>
+        <div className="hidden w-1/5 sticky top-10 h-fit md:flex">
+          <CategoryFilter selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
+        </div>
       </div>
     </div>
   );
