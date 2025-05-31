@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 // import { logoutUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
-const Navbar = () => {
+const Navbar = ({isLandingPage}) => {
     const { logout, token, loading } = useAuth();
     const navigate = useNavigate();
 
@@ -40,40 +40,40 @@ const Navbar = () => {
     // }
 
     return (
-        <div className="flex flex-row justify-between items-center px-7 md:px-13 lg:px-15 py-2">
+        <div className={`flex flex-row justify-between items-center w-full px-7 md:px-13 lg:px-15 py-2 ${isLandingPage ? "absolute text-white":"bg-white text-black shadow"}`}>
             <div>
-                <Link to="/">
+                <Link to="/" className="text-3xl">
                     WISTALOKA
                 </Link>
             </div>
             <div className="flex flex-row gap-5 items-center">
-                <Link to="/activities">
+                <Link to="/activities" className="button-nav">
                     Explore
                 </Link>
-                <Link to="/cart">
+                <Link to="/cart" className="button-nav">
                     Cart
                 </Link>
-                <Link to="/transactions">
+                <Link to="/transactions" className="button-nav">
                     Transactions
                 </Link>
                 {!token && !loading && (
                     <div className="flex flex-row gap-1">
                         <Link 
                             to="/login"
-                            className="flex justify-center border rounded-xl py-2 w-20"
+                            className="flex justify-center items-center bg-gray-100/10 hover:border rounded-xl py-2 w-20 h-10"
                         >
                             Login
                         </Link>
                         <Link 
                             to="/register"
-                            className="flex justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-20 py-2"
+                            className="flex justify-center items-center bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-20 py-2"
                         >
                             Register
                         </Link>
                     </div>
                 )}
                 {token && !loading && (
-                    <button onClick={handleLogout} className="hover:cursor-pointer">
+                    <button onClick={handleLogout} className="hover:cursor-pointer w-24 hover:text-red-300">
                         Logout
                     </button>
                 )}
