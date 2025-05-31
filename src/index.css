@@ -1,4 +1,8 @@
 @import "tailwindcss";
+
+.button-nav{
+  @apply flex justify-center items-center w-24 hover:font-semibold
+}
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
