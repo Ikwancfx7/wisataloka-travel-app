@@ -1,4 +1,3 @@
-// src/contexts/CartContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
 
@@ -26,20 +25,35 @@ export const CartProvider = ({ children }) => {
         console.log("Token di addToCart:", localStorage.getItem("token"));
         console.log("Mengirim activity ke cart:", activity);
       const response = await axiosInstance.post("/api/v1/add-cart", {
-        activity_id: activity.id,
-        qty: 1,
+        activityId: activity.id,
       });
-      fetchCart(); // Refresh isi cart
+      await fetchCart(); // Refresh isi cart
       console.log("Berhasil tambah ke cart:", response.data);
     } catch (err) {
       console.error("Gagal menambahkan ke keranjang:", err.response?.data || err.message);
     }
   };
 
-  const updateCart = async (cartId, qty) => {
+  const addMultipleToCart = async (activity, qty) => {
     try {
-      await axiosInstance.put(`/api/v1/update-cart/${cartId}`, { qty });
-      fetchCart();
+      for (let i = 0; i < qty; i++) {
+        await addToCart(activity);
+      }
+    } catch (err) {
+      console.error("Gagal menambahkan ke keranjang:", err.response?.data || err.message);
+    }
+  };
+
+  const updateCart = async (cartId, quantity) => {
+    try {
+      console.log("Calling PUT /api/v1/update-cart/" + cartId, { quantity });
+      await axiosInstance.put(`/api/v1/update-cart/${cartId}`, { quantity: quantity });
+      await fetchCart();
+      // setCartItems((prevItems) =>
+      // prevItems.map((item) =>
+      //   item.id === cartId ? { ...item, quantity } : item
+      // )
+    // );
     } catch (err) {
       console.error("Gagal memperbarui keranjang:", err);
     }
@@ -48,7 +62,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (cartId) => {
     try {
       await axiosInstance.delete(`/api/v1/delete-cart/${cartId}`);
-      fetchCart();
+      await fetchCart();
     } catch (err) {
       console.error("Gagal menghapus dari keranjang:", err);
     }
@@ -60,7 +74,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, loading, addToCart, updateCart, removeFromCart }}
+      value={{ cartItems, loading, addToCart, addMultipleToCart, updateCart, removeFromCart }}
     >
       {children}
     </CartContext.Provider>
