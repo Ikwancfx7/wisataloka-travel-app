@@ -3,6 +3,7 @@ import FetchPaymentMethods from "../api/PaymentApi";
 
 const PaymentMethod = ({ selectedPaymentMethod, onChange }) => {
     const [paymentMethods, setPaymentMethods] = useState([]);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         const loadPaymentMethods = async () => {
@@ -11,11 +12,15 @@ const PaymentMethod = ({ selectedPaymentMethod, onChange }) => {
                 setPaymentMethods(methods);
             } catch (error) {
                 console.error("Error fetching payment methods:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         loadPaymentMethods();
     }, []);
+
+    if (loading) return <p>Loading payment methods...</p>;
 
     return(
         <div>
