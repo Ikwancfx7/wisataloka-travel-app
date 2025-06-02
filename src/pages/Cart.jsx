@@ -1,11 +1,15 @@
 import { useCart } from "../contexts/CartContext";
-import { useState } from "react";
+// import { useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
 import PaymentMethod from "../components/PaymentMethod";
+import { useNavigate } from "react-router-dom";
+import Checkout from "./Checkout";
+
 
 const Cart = () => {
     const { cartItems, loading, updateCart, removeFromCart } = useCart();
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    // const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    const navigate = useNavigate();
 
   const handleQtyChange = (cartId, newQty) => {
     if (newQty < 1) return;
@@ -19,20 +23,31 @@ const Cart = () => {
     return total + item.activity.price * item.quantity;
   }, 0);
 
-  const handleCheckout = async () => {
-    const cartIds = cartItems.map((item) => item.id);
-    try {
-      const response = await axiosInstance.post("/api/v1/create-transaction", {
-        cartIds: cartIds,
-        paymentMethodId: selectedPaymentMethod, // atau bank_transfer kalau disediakan
-      });
+const handleCheckout = async () => {
+  try {
+    const response = await axiosInstance.post("/api/v1/generate-payment-methods");
+    console.log("Payment methods generated:", response.data);
+    navigate("/checkout");
+  } catch (error) {
+    console.error(error);
+  }
+}
+  
 
-      const transactionId = response.data.data.id;
-      window.location.href = `/transaction/${transactionId}`; // arahkan ke halaman detail transaksi
-    } catch (error) {
-      console.error("Gagal melakukan checkout:", error.response?.data || error.message);
-    }
-  };
+  // const handleCheckout = async () => {
+  //   const cartIds = cartItems.map((item) => item.id);
+  //   try {
+  //     const response = await axiosInstance.post("/api/v1/create-transaction", {
+  //       cartIds: cartIds,
+  //       paymentMethodId: selectedPaymentMethod, // atau bank_transfer kalau disediakan
+  //     });
+
+  //     const transactionId = response.data.data.id;
+  //     window.location.href = `/transaction/${transactionId}`; // arahkan ke halaman detail transaksi
+  //   } catch (error) {
+  //     console.error("Gagal melakukan checkout:", error.response?.data || error.message);
+  //   }
+  // };
 
   return (
     <div className="h-screen">
@@ -78,10 +93,6 @@ const Cart = () => {
             <div className="p-4 border rounded shadow-md">
                 <h2 className="text-xl font-semibold mb-4">Summary</h2>
                 <p>Total: <span className="font-bold">Rp {totalHarga}</span></p>
-                <PaymentMethod
-                    selectedPaymentMethod={selectedPaymentMethod}
-                    onChange={setSelectedPaymentMethod}
-                />
                 <button
                 onClick={handleCheckout}
                 className="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer"
