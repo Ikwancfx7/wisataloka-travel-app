@@ -7,15 +7,17 @@ import Cart from "../pages/Cart";
 import Transactions from "../pages/Transactions";
 import MainLayout from "../layout/MainLayout";
 import AuthLayout from "../layout/AuthLayout";
+import Checkout from "../pages/Checkout";
 
 import { useAuth } from "../contexts/AuthContext";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 const PrivateRoute = ({ children, requiredRole  }) => {
     const { user, token } = useAuth();
+    const location = useLocation();
 
     if (!token) {
-      return <Navigate to="/login" />
+      return <Navigate to="/login" state={{ from: location }} replace />
     }
 
     if (requiredRole && (!user || user.role !== requiredRole)) {
@@ -29,7 +31,7 @@ const AdminRoute = ({ children }) => (
   <PrivateRoute requiredRole="admin">{children}</PrivateRoute>
 );
 
-const UserRoute = ({ children }) => (
+const UserPrivateRoute = ({ children }) => (
   <PrivateRoute requiredRole="user">{children}</PrivateRoute>
 );
 
@@ -41,19 +43,21 @@ const AppRouter = () => {
         <Route path="/activities" element={
             <Activities />
         } />
-        <Route path="/activities/:id" element={
-          <UserRoute>
-            <ActivityDetail />
-          </UserRoute>}/>
+        <Route path="/activities/:id" element={<ActivityDetail />}/>
         <Route path="/cart" element={
-          <UserRoute>
+          <UserPrivateRoute>
             <Cart />
-          </UserRoute>
+          </UserPrivateRoute>
+        } />
+        <Route path="/checkout" element={
+          <UserPrivateRoute>
+            <Checkout />
+          </UserPrivateRoute>
         } />
         <Route path="/transactions" element={
-          <UserRoute>
+          <UserPrivateRoute>
             <Transactions />
-          </UserRoute>
+          </UserPrivateRoute>
         } />
       </Route>
 
