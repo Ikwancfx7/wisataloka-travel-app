@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
 const LoginForm = ({ setMessage }) => {  
@@ -7,6 +7,8 @@ const LoginForm = ({ setMessage }) => {
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
     const [valid, setValid] = useState(false);
     const { login, loading, setLoading } = useAuth();
 
@@ -19,20 +21,21 @@ const LoginForm = ({ setMessage }) => {
         e.preventDefault();
         setLoading(true);
         try {
-        const data = await loginUser(email, password);
-        localStorage.setItem("token", data.token); // simpan token
-        console.log("Response dari API register:", data);
-        login(data.token, data.data);
-        setMessage("Login success");
+            const data = await loginUser(email, password);
+            localStorage.setItem("token", data.token); // simpan token
+            console.log("Response dari API register:", data);
+            login(data.token, data.data);
+            setMessage("Login success");
 
-        setTimeout(() => {
-            setLoading(false);
-            navigate('/');
-        }, 2000);
+            setTimeout(() => {
+                setLoading(false);
+                // navigate('/');
+                navigate(from, { replace: true });
+            }, 2000);
         } catch (error) {
-        setErrorMsg(error.message || "Login gagal");
-        setMessage(errorMsg);
-        setLoading(false);
+            setErrorMsg(error.message || "Login gagal");
+            setMessage(errorMsg);
+            setLoading(false);
         }
     };
 
