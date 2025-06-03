@@ -34,26 +34,11 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addMultipleToCart = async (activity, qty) => {
-    try {
-      for (let i = 0; i < qty; i++) {
-        await addToCart(activity);
-      }
-    } catch (err) {
-      console.error("Gagal menambahkan ke keranjang:", err.response?.data || err.message);
-    }
-  };
-
   const updateCart = async (cartId, quantity) => {
     try {
       console.log("Calling PUT /api/v1/update-cart/" + cartId, { quantity });
-      await axiosInstance.put(`/api/v1/update-cart/${cartId}`, { quantity: quantity });
+      await axiosInstance.post(`/api/v1/update-cart/${cartId}`, { quantity });
       await fetchCart();
-      // setCartItems((prevItems) =>
-      // prevItems.map((item) =>
-      //   item.id === cartId ? { ...item, quantity } : item
-      // )
-    // );
     } catch (err) {
       console.error("Gagal memperbarui keranjang:", err);
     }
@@ -74,7 +59,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, loading, addToCart, addMultipleToCart, updateCart, removeFromCart }}
+      value={{ cartItems, loading, addToCart, updateCart, removeFromCart }}
     >
       {children}
     </CartContext.Provider>

@@ -22,24 +22,34 @@ const PaymentMethod = ({ selectedPaymentMethod, onChange }) => {
 
     if (loading) return <p>Loading payment methods...</p>;
 
+    if (paymentMethods.length === 0) {
+        return <p>Tidak ada metode pembayaran tersedia saat ini.</p>;
+    }
+
     return(
-        <div>
-            <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Pilih Metode Pembayaran:</h3>
-                <div className="grid grid-cols-2 gap-4">
-                    {paymentMethods.map((method) => (
-                    <button
-                        key={method.id}
-                        onClick={() => onChange(method.id)}
-                        className={`flex items-center gap-2 p-2 border rounded hover:bg-gray-100 ${
-                        selectedPaymentMethod === method.id ? "border-blue-500" : ""
-                        }`}
-                    >
-                        <img src={method.imageUrl} alt={method.name} className="w-10 h-10" />
-                        <span>{method.name}</span>
-                    </button>
-                    ))}
-                </div>
+        <div className="space-y-3 my-4">
+            <h3 className="text-lg font-semibold">Choose Payment Method:</h3>
+            <div className="grid grid-cols-2 gap-4">
+                {paymentMethods.map((method) => {
+                    console.log("selectedPaymentMethod:", selectedPaymentMethod, "method.id:", method.id);
+                    const isSelected = selectedPaymentMethod == method.id;
+                    console.log("isSelected?", isSelected);
+                    return (
+                        <button
+                            key={method.id}
+                            onClick={() => onChange(method.id)}
+                            className={`relative flex items-center gap-2 p-3 rounded ring-2 ring-blue-100 transition-all duration-200 hover:cursor-pointer
+                                    ${isSelected ? "ring-2 ring-blue-200 bg-green-100" : "border-gray-300 hover:bg-green-100"}
+                                `}
+                        >
+                            <img src={method.imageUrl} alt={`Metode ${method.name}`} className="w-10 h-10" />
+                            <span>{method.name}</span>
+                            {isSelected && (
+                                <span className="text-blue-500 font-bold ml-auto">✓</span>
+                            )}
+                        </button>
+                    )
+                })}
             </div>
         </div>
     )
