@@ -8,6 +8,7 @@ import Transactions from "../pages/Transactions";
 import MainLayout from "../layout/MainLayout";
 import AuthLayout from "../layout/AuthLayout";
 import Checkout from "../pages/Checkout";
+import TransactionDetile from "../pages/TransactionDetile";
 
 import { useAuth } from "../contexts/AuthContext";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -57,6 +58,11 @@ const AppRouter = () => {
         <Route path="/transactions" element={
           <UserPrivateRoute>
             <Transactions />
+          </UserPrivateRoute>
+        } />
+        <Route path="/transaction/:id" element={
+          <UserPrivateRoute>
+            <TransactionDetile />
           </UserPrivateRoute>
         } />
       </Route>
