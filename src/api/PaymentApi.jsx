@@ -5,7 +5,7 @@ const fetchPaymentMethods = async () => {
         const response = await axiosInstance.get("/api/v1/payment-methods");
         return response.data.data;
     } catch (error) {
-        throw error.response?.data || error;
+        throw error.response?.data ?? { message: error.message || "Something went wrong" };
     }
 };
 
