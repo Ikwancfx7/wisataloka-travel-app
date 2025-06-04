@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../api/AxiosInstance";
 import { useCart } from "../contexts/CartContext";
 import { toast } from "react-toastify";
@@ -9,6 +9,8 @@ const ActivityDetail = () => {
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
     
   console.log("📦 Token sekarang:", localStorage.getItem("token"));
   console.log("📦 Activity:", activity);
@@ -55,9 +57,15 @@ const ActivityDetail = () => {
 
         <button
           onClick={() => {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+              toast.error("Silakan login terlebih dahulu");
+              navigate("/login", { state: { from: location } });
+              return;
+            }
             addToCart(activity); 
             toast.success("Berhasil menambahkan ke keranjang");
-
           }}
           className="bg-blue-100 text-blue-900 border border-blue-900 px-6 py-2 rounded hover:bg-blue-50 hover:cursor-pointer"
         >
@@ -76,10 +84,12 @@ const ActivityDetail = () => {
         <p className="text-green-600 text-lg">
           Price:
         </p>
-        <p className="font-semibold text-green-600"> Rp {activity.price.toLocaleString("id-ID")}</p>
-        <p className="line-through text-gray-400 ml-2 text-sm md:text-lg">
-          Rp {activity.price_discount.toLocaleString("id-ID")}
-        </p>
+        <p className="font-semibold text-green-600"> Rp {activity.price ? activity.price.toLocaleString("id-ID") : "0"}</p>
+        {activity.price_discount && (
+          <p className="line-through text-gray-400 ml-2 text-sm md:text-lg">
+            Rp {activity.price_discount.toLocaleString("id-ID")}
+          </p>
+        )}
       </div>
 
       <p className="text-gray-800 font-medium mb-1 text-lg">Address:</p>
