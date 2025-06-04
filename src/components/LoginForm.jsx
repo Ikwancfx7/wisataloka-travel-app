@@ -30,7 +30,11 @@ const LoginForm = ({ setMessage }) => {
             setTimeout(() => {
                 setLoading(false);
                 // navigate('/');
-                navigate(from, { replace: true });
+                if (data.data.role === "admin") {
+                    navigate("/admin");
+                } else {
+                    navigate(from, { replace: true }); // redirect kembali ke halaman terakhir
+                }
             }, 2000);
         } catch (error) {
             setErrorMsg(error.message || "Login gagal");
