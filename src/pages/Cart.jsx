@@ -64,8 +64,12 @@ const handleCheckout = async () => {
                     <div key={item.id} className="flex items-center justify-between border-b pb-4">
                         <div>
                         <h2 className="text-lg font-semibold">{item.activity.title}</h2>
-                        <p className="text-sm text-gray-500">Harga: Rp {item.activity.price.toLocaleString("id-ID")}</p>
-                        <p className="text-sm text-gray-500">Subtotal: Rp {(item.activity.price * item.quantity).toLocaleString("id-ID")}</p>
+                        <p className="text-sm text-gray-500">Harga: Rp {item.activity?.price ? item.activity.price.toLocaleString("id-ID"): "N/A"}</p>
+                        <p className="text-sm text-gray-500">
+                          Subtotal: Rp {item.activity?.price 
+                            ? (item.activity.price * item.quantity).toLocaleString("id-ID")
+                            : "-"}
+                        </p>
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -101,7 +105,7 @@ const handleCheckout = async () => {
 
             <div className="p-4 border rounded shadow-md">
                 <h2 className="text-xl font-semibold mb-4">Summary</h2>
-                <p>Total: <span className="font-bold">Rp {totalHarga}</span></p>
+                <p>Total: <span className="font-bold">Rp {totalHarga ? totalHarga.toLocaleString("id-ID") : "0"}</span></p>
                 <button
                 onClick={handleCheckout}
                 className="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue- hover:cursor-pointer"
