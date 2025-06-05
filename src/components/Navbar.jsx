@@ -1,43 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { logoutUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
+import NavProfile from "../components/NavProfile"
+
 const Navbar = ({isLandingPage}) => {
-    const { logout, token, loading } = useAuth();
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        try {
-        // await logoutUser();     
-        logout();
-        navigate("/");
-        } catch (error) {
-        console.error("Logout gagal:", error);
-        }
-    }
-
-    // if(token && !loading) {
-    //     return (
-    //         <div className="flex flex-row justify-between">
-    //             <div>
-    //                 <h1>WISTALOKA</h1>
-    //             </div>
-    //             <div className="flex flex-row gap-5">
-    //                 <Link to="/">
-    //                     Home
-    //                 </Link>
-    //                 <Link to="/cart">
-    //                     Cart
-    //                 </Link>
-    //                 <Link to="/activities">
-    //                     Activities
-    //                 </Link>
-    //                 <button onClick={handleLogout} className="hover:cursor-pointer">
-    //                     Logout
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     )
-    // }
+    const { token, loading } = useAuth();
 
     return (
         <div className={`flex flex-row justify-between items-center w-full px-7 md:px-13 lg:px-15 py-2 ${isLandingPage ? "absolute text-white":"bg-white text-black shadow"}`}>
@@ -73,9 +40,9 @@ const Navbar = ({isLandingPage}) => {
                     </div>
                 )}
                 {token && !loading && (
-                    <button onClick={handleLogout} className="hover:cursor-pointer w-24 hover:text-red-300">
-                        Logout
-                    </button>
+                    <div className="flex flex-row gap-1">
+                        <NavProfile />
+                    </div>
                 )}
             </div>
         </div>
