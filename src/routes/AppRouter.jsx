@@ -15,6 +15,8 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageActivities from "../pages/Admin/ManageActivities";
 import ManageUsers from "../pages/Admin/ManageUsers";
 
+import ProfilePage from "../pages/ProfilePage";
+
 import { useAuth } from "../contexts/AuthContext";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
@@ -68,6 +70,11 @@ const AppRouter = () => {
         <Route path="/transaction/:id" element={
           <UserPrivateRoute>
             <TransactionDetile />
+          </UserPrivateRoute>
+        } />
+        <Route path="/profile" element={
+          <UserPrivateRoute>
+            <ProfilePage />
           </UserPrivateRoute>
         } />
       </Route>
