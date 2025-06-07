@@ -49,7 +49,7 @@ const NavbarProfile = () => {
       {/* Avatar (toggle dropdown) */}
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="w-10 h-10 rounded-full overflow-hidden border hover:ring-2 ring-blue-500"
+        className="w-10 h-10 rounded-full overflow-hidden border hover:ring-2 hover:cursor-pointer ring-blue-500"
       >
         {user?.profilePictureUrl ? (
           <img
@@ -68,7 +68,7 @@ const NavbarProfile = () => {
       {showDropdown && (
         <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-md z-10 py-2">
           <Link
-            to="/profile"
+            to={user?.role === "user" ? "/profile" : "/admin/profile"}
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             onClick={() => setShowDropdown(false)}
           >
@@ -76,7 +76,7 @@ const NavbarProfile = () => {
           </Link>
           <button
             onClick={handleLogout}
-            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:cursor-pointer"
           >
             Logout
           </button>
