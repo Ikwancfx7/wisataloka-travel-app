@@ -1,10 +1,9 @@
 import { useCart } from "../contexts/CartContext";
 // import { useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
-import PaymentMethod from "../components/PaymentMethod";
-import { useNavigate } from "react-router-dom";
-import Checkout from "./Checkout";
-import { toast } from "react-toastify";
+// import PaymentMethod from "../components/PaymentMethod";
+import { Link, useNavigate } from "react-router-dom";
+// import Checkout from "./Checkout";
 
 
 const Cart = () => {
@@ -56,8 +55,15 @@ const handleCheckout = async () => {
             <div className="md:col-span-2">
                 <div className="space-y-6">
                     {cartItems.length === 0 && (
-                      <div className="text-center text-gray-500">
-                        Keranjangmu masih kosong. Yuk, tambah aktivitas!
+                      <div className="flex flex-col items-center justify-center h-full gap-2">
+                        <div className="text-center text-gray-500">
+                          Your cart is empty. Let's add some orders!
+                        </div>
+                        <Link to="/activities">
+                          <button className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer text-white py-2 px-4 rounded">
+                            Go to Explore
+                          </button>
+                        </Link>
                       </div>
                     )}
                     {cartItems.map((item) => (
@@ -92,7 +98,7 @@ const handleCheckout = async () => {
                         </div>
 
                         <button
-                            onClick={() => {removeFromCart(item.id); toast.success("Item removed from cart");}}
+                            onClick={() => {removeFromCart(item.id)}}
                             className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:cursor-pointer"
                         >
                             Delete
@@ -107,9 +113,11 @@ const handleCheckout = async () => {
                 <h2 className="text-xl font-semibold mb-4">Summary</h2>
                 <p>Total: <span className="font-bold">Rp {totalHarga ? totalHarga.toLocaleString("id-ID") : "0"}</span></p>
                 <button
-                onClick={handleCheckout}
-                className="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue- hover:cursor-pointer"
-                disabled={cartItems.length === 0}
+                  onClick={handleCheckout}
+                  className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded hover:cursor-pointer
+                    transition duration-300 ease-in-out
+                    disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={cartItems.length === 0}
                 >
                 Checkout
                 </button>
