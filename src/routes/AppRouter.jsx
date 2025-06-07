@@ -14,6 +14,7 @@ import AdminLayout from "../layout/AdminLayout";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageActivities from "../pages/Admin/ManageActivities";
 import ManageUsers from "../pages/Admin/ManageUsers";
+import AdminProfile from "../pages/Admin/AdminProfile";
 
 import ProfilePage from "../pages/ProfilePage";
 
@@ -101,6 +102,14 @@ const AppRouter = () => {
           element={
             <AdminRoute>
               <ManageUsers />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <AdminRoute>
+              <AdminProfile />
             </AdminRoute>
           }
         />
