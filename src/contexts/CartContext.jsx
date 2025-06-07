@@ -1,16 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
-
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
+  const {token} = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchCart = async () => {
+    if (!token) return;
     try {
       const res = await axiosInstance.get("/api/v1/carts");
       setCartItems(res.data.data);
@@ -20,6 +22,7 @@ export const CartProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
 
   const addToCart = async (activity) => {
     try {
@@ -54,13 +57,15 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [token]);
 
   return (
     <CartContext.Provider
-      value={{ cartItems, loading, addToCart, updateCart, removeFromCart }}
+      value={{ cartItems, totalQuantity, loading, addToCart, updateCart, removeFromCart, fetchCart }}
     >
       {children}
     </CartContext.Provider>
