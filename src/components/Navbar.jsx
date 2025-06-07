@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 // import { logoutUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
-import NavProfile from "../components/NavProfile"
+import NavProfile from "../components/NavProfile";
+import { useCart } from "../contexts/CartContext";
 
 const Navbar = ({isLandingPage}) => {
     const { token, loading } = useAuth();
+    const { totalQuantity } = useCart();
 
     return (
         <div className={`flex flex-row justify-between items-center w-full px-7 md:px-13 lg:px-15 py-2 ${isLandingPage ? "absolute text-white":"bg-white text-black shadow"}`}>
@@ -17,12 +19,20 @@ const Navbar = ({isLandingPage}) => {
                 <Link to="/activities" className="button-nav">
                     Explore
                 </Link>
-                <Link to="/cart" className="button-nav">
-                    Cart
-                </Link>
                 <Link to="/transactions" className="button-nav">
                     Transactions
                 </Link>
+                    {/* 🎯 Cart Icon + Badge */}
+                <div className="button-nav">
+                    <Link to="/cart" className="relative">
+                        <img src={isLandingPage ? "/images/shopping-cart_white.png" : "/images/shopping-cart.png"} alt="Icon Cart" className="w-6 h-7" />
+                        {totalQuantity > 0 && (
+                            <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                            {totalQuantity}
+                            </span>
+                        )}
+                    </Link>
+                </div>
                 {!token && !loading && (
                     <div className="flex flex-row gap-1">
                         <Link 
