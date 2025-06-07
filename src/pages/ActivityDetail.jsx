@@ -60,12 +60,12 @@ const ActivityDetail = () => {
             const token = localStorage.getItem("token");
 
             if (!token) {
-              toast.error("Silakan login terlebih dahulu");
+              toast.error("Silakan login terlebih dahulu", { autoClose: 2000 });
               navigate("/login", { state: { from: location } });
               return;
             }
             addToCart(activity); 
-            toast.success("Berhasil menambahkan ke keranjang");
+            toast.success("Berhasil menambahkan ke keranjang", { autoClose: 1000 });
           }}
           className="bg-blue-100 text-blue-900 border border-blue-900 px-6 py-2 rounded hover:bg-blue-50 hover:cursor-pointer"
         >
