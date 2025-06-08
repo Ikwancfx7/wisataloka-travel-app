@@ -8,6 +8,15 @@ const TransactionDetile = () => {
   const [loading, setLoading] = useState(true);
   const [isExpired, setIsExpired] = useState(false);
 
+  const handleCancelTransaction = async () => {
+    try {
+      await axiosInstance.post(`/api/v1/cancel-transaction/${id}`);
+      window.location.reload(); // Refresh halaman
+    } catch (err) {
+      console.error("Gagal membatalkan transaksi:", err);
+    }
+  };
+
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
@@ -32,17 +41,21 @@ const TransactionDetile = () => {
   }, [id]);
 
   if (loading) return <p className="p-4">Loading...</p>;
-  if (!transaction) return <p className="p-4">Transaksi tidak ditemukan</p>;
+  if (!transaction) return <p className="p-4">Transaction not found</p>;
 
   const { status, payment_method, totalAmount, expiredDate, transaction_items, invoiceId } = transaction;
 
   return (
     <div className="p-6 max-w-3xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-center">Detail Transaksi</h1>
+      <h1 className="text-2xl font-bold text-center">Transaction Detile</h1>
 
       <div className="border p-4 rounded shadow space-y-2">
         <p><span className="font-semibold">ID Invoice:</span> {invoiceId}</p>
-        <p><span className="font-semibold">Status:</span> {status}</p>
+        {status === "cancelled"? (
+          <p><span className="font-semibold">Status:</span> <span className="text-red-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+        ):(
+          <p><span className="font-semibold">Status:</span> <span className="text-green-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+        )}
         <p><span className="font-semibold">Total Payment:</span> Rp {totalAmount.toLocaleString("id-ID")}</p>
         <p><span className="font-semibold">Expired:</span> {new Date(expiredDate).toLocaleString("id-ID")}</p>
 
@@ -79,6 +92,15 @@ const TransactionDetile = () => {
             <p>Subtotal: Rp {(item.price * item.quantity).toLocaleString("id-ID")}</p>
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          className="bg-red-500 hover:bg-red-600 hover:cursor-pointer text-white py-2 px-4 rounded"
+          onClick={handleCancelTransaction}
+        >
+          Cancel Transaction
+        </button>
       </div>
     </div>
   );
