@@ -1,38 +1,95 @@
 import { useCart } from "../contexts/CartContext";
-// import { useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
 // import PaymentMethod from "../components/PaymentMethod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 // import Checkout from "./Checkout";
 
 
 const Cart = () => {
-    const { cartItems, loading, updateCart, removeFromCart } = useCart();
-    // const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
-    const navigate = useNavigate();
+  const { cartItems, loading, updateCart, removeFromCart } = useCart();
+  // const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [promoCode, setPromoCode] = useState("");
+  const [promo, setPromo] = useState(null);
+  const [promoError, setPromoError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [isPromoApplied, setIsPromoApplied] = useState(false);
+  const promoId = location.state?.promoId
+
+  const totalHarga = cartItems.reduce((total, item) => {
+    return total + item.activity.price * item.quantity;
+  }, 0);
+
 
   const handleQtyChange = async (cartId, newQty) => {
+    setIsPromoApplied(false);
+    setMessage("");
     if (newQty < 1) return;
       console.log("cartId:", cartId ,"newQty:", newQty);
       await updateCart(cartId, newQty);
   };
 
+  const handleCheckout = async () => {
+    try {
+      const response = await axiosInstance.post("/api/v1/generate-payment-methods");
+      console.log("Payment methods generated:", response.data);
+      navigate("/checkout");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleApplyPromo = async () => {
+    if (!promoId) {
+      console.error("Promo ID tidak ditemukan di location.state");
+      return;
+    }
+    try {
+      const response = await axiosInstance.get(`/api/v1/promo/${promoId}`);
+      const promoData = response.data.data;
+
+      if (totalHarga < promoData.minimum_claim_price) {
+        // setPromo(promoData);
+        setPromoError(`Minimal belanja Rp ${promoData.minimum_claim_price.toLocaleString("id-ID")} untuk menggunakan promo ini.`);
+        setMessage(promoError);
+      } else {
+        setPromo(promoData);
+        setPromoCode(promoData.promo_code);
+        setMessage("Promo applied.");
+        setIsPromoApplied(true);
+        console.log("Promo applied:", promoData);
+      }
+    } catch (error) {
+      setPromoError("Failed to apply promo.");
+      console.error(error);
+      setIsPromoApplied(false);
+    }
+  };
+
+  const totalPriceWithPromo = (()=>{
+    if (!promo) return totalHarga;
+
+    return Math.max(0, totalHarga - promo.promo_discount_price);
+  })();
+
+  // console.log("harga discount promo", promo.promo_discount_price);
+  console.log("totalPriceWithPromo:", totalPriceWithPromo);
+
+  useEffect(() => {
+    if (location.state && location.state.promoCode) {
+      const promoCodeFromPromoPage = location.state.promoCode || "";
+      console.log("Promo diterima dari halaman promo:", promoCodeFromPromoPage);
+      // kamu bisa setPromoCode atau langsung validasi API
+      setPromoCode(promoCodeFromPromoPage);
+    }
+  }, [location.state]);
+
   if (loading) return <p className="text-center">cart loading...</p>;
 
-    const totalHarga = cartItems.reduce((total, item) => {
-    return total + item.activity.price * item.quantity;
-  }, 0);
-
-const handleCheckout = async () => {
-  try {
-    const response = await axiosInstance.post("/api/v1/generate-payment-methods");
-    console.log("Payment methods generated:", response.data);
-    navigate("/checkout");
-  } catch (error) {
-    console.error(error);
-  }
-}
   
+
   // const handleCheckout = async () => {
   //   const cartIds = cartItems.map((item) => item.id);
   //   try {
@@ -109,12 +166,41 @@ const handleCheckout = async () => {
                 </div>
             </div>
 
-            <div className="p-4 border rounded shadow-md">
-                <h2 className="text-xl font-semibold mb-4">Summary</h2>
-                <p>Total: <span className="font-bold">Rp {totalHarga ? totalHarga.toLocaleString("id-ID") : "0"}</span></p>
+            <div className="p-4 flex flex-col border rounded shadow-md gap-4">
+                <h2 className="text-xl font-semibold">Summary</h2>
+                
+                <div className="flex flex-col gap-2 text-sm">
+                  <label htmlFor="promo" className="font-semibold">Kode Promo</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      id="promo"
+                      className="border px-3 py-2 rounded w-full"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value)}
+                      placeholder="Masukkan kode promo"
+                    />
+                    <button
+                      onClick={handleApplyPromo}
+                      className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600"
+                    >
+                      Terapkan
+                    </button>
+                  </div>
+                  {message && (
+                    <p className={`font-semibold mt-2 ${isPromoApplied ? "text-green-600" : "text-red-600"}`}>{message}</p>
+                  )}
+                </div>
+
+                {isPromoApplied ? (
+                  <p>Total: <span className="font-bold">Rp {totalPriceWithPromo ? totalPriceWithPromo.toLocaleString("id-ID") : "0"}</span></p>
+                ):(
+                  <p>Total: <span className="font-bold">Rp {totalHarga ? totalHarga.toLocaleString("id-ID") : "0"}</span></p>
+                )}
+
                 <button
                   onClick={handleCheckout}
-                  className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded hover:cursor-pointer
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded hover:cursor-pointer
                     transition duration-300 ease-in-out
                     disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={cartItems.length === 0}

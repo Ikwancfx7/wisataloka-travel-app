@@ -36,10 +36,11 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="py-12 px-6 bg-gray-100">
-                <h2 className="text-3xl font-bold text-center mb-6">🎉 Promo Spesial</h2>
+                <h2 className="text-3xl font-bold text-center mb-6">Special Promos</h2>
                 <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
                     {promos.map((promo) => (
-                    <div key={promo.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <Link to={`/promo/${promo.id}`} key={promo.id} 
+                        className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50">
                         <img src={promo.imageUrl} alt={promo.title} className="h-48 w-full object-cover" />
                         <div className="p-4">
                         <h3 className="font-semibold text-xl">{promo.title}</h3>
@@ -49,7 +50,7 @@ const HomePage = () => {
                         </p>
                         <p className="text-sm text-gray-500">Kode: {promo.promo_code}</p>
                         </div>
-                    </div>
+                    </Link>
                     ))}
                 </div>
             </div>

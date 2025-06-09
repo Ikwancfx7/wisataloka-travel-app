@@ -9,6 +9,7 @@ import MainLayout from "../layout/MainLayout";
 import AuthLayout from "../layout/AuthLayout";
 import Checkout from "../pages/Checkout";
 import TransactionDetile from "../pages/TransactionDetile";
+import PromoDetile from "../pages/PromoDetile";
 
 import AdminLayout from "../layout/AdminLayout";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
@@ -78,6 +79,7 @@ const AppRouter = () => {
             <ProfilePage />
           </UserPrivateRoute>
         } />
+        <Route path="/promo/:id" element={<PromoDetile />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>
