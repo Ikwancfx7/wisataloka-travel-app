@@ -7,7 +7,9 @@ const ActivityCard = ({ activity }) => {
       : "/images/default-activity.jpg";
 
   return (
-    <div className="rounded-xl overflow-hidden shadow-lg hover:shadow-lg/20 transition duration-300">
+    <Link 
+      to={`/activities/${activity.id}`}
+      className="rounded-xl overflow-hidden shadow-lg hover:shadow-lg/50 transition duration-300">
       <img
         src={imageUrl}
         alt={activity.title}
@@ -27,14 +29,8 @@ const ActivityCard = ({ activity }) => {
           </span>
           <span className="text-yellow-500">⭐ {activity.rating}</span>
         </div>
-        <Link
-          to={`/activities/${activity.id}`}
-          className="text-blue-600 hover:underline mt-5"
-        >
-          Lihat Detail
-        </Link>
       </div>
-    </div>
+    </Link>
   );
 };
 
