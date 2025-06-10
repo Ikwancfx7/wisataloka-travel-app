@@ -50,9 +50,6 @@ const ManageUsers = () => {
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
-
-
   useEffect(() => {
     getUsers();
     getCurrentUser();
