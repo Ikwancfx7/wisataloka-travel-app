@@ -19,6 +19,9 @@ const Navbar = ({isLandingPage}) => {
                 <Link to="/activities" className="button-nav">
                     Explore
                 </Link>
+                <Link to="/promo" className="button-nav">
+                    Promos
+                </Link>
                 <Link to="/transactions" className="button-nav">
                     Transactions
                 </Link>
