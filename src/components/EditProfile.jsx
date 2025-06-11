@@ -2,6 +2,7 @@ import axiosInstance from "../api/AxiosInstance";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { updateProfile } from "../api/ProfileApi";
+import LogoutBtn from "./Logout";
 
 const EditProfile = () => {
     const [form, setForm] = useState({
@@ -93,9 +94,9 @@ const EditProfile = () => {
 
 
     return (
-        <div className="max-w-xl mx-auto p-4">
+        <div className="lg:max-w-xl lg:mx-auto p-4 bg-gray-50 min-h-screen">
             <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 bg-white p-5">
                 <div>
                 <label>Nama</label>
                 <input
@@ -184,6 +185,9 @@ const EditProfile = () => {
                     Simpan Perubahan
                 </button>
             </form>
+            <div className="flex justify-center mt-10 text-lg border p-2">
+                <LogoutBtn/>
+            </div>
         </div>
     )
 }
