@@ -9,7 +9,7 @@ const ActivityCard = ({ activity }) => {
   return (
     <Link 
       to={`/activities/${activity.id}`}
-      className="rounded-xl overflow-hidden shadow-lg hover:shadow-lg/50 transition duration-300">
+      className="rounded-xl overflow-hidden shadow-lg hover:shadow-lg/50 transition duration-300 bg-white">
       <img
         src={imageUrl}
         alt={activity.title}

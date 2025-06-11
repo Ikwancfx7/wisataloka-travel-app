@@ -7,11 +7,13 @@ const TransactionDetile = () => {
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isExpired, setIsExpired] = useState(false);
+  const [isCancelled, setIsCancelled] = useState(false);
 
   const handleCancelTransaction = async () => {
     try {
       await axiosInstance.post(`/api/v1/cancel-transaction/${id}`);
       window.location.reload(); // Refresh halaman
+      setIsCancelled(true);
     } catch (err) {
       console.error("Gagal membatalkan transaksi:", err);
     }
@@ -46,15 +48,19 @@ const TransactionDetile = () => {
   const { status, payment_method, totalAmount, expiredDate, transaction_items, invoiceId } = transaction;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-6">
+    <div className="p-6 lg:px-30 space-y-6 bg-gray-50 min-h-screen">
       <h1 className="text-2xl font-bold text-center">Transaction Detile</h1>
 
-      <div className="border p-4 rounded shadow space-y-2">
+      <div className="p-4 rounded shadow space-y-2 bg-white">
         <p><span className="font-semibold">ID Invoice:</span> {invoiceId}</p>
-        {status === "cancelled"? (
+        {isCancelled? (
           <p><span className="font-semibold">Status:</span> <span className="text-red-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
-        ):(
+        ): isExpired ? (
+          <p><span className="font-semibold">Status:</span> <span className="text-red-600">Expaired</span></p>
+        ) : status === "success"? (
           <p><span className="font-semibold">Status:</span> <span className="text-green-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+        ) : (
+          <p><span className="font-semibold">Status:</span> <span className="text-yellow-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
         )}
         <p><span className="font-semibold">Total Payment:</span> Rp {totalAmount.toLocaleString("id-ID")}</p>
         <p><span className="font-semibold">Expired:</span> {new Date(expiredDate).toLocaleString("id-ID")}</p>
@@ -70,11 +76,11 @@ const TransactionDetile = () => {
               <p className="font-semibold">{payment_method.name}</p>
             </div>
 
-            <div className="bg-gray-100 p-4 rounded mt-2">
+            <div className="bg-green-100 p-4 rounded-t-2xl mt-2">
               <p className="text-sm text-gray-500">Virtual Account Name</p>
               <p className="text-xl font-bold tracking-widest">{payment_method.virtual_account_name}</p>
             </div>
-            <div className="bg-gray-100 p-4 rounded mt-2">
+            <div className="bg-green-100 p-4 rounded-b-2xl mt-2">
               <p className="text-sm text-gray-500">Virtual Account Number</p>
               <p className="text-xl font-bold tracking-widest">{payment_method.virtual_account_number}</p>
             </div>
@@ -85,7 +91,7 @@ const TransactionDetile = () => {
       <div>
         <h2 className="text-lg font-semibold mb-2">Rincian Pesanan</h2>
         {transaction_items.map((item, index) => (
-          <div key={index} className="border p-4 rounded mb-2 shadow-sm">
+          <div key={index} className="p-4 rounded mb-2 shadow bg-white">
             <p className="font-semibold">{item.title}</p>
             <p>Jumlah: {item.quantity}</p>
             <p>Harga Satuan: Rp {item.price.toLocaleString("id-ID")}</p>
@@ -96,8 +102,9 @@ const TransactionDetile = () => {
 
       <div className="flex justify-end">
         <button
-          className="bg-red-500 hover:bg-red-600 hover:cursor-pointer text-white py-2 px-4 rounded"
+          className={`bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded hover:cursor-pointer disabled:hidden`}
           onClick={handleCancelTransaction}
+          disabled={isExpired || isCancelled}
         >
           Cancel Transaction
         </button>

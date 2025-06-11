@@ -42,7 +42,7 @@ const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
   };
 
   return (
-    <div className="relative w-full md:w-[300px] hidden md:flex" ref={dropdownRef}>
+    <div className="relative w-full md:w-[300px] hidden md:flex bg-white" ref={dropdownRef}>
       <input
         type="text"
         placeholder="Cari kategori..."

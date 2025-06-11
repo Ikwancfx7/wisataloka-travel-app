@@ -54,20 +54,42 @@ const Checkout = () => {
 }
 
     return (
-        <div className="py-5 px-40 min-h-screen">
+        <div className="flex flex-col py-5 px-5 lg:px-40 min-h-screen bg-gray-100">
             <h1 className="flex justify-center text-2xl">Checkout</h1>
-            <div className="space-y-6 mt-5">
+            <div className="space-y-6 text-xs mt-5">
                 {cartItems.length === 0 && <p className="text-center">Empty</p>}
-                {cartItems.map((item) => (
-                <div key={item.id} className="flex flex-row justify-between items-center gap-2">
-                    <h2 className="text-lg font-semibold">{item.activity.title}</h2>
-                    <p className="text-sm md:text-lg">Price: Rp {item.activity.price.toLocaleString("id-ID")}</p>
-                    <p className="text-sm md:text-lg">Quantity: {item.quantity}</p>
-                    <p className="text-sm md:text-lg">Subtotal: Rp {(item.activity.price * item.quantity).toLocaleString("id-ID")}</p>
-                </div>
-                ))}
-                <div className="flex flex-row justify-end items-center gap-1">
-                    <p className="text-lg">Total Order({cartItems.reduce((total, item) => total + item.quantity, 0)}):</p>
+                {cartItems.map((item) => {
+                    return (
+                        <div key={item.id} className="flex flex-col lg:flex-row lg:justify-between gap-2">
+                            <div className="flex flex-row gap-2">
+                                <img 
+                                    src={item.activity.imageUrls[0] || "/images/default-activity.jpg"} 
+                                    alt="gambar activity"
+                                    className="w-25 h-25 object-cover rounded-lg"
+                                    onError={(e) => {
+                                        e.target.onerror = null; // cegah infinite loop
+                                        e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
+                                    }}
+                                />
+                                <div className="flex flex-col justify-between w-full">
+                                    <h2 className="text-lg font-semibold">{item.activity.title}</h2>
+                                    <div className="flex flex-row justify-between items-center text-sm md:text-lg">
+                                        <p className="text-green-700 font-semibold">Rp {item.activity.price.toLocaleString("id-ID")}</p>
+                                        <p>x {item.quantity}</p>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div className="flex flex-row justify-between items-center text-sm md:text-lg">
+                                <p>Subtotal:</p>
+                                <p>Rp {(item.activity.price * item.quantity).toLocaleString("id-ID")}</p>
+                            </div>
+                        </div>
+                    )
+                }
+                )}
+                <div className="flex flex-row justify-between items-center">
+                    <p className="text-lg">Total Order ({cartItems.reduce((total, item) => total + item.quantity, 0)}):</p>
                     <p className="text-xl font-semibold text-green-600"> Rp {totalHarga.toLocaleString("id-ID")}</p>
                 </div>
             </div>

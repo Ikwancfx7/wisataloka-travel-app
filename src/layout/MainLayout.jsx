@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import FootbarMobile from "../components/Mobile/NavbarMobile";
+import FootbarMobile from "../components/Mobile/FootbarMobile";
 import TopbarMobile from "../components/Mobile/TopbarMobile";
 import { Outlet, useLocation } from "react-router-dom";
 
@@ -10,9 +10,10 @@ const MainLayout = () => {
 
   return (
     <div className="flex flex-col">
-      <div className={`hidden md:flex w-full z-20 ${isLandingPage ? "absolute top-0 left-0" : "relative"}`}>
+      <div className={`sticky top-0 hidden md:flex w-full z-20 ${isLandingPage ? "absolute top-0 left-0" : "relative"}`}>
         <Navbar isLandingPage={isLandingPage} />
       </div>
+      
       <div className="md:hidden">
         <TopbarMobile />
         <FootbarMobile />
