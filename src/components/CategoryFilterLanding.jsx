@@ -1,0 +1,76 @@
+// components/CategoryFilterLanding.jsx
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/AxiosInstance";
+
+const CategoryFilterLanding = () => {
+  const [categories, setCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axiosInstance.get("/api/v1/categories");
+        setCategories(res.data.data);
+      } catch (err) {
+        console.error("Gagal mengambil kategori:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const filteredCategories = categories.filter((cat) =>
+    cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  const handleCategorySelect = (categoryId) => {
+    setShowDropdown(false);
+    // Arahkan ke halaman activities + query kategori
+    navigate(`/activities?category=${categoryId}`);
+  };
+
+  return (
+    <div className="relative w-full md:w-[400px]" ref={dropdownRef}>
+      <input
+        type="text"
+        placeholder="Search category..."
+        value={searchTerm}
+        onFocus={() => setShowDropdown(true)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setShowDropdown(true);
+        }}
+        className="w-full px-4 py-2 rounded-3xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+      />
+      {showDropdown && (
+        <div className={`custom-scroll absolute z-10 mt-1 w-full bg-white border rounded-xl shadow-md max-h-60 overflow-auto transition-all duration-500 ease-in-out transform ${showDropdown ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}>
+          {filteredCategories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => handleCategorySelect(cat.id)}
+              className="w-full text-left px-4 py-2 hover:bg-blue-100 hover:cursor-pointer transition-colors duration-300 ease-in-out"
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CategoryFilterLanding;
