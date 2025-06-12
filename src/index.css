@@ -3,6 +3,14 @@
 .button-nav{
   @apply flex justify-center items-center w-24 hover:font-semibold
 }
+.custom-scroll {
+  overflow-y: auto;
+  scrollbar-width: none;        /* Firefox */
+}
+.custom-scroll::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, Edge */
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
