@@ -9,7 +9,7 @@ const MainLayout = () => {
   const isLandingPage = location.pathname === "/";
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pb-15 md:pb-0">
       <div className={`sticky top-0 hidden md:flex w-full z-20 ${isLandingPage ? "absolute top-0 left-0" : "relative"}`}>
         <Navbar isLandingPage={isLandingPage} />
       </div>

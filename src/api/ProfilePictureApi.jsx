@@ -22,7 +22,7 @@ const ProfilePicture = () => {
               <img
                 src={user.profilePictureUrl}
                 alt="Profile"
-                className="w-full h-full object-cover rounded-full"
+                className="h-full object-cover rounded-full"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-300 text-sm text-white">

@@ -42,10 +42,10 @@ const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
   };
 
   return (
-    <div className="relative w-full md:w-[300px] hidden md:flex bg-white" ref={dropdownRef}>
+    <div className="relative w-full md:w-[300px] bg-white" ref={dropdownRef}>
       <input
         type="text"
-        placeholder="Cari kategori..."
+        placeholder="Search category..."
         value={searchTerm}
         onFocus={() => setShowDropdown(true)}
         onChange={(e) => {
@@ -55,11 +55,11 @@ const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
         className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       {showDropdown && (
-        <div className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-md max-h-60 overflow-auto">
+        <div className="custom-scroll absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-md max-h-60 overflow-auto">
           <button
             onClick={() => handleCategorySelect(null)}
-            className={`w-full text-left px-4 py-2 hover:bg-blue-100 ${
-              selectedCategory === null ? "bg-blue-600 text-white" : ""
+            className={`w-full text-left px-4 py-2 hover:bg-blue-100 cursor-pointer ${
+              selectedCategory === null ? "bg-blue-600 text-white hover:text-black" : ""
             }`}
           >
             Semua
@@ -69,8 +69,8 @@ const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
               <button
                 key={cat.id}
                 onClick={() => handleCategorySelect(cat.id)}
-                className={`w-full text-left px-4 py-2 hover:bg-blue-100 ${
-                  selectedCategory === cat.id ? "bg-blue-600 text-white" : ""
+                className={`w-full text-left px-4 py-2 hover:bg-blue-100 cursor-pointer ${
+                  selectedCategory === cat.id ? "bg-blue-600 text-white hover:text-black" : ""
                 }`}
               >
                 {cat.name}

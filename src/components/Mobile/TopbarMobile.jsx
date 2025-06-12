@@ -4,9 +4,9 @@ import { useCart } from "../../contexts/CartContext";
 const TopbarMobile = () => {
     const { totalQuantity } = useCart();
     return (
-        <div className="flex flex-row justify-between items-center w-full px-6 md:px-13 lg:px-15 pt-10 pb-2">
+        <div className="flex flex-row justify-between items-center w-full px-6 md:px-13 lg:px-15 pt-4 pb-2">
             <div className="flex flex-row justify-between items-center w-full ">
-                <h1 className="text-2xl font-semibold">WISATALOKA</h1>
+                <Link to="/" className="text-2xl font-semibold">WISATALOKA</Link>
             </div>
             <Link to="/cart" className="relative flex flex-col items-center text-xs">
                 <img src="/icons/shopping-cart.png" alt="Cart" className="w-8 h-8" />
