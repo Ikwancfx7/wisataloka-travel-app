@@ -18,12 +18,12 @@ const PromoPage = () => {
     }, []);
 
     return (
-        <div className="py-12 px-5 bg-gray-100">
+        <div className="py-5 md:py-20 px-5 bg-gray-100">
             <h2 className="text-3xl font-bold text-center mb-6">Special Promos</h2>
             <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
                 {promos.map((promo) => (
                 <Link to={`/promo/${promo.id}`} key={promo.id} 
-                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50">
+                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50 transition duration-300 ease-in-out">
                     <img src={promo.imageUrl} alt={promo.title} className="h-48 w-full object-cover" />
                     <div className="p-4">
                     <h3 className="font-semibold text-xl">{promo.title}</h3>

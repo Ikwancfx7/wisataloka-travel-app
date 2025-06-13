@@ -54,7 +54,7 @@ const CategoryFilterLanding = () => {
           setSearchTerm(e.target.value);
           setShowDropdown(true);
         }}
-        className="w-full px-4 py-2 rounded-3xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+        className="w-full px-4 py-2 rounded-3xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-center placeholder:text-center"
       />
       {showDropdown && (
         <div className={`custom-scroll absolute z-10 mt-1 w-full bg-white border rounded-xl shadow-md max-h-60 overflow-auto transition-all duration-500 ease-in-out transform ${showDropdown ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}>

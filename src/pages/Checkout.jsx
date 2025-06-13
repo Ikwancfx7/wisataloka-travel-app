@@ -54,8 +54,8 @@ const Checkout = () => {
 }
 
     return (
-        <div className="flex flex-col py-5 px-5 lg:px-40 min-h-screen bg-gray-100">
-            <h1 className="flex justify-center text-2xl">Checkout</h1>
+        <div className="flex flex-col py-5 md:py-20 px-5 lg:px-40 min-h-screen bg-gray-100">
+            <h1 className="flex justify-center text-2xl font-semibold">Checkout</h1>
             <div className="space-y-6 text-xs mt-5">
                 {cartItems.length === 0 && <p className="text-center">Empty</p>}
                 {cartItems.map((item) => {

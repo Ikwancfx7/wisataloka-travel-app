@@ -1,7 +1,11 @@
 import EditProfile from "../components/EditProfile";
 
 const ProfilePage = () => {
-    return <EditProfile />;
+    return (
+        <div className="py-5 md:py-20 px-5 bg-gray-100">
+            <EditProfile />;
+        </div>
+    );
 };
 
 export default ProfilePage;

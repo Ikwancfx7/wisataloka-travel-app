@@ -48,7 +48,7 @@ const TransactionDetile = () => {
   const { status, payment_method, totalAmount, expiredDate, transaction_items, invoiceId } = transaction;
 
   return (
-    <div className="p-6 lg:px-30 space-y-6 bg-gray-50 min-h-screen">
+    <div className="p-6 lg:px-30 space-y-6 bg-gray-50 min-h-screen py-5 md:py-20">
       <h1 className="text-2xl font-bold text-center">Transaction Detile</h1>
 
       <div className="p-4 rounded shadow space-y-2 bg-white">

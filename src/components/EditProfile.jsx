@@ -94,7 +94,7 @@ const EditProfile = () => {
 
 
     return (
-        <div className="lg:max-w-xl lg:mx-auto p-4 bg-gray-50 min-h-screen">
+        <div className=" lg:max-w-xl lg:mx-auto p-4 bg-gray-50 min-h-screen">
             <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
             <form onSubmit={handleSubmit} className="space-y-4 bg-white p-5">
                 <div>
@@ -185,7 +185,7 @@ const EditProfile = () => {
                     Simpan Perubahan
                 </button>
             </form>
-            <div className="flex justify-center mt-10 text-lg border p-2">
+            <div className="flex md:hidden justify-center mt-10 text-lg p-5">
                 <LogoutBtn/>
             </div>
         </div>

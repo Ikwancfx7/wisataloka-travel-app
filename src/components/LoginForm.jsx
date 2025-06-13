@@ -49,7 +49,7 @@ const LoginForm = ({ setMessage }) => {
 
     return (
         <form onSubmit={handleSubmit} className="w-full p-1">
-            <h2 className="text-2xl font-semibold mb-4">Login</h2>
+            <h2 className="flex justify-center text-xl font-semibold mb-4">Welcome back!</h2>
             <div>
                 <div>
                     <p>Email <span className='text-red-600'>*</span></p>
@@ -83,6 +83,11 @@ const LoginForm = ({ setMessage }) => {
                 >
                 Login
             </button>
+            <div>
+                <p>Don't have an account? 
+                    <a href="/register" className="text-blue-500">Register</a>
+                </p>
+            </div>
         </form>
     )
 }

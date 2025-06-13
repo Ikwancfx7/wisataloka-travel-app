@@ -25,7 +25,7 @@ const Transactions = () => {
     if (loading) return <p className="p-4">Memuat data transaksi...</p>;
 
     return (
-        <div className="max-w-4xl mx-auto p-6 space-y-4">
+        <div className="max-w-4xl mx-auto p-6 space-y-4 py-5 md:py-20">
             <h1 className="text-2xl font-bold text-center">Transaction History</h1>
 
             {transactions.length === 0 ? (
