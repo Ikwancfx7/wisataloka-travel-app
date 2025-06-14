@@ -52,7 +52,7 @@ const Transactions = () => {
                                         : "bg-red-100 text-red-700"
                                     }`}
                                 >
-                                    {trx.status}
+                                    {trx.status.charAt(0).toUpperCase()+trx.status.slice(1)}
                                 </span>
                             }
                             </div>
