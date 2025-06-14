@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../api/AxiosInstance";
+import UploadProofPayment from "../components/UploadProofPayment";
 
 const TransactionDetile = () => {
   const { id } = useParams();
@@ -9,15 +10,17 @@ const TransactionDetile = () => {
   const [isExpired, setIsExpired] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
 
+  const isPaymentSuccess = transaction && transaction.status === "success";
   const handleCancelTransaction = async () => {
     try {
-      await axiosInstance.post(`/api/v1/cancel-transaction/${id}`);
-      window.location.reload(); // Refresh halaman
-      setIsCancelled(true);
-    } catch (err) {
-      console.error("Gagal membatalkan transaksi:", err);
-    }
-  };
+        await axiosInstance.post(`/api/v1/cancel-transaction/${id}`);
+        window.location.reload(); // Refresh halaman
+        setIsCancelled(true);
+      } catch (err) {
+        console.error("Gagal membatalkan transaksi:", err);
+      }
+    };
+
 
   useEffect(() => {
     const fetchTransaction = async () => {
@@ -88,6 +91,7 @@ const TransactionDetile = () => {
         )}
       </div>
 
+
       <div>
         <h2 className="text-lg font-semibold mb-2">Rincian Pesanan</h2>
         {transaction_items.map((item, index) => (
@@ -104,11 +108,16 @@ const TransactionDetile = () => {
         <button
           className={`bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded hover:cursor-pointer disabled:hidden`}
           onClick={handleCancelTransaction}
-          disabled={isExpired || isCancelled}
+          disabled={isExpired || isCancelled || isPaymentSuccess}
         >
           Cancel Transaction
         </button>
       </div>
+
+      {!isPaymentSuccess && (
+        <UploadProofPayment transactionId={id} />
+      )}
+      
     </div>
   );
 };
