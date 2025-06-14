@@ -88,26 +88,9 @@ const Cart = () => {
 
   if (loading) return <p className="text-center">cart loading...</p>;
 
-  
-
-  // const handleCheckout = async () => {
-  //   const cartIds = cartItems.map((item) => item.id);
-  //   try {
-  //     const response = await axiosInstance.post("/api/v1/create-transaction", {
-  //       cartIds: cartIds,
-  //       paymentMethodId: selectedPaymentMethod, // atau bank_transfer kalau disediakan
-  //     });
-
-  //     const transactionId = response.data.data.id;
-  //     window.location.href = `/transaction/${transactionId}`; // arahkan ke halaman detail transaksi
-  //   } catch (error) {
-  //     console.error("Gagal melakukan checkout:", error.response?.data || error.message);
-  //   }
-  // };
-
   return (
     <div className="h-screen">
-        <h1 className="flex justify-center text-xl font-semibold py-5">MY CART</h1>
+        <h1 className="flex justify-center text-xl font-semibold py-5 md:pt-20">MY CART</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10 lg:px-40 py-5 text-sm md:text-lg">
             <div className="md:col-span-2">
                 <div className="space-y-6">
@@ -136,30 +119,30 @@ const Cart = () => {
                         </div>
 
                         <div className="flex items-center gap-2">
-                        <div className="flex flex-row items-center text-sm">
-                          <button
-                              onClick={() => handleQtyChange(item.id, item.quantity - 1)}
-                              className="px-3 py-1 bg-gray50 rounded hover:cursor-pointer border border-gray-200"
-                          >
-                              -
-                          </button>
-                          <span className="px-3 py-1 bg-gray50 border border-gray-200">
-                            {item.quantity}
-                          </span>
-                          <button
-                              onClick={() => handleQtyChange(item.id, item.quantity + 1)}
-                              className="px-3 py-1 bg-gray50 rounded hover:cursor-pointer border border-gray-200"
-                          >
-                              +
-                          </button>
-                        </div>
+                          <div className="flex flex-row items-center text-sm">
+                            <button
+                                onClick={() => handleQtyChange(item.id, item.quantity - 1)}
+                                className="px-2 py-1 bg-gray50 rounded hover:cursor-pointer border border-gray-200"
+                            >
+                                -
+                            </button>
+                            <span className="px-3 py-1 bg-gray-50">
+                              {item.quantity}
+                            </span>
+                            <button
+                                onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                                className="px-2 py-1 bg-gray50 rounded hover:cursor-pointer border border-gray-200"
+                            >
+                                +
+                            </button>
+                          </div>
 
-                        <button
-                            onClick={() => {removeFromCart(item.id)}}
-                            className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:cursor-pointer"
-                        >
-                            Delete
-                        </button>
+                          <button
+                              onClick={() => {removeFromCart(item.id)}}
+                              className="text-sm ml-4 px-3 py-1 ring-1 ring-red-500 text-red-500 md:bg-red-500 md:text-white rounded hover:cursor-pointer"
+                          >
+                              Delete
+                          </button>
                         </div>
                     </div>
                     ))}

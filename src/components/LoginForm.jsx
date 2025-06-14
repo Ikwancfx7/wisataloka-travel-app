@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { loginUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
+
 const LoginForm = ({ setMessage }) => {  
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -83,10 +84,9 @@ const LoginForm = ({ setMessage }) => {
                 >
                 Login
             </button>
-            <div>
-                <p>Don't have an account? 
-                    <a href="/register" className="text-blue-500">Register</a>
-                </p>
+            <div className="flex flex-row items-center mt-4 gap-1">
+                <p>Don't have an account?</p>
+                <Link to="/register" className="text-blue-500">Register</Link>
             </div>
         </form>
     )

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/AuthApi";
 import { useAuth } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const RegisterFormMobile = () => {
     const [email, setEmail] = useState("");
@@ -69,87 +70,72 @@ const RegisterFormMobile = () => {
         <h2 className="flex justify-center text-xl font-semibold mb-4">REGISTER</h2>
 
         <div className="flex flex-col sm:items-center md:flex-row md:items-start md:justify-evenly gap-5 mb-4 w-full">
-          <div className="w-full md:w-1/2">
+          <div className="flex flex-col gap-5 w-full md:w-1/2">
             <div>
-              <p>Nama <span className="text-red-600">*</span></p>
+              <p className="text-blue-700 font-semibold">Nama <span className="text-red-600">*</span></p>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your Name"
-                className="w-full p-2 rounded-3xl text-center placeholder:text-center text-white bg-blue-500 ring-1 ring-inset ring-blue-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                className="register-input"
                 required
               />
             </div>
 
             <div>
-              <p>Email <span className="text-red-600">*</span></p>
+              <p className="text-blue-700 font-semibold">Email <span className="text-red-600">*</span></p>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="w-full p-2 rounded-3xl text-center placeholder:text-center text-white bg-blue-500 ring-1 ring-inset ring-blue-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                className="register-input"
                 required
               />
             </div>
 
             <div>
-              <p>Password <span className="text-red-600">*</span></p>
+              <p className="text-blue-700 font-semibold">Password <span className="text-red-600">*</span></p>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full p-2 rounded-3xl text-center placeholder:text-center text-white bg-blue-500 ring-1 ring-inset ring-blue-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                className="register-input"
                 required
               />
             </div>
             
             <div>
-              <p>Repeat Password <span className="text-red-600">*</span></p>
+              <p className="text-blue-700 font-semibold">Repeat Password <span className="text-red-600">*</span></p>
               <input
                 type="password"
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
                 placeholder="Password"
-                className="w-full p-2 rounded-3xl text-center placeholder:text-center text-white bg-blue-500 ring-1 ring-inset ring-blue-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="w-full md:w-1/2">
-            <div>
-              <p>Phone Number <span className="text-red-600">*</span></p>
-              <input
-                type="text"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="Phone Number"
-                className="w-full p-2 rounded-3xl text-center placeholder:text-center text-white bg-blue-500 ring-1 ring-inset ring-blue-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                className="register-input"
                 required
               />
             </div>
 
-            {/* <div>
-              <p>Role <span className="text-red-600">*</span></p>
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full p-2 border rounded mb-3 placeholder:text-center"
-                required
-              >
-                <option value="" disabled>Select Role</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div> */}
+            <div className="w-full md:w-1/2">
+              <div>
+                <p className="text-blue-700 font-semibold">Phone Number <span className="text-red-600">*</span></p>
+                <input
+                  type="text"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="Phone Number"
+                  className="register-input"
+                  required
+                />
+              </div>
+            </div>
 
-            <div className="flex flex-row items-center gap-20 mt-10">
-              <p className="text-lg font-semibold text-blue-700">Role<span className="text-red-600">*</span> :</p>
-              <div className="flex flex-row items-center gap-2">
-                
+            <div className="flex flex-row items-center gap-20 mt-3">
+              <p className="font-semibold text-blue-700">Role<span className="text-red-600">*</span> :</p>
+              <div className="flex flex-row items-center gap-5">
                 <div className="flex items-center">
                   <button
                     type="button"
@@ -159,7 +145,6 @@ const RegisterFormMobile = () => {
                       User
                   </button>
                 </div>
-
                 <div className="flex items-center">
                   <button
                     type="button"
@@ -169,14 +154,16 @@ const RegisterFormMobile = () => {
                       Admin
                   </button>
                 </div>
-
               </div>
             </div>
+
+            <div className="flex flex-row items-center gap-1">
+              <p>Do you have an account?</p>
+              <Link to="/login" className="text-blue-600">Login</Link>
+            </div>
+
           </div>
         </div>
-        {/* {!isPasswordMatch && (
-          <p className="text-red-600 mb-4">Passwords do not match</p>
-        )} */}
 
         <button
           type="submit"

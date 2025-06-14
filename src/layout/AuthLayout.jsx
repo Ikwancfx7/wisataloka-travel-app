@@ -14,7 +14,7 @@ const AuthLayout = () => {
         <TopbarMobile />
       </div>
 
-      <div className="min-h-screen bg-gray-50 px-4 py-10 lg:py-20">
+      <div className="min-h-screen bg-gray-50 pt-20 md:flex md:items-center justify-center">
           <Outlet />
         {/* <div className="w-full bg-white p-6 rounded-lg shadow-md/60">
         </div> */}

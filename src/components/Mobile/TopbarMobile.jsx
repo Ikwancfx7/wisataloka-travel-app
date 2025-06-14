@@ -8,6 +8,7 @@ const TopbarMobile = () => {
             <div className="flex flex-row justify-between items-center w-full ">
                 <Link to="/" className="text-2xl font-semibold">WISATALOKA</Link>
             </div>
+            
             <Link to="/cart" className="relative flex flex-col items-center text-xs">
                 <img src="/icons/shopping-cart.png" alt="Cart" className="w-8 h-8" />
                 {totalQuantity > 0 && (

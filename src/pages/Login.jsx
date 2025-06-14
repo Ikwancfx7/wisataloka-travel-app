@@ -9,9 +9,9 @@ const LoginPage = () => {
   return (
     <div className="container mx-auto flex flex-col items-center w-[400px] bg-white p-6 rounded-xl shadow-md/20">
       <LoginForm setMessage={setMessage}/>
-      <p className="mt-4">Message</p>
+      {/* <p className="mt-4">Message</p> */}
       {message &&  (
-        <div className='mt-5'>
+        <div className='mt-4'>
               <p className={`text-center ${message === 'Login success' ? 'text-green-600' : 'text-red-600'}`}>
                 {message}
               </p>
