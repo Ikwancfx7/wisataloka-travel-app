@@ -17,6 +17,7 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageActivities from "../pages/Admin/ManageActivities";
 import ManageUsers from "../pages/Admin/ManageUsers";
 import AdminProfile from "../pages/Admin/AdminProfile";
+import ManagePayment from "../pages/Admin/ManagePayment";
 
 import ProfilePage from "../pages/ProfilePage";
 
@@ -114,6 +115,14 @@ const AppRouter = () => {
           element={
             <AdminRoute>
               <AdminProfile />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="transactions"
+          element={
+            <AdminRoute>
+              <ManagePayment />
             </AdminRoute>
           }
         />
