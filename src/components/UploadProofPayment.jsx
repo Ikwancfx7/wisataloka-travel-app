@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const UploadProofPayment = ({ transactionId }) => {
   const [image, setImage] = useState(null);
@@ -8,6 +9,8 @@ const UploadProofPayment = ({ transactionId }) => {
   const [uploadedUrl, setUploadedUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -37,13 +40,17 @@ const UploadProofPayment = ({ transactionId }) => {
         }
 
         await axiosInstance.post(`/api/v1/update-transaction-proof-payment/${transactionId}`, {
-        proofPaymentUrl: uploadedImageUrl,
-      });
+          proofPaymentUrl: uploadedImageUrl,
+        });
 
       toast.success("Payment proof uploaded successfully.", { autoClose: 1000 });
       fileInputRef.current.value = "";
       setImage(null);
       setPreviewUrl(null);
+      
+      setTimeout(() => {
+        navigate("/transactions");
+      }, 1000)
 
     } catch (err) {
       console.error(err);
