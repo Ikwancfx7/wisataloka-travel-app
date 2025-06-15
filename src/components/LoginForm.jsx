@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams, Link } from "react-router-dom";
 import { loginUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
 
 const LoginForm = ({ setMessage }) => {  
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");
-    const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
     const [valid, setValid] = useState(false);
     const { login, loading, setLoading } = useAuth();
+    
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [searchParams] = useSearchParams()
+    const fromState = location.state?.from?.pathname;
+    const prevPageQuery = searchParams.get("prevPage");
+    const from = fromState || prevPageQuery || "/";
 
     const buttonValid = () => {
             const isValid = email.trim() !== '' && password.trim() !== '';
@@ -35,11 +38,12 @@ const LoginForm = ({ setMessage }) => {
                     navigate("/admin");
                 } else {
                     navigate(from, { replace: true }); // redirect kembali ke halaman terakhir
+                    window.location.reload();
                 }
             }, 2000);
         } catch (error) {
-            setErrorMsg(error.message || "Login gagal");
-            setMessage(errorMsg);
+            const message = (error.message || "Login Failed");
+            setMessage(message);
             setLoading(false);
         }
     };
