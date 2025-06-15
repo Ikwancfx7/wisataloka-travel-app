@@ -29,11 +29,13 @@ const PrivateRoute = ({ children, requiredRole  }) => {
     const location = useLocation();
 
     if (!token) {
-      return <Navigate to="/login" state={{ from: location }} replace />
+      const currentPath = location.pathname + location.search;
+      return <Navigate to={`/login?prevPage=${encodeURIComponent(currentPath)}`} replace />
+      // return <Navigate to="/login" state={{ from: location }} replace />
     }
 
-    if (requiredRole && (!user || user.role !== requiredRole)) {
-    return <Navigate to="/" replace />; // atau halaman khusus 403 Forbidden
+    if (requiredRole && user?.role !== requiredRole) {
+      return <Navigate to="/" replace /> // atau halaman khusus 403 Forbidden
     }
     
     return children;
