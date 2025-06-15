@@ -35,7 +35,12 @@ const Cart = () => {
     try {
       const response = await axiosInstance.post("/api/v1/generate-payment-methods");
       console.log("Payment methods generated:", response.data);
-      navigate("/checkout");
+      navigate("/checkout",{
+        state: {
+          promoId: promo?.id || null,
+          totalPriceWithPromo
+        }
+      });
     } catch (error) {
       console.error(error);
     }
@@ -89,7 +94,7 @@ const Cart = () => {
   if (loading) return <p className="text-center">cart loading...</p>;
 
   return (
-    <div className="h-screen">
+    <div className="container mx-auto h-screen">
         <h1 className="flex justify-center text-xl font-semibold py-5 md:pt-20">MY CART</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10 lg:px-40 py-5 text-sm md:text-lg">
             <div className="md:col-span-2">
