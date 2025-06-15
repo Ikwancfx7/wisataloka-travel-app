@@ -48,21 +48,24 @@ const PromoDetile = () => {
       />
       <h1 className="text-3xl font-bold mb-2">{promo.title}</h1>
       <p className="text-gray-600 mb-4">{promo.description}</p>
-      <p className="text-blue-600 font-semibold mb-2">Kode Promo: {promo.promo_code}</p>
-      <p className="text-green-600 mb-6">
-        Diskon: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
-      </p>
+      <div className="flex flex-col gap-2 mb-4">
+        <p className="text-blue-600 font-semibold">Kode Promo: {promo.promo_code}</p>
+        <p className="text-green-600">
+          Diskon: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
+        </p>
+        <p className="text-red-600">Minimum Payment: Rp {promo.minimum_claim_price.toLocaleString("id-ID")}</p>
+      </div>
 
       <div className="flex gap-4">
         <button
           onClick={handleCopyCode}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
         >
           Salin Kode
         </button>
         <button
           onClick={handleUsePromo}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 cursor-pointer"
         >
           Gunakan Promo
         </button>
