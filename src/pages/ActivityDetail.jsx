@@ -36,7 +36,7 @@ const ActivityDetail = () => {
   const imageUrl = activity?.imageUrls?.[0] || "/images/default-activity.jpg";
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-5 md:pt-25">
       <img
         src={imageUrl}
         alt={`Gambar ${activity.title}`}
