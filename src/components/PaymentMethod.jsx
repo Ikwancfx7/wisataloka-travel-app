@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchPaymentMethods } from "../api/PaymentApi";
+import { GetPaymentMethods } from "../api/PaymentApi";
 
 const PaymentMethod = ({ selectedPaymentMethod, onChange }) => {
     const [paymentMethods, setPaymentMethods] = useState([]);
@@ -8,7 +8,7 @@ const PaymentMethod = ({ selectedPaymentMethod, onChange }) => {
     useEffect(() => {
         const loadPaymentMethods = async () => {
             try {
-                const methods = await fetchPaymentMethods();
+                const methods = await GetPaymentMethods();
                 setPaymentMethods(methods);
             } catch (error) {
                 console.error("Error fetching payment methods:", error);
