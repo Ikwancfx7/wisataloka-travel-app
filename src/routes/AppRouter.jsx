@@ -15,6 +15,8 @@ import PromoPage from "../pages/PromoPage";
 import AdminLayout from "../layout/AdminLayout";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageActivities from "../pages/Admin/ManageActivities";
+import CreateActivity from "../pages/Admin/CreateActivity";
+import UpdateActivity from "../pages/Admin/UpdateActivity";
 import ManageUsers from "../pages/Admin/ManageUsers";
 import AdminProfile from "../pages/Admin/AdminProfile";
 import ManagePayment from "../pages/Admin/ManagePayment";
@@ -125,6 +127,22 @@ const AppRouter = () => {
           element={
             <AdminRoute>
               <ManagePayment />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="create-activity"
+          element={
+            <AdminRoute>
+              <CreateActivity />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="update-activity/:id"
+          element={
+            <AdminRoute>
+              <UpdateActivity />
             </AdminRoute>
           }
         />
