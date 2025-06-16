@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchMyTransactions } from "../api/PaymentApi";
+import { GetMyTransactions } from "../api/PaymentApi";
 import { Link } from "react-router-dom";
 
 const Transactions = () => {
@@ -8,7 +8,7 @@ const Transactions = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchMyTransactions();
+                const data = await GetMyTransactions();
                 console.log(data);
                 const sorted = data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setTransaction(sorted);
