@@ -12,7 +12,7 @@ const ActivityCard = ({ activity }) => {
       className="rounded-xl overflow-hidden shadow-lg hover:shadow-lg/50 transition duration-300 bg-white">
       <img
         src={imageUrl}
-        alt={activity.title}
+        alt={`Gambar ${activity.title}`}
         className="w-full h-48 object-cover"
         onError={(e) => {
           e.target.onerror = null; // cegah infinite loop
