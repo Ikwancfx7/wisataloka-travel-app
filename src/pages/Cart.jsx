@@ -113,14 +113,25 @@ const Cart = () => {
                     )}
                     {cartItems.map((item) => (
                     <div key={item.id} className="flex items-center justify-between border-b pb-4">
-                        <div>
-                        <h2 className="text-lg font-semibold">{item.activity.title}</h2>
-                        <p className="text-sm text-gray-500">Harga: Rp {item.activity?.price ? item.activity.price.toLocaleString("id-ID"): "N/A"}</p>
-                        <p className="text-sm text-gray-500">
-                          Subtotal: Rp {item.activity?.price 
-                            ? (item.activity.price * item.quantity).toLocaleString("id-ID")
-                            : "-"}
-                        </p>
+                        <div className="flex flex-row gap-2 items-center">
+                          <img
+                            src={item.activity.imageUrls[0]}
+                            alt={`Gambar ${item.activity.title}`}
+                            className="w-24 h-24 object-cover rounded-lg"
+                            onError={(e) => {
+                              e.target.onerror = null; // cegah infinite loop
+                              e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
+                            }}
+                          />
+                          <div>
+                            <h2 className="text-lg font-semibold">{item.activity.title}</h2>
+                            <p className="text-sm text-gray-500">Harga: Rp {item.activity?.price ? item.activity.price.toLocaleString("id-ID"): "N/A"}</p>
+                            <p className="text-sm text-gray-500">
+                              Subtotal: Rp {item.activity?.price 
+                                ? (item.activity.price * item.quantity).toLocaleString("id-ID")
+                                : "-"}
+                            </p>
+                          </div>
                         </div>
 
                         <div className="flex items-center gap-2">
