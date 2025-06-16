@@ -40,13 +40,13 @@ const ActivityDetail = () => {
       <img
         src={imageUrl}
         alt={`Gambar ${activity.title}`}
-        className="w-full h-64 object-cover rounded-lg mb-6"
+        className="w-full h-96 object-cover rounded-lg mb-6"
         onError={(e) => {
           e.target.onerror = null; // cegah infinite loop
           e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
         }}
       />
-      
+  
       <div className="flex flex-row justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
