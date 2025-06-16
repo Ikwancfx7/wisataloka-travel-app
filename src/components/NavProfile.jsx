@@ -29,6 +29,7 @@ const NavbarProfile = () => {
       // await logoutUser();     
       logout();
       navigate("/");
+      window.location.reload();
       } catch (error) {
       console.error("Logout gagal:", error);
       }
