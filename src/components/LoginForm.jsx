@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useSearchParams, Link } from "react-router-dom";
 import { loginUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginForm = ({ setMessage }) => {  
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [valid, setValid] = useState(false);
     const { login, loading, setLoading } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
     
     const navigate = useNavigate();
     const location = useLocation();
@@ -72,14 +74,23 @@ const LoginForm = ({ setMessage }) => {
                 <div>
                     <p>Password <span className='text-red-600'>*</span></p>
                 </div>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    className="w-full p-2 border rounded mb-3"
-                    required
-                />
+                <div className="relative">
+
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        className="w-full p-2 border rounded mb-3"
+                        required
+                    />
+                    <div
+                        className="absolute right-3 top-3 cursor-pointer text-gray-600"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </div>
+                </div>
             </div>
             <button
                 type="submit"
