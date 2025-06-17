@@ -10,11 +10,12 @@ const AuthLayout = () => {
       <div className="hidden md:flex">
         <Navbar />
       </div>
+
       <div className="md:hidden">
         <TopbarMobile />
       </div>
 
-      <div className="min-h-screen bg-gray-50 pt-20 md:flex md:items-center justify-center">
+      <div className="bg-gray-50 md:flex md:items-center justify-center pt-13 md:pt-0">
           <Outlet />
         {/* <div className="w-full bg-white p-6 rounded-lg shadow-md/60">
         </div> */}
