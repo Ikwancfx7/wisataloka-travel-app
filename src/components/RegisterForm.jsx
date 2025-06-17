@@ -65,7 +65,7 @@ const RegisterForm = () => {
   }, [email, password, name, passwordRepeat, phoneNumber, role]);
 
   return (
-    <div className="container mx-auto flex flex-col items-center justify-center p-8 w-[500px] md:w-[600px] md:bg-white md:rounded-xl md:shadow-md/20">
+    <div className="container mx-auto flex flex-col items-center justify-center mt-25 p-8 w-[500px] md:w-[600px] md:bg-white md:rounded-xl md:shadow-md/20">
       <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
         <h2 className="flex justify-center text-xl font-semibold mb-4">REGISTER</h2>
 
