@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/AuthApi";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 const RegisterFormMobile = () => {
     const [email, setEmail] = useState("");
@@ -11,6 +12,8 @@ const RegisterFormMobile = () => {
     const [passwordRepeat, setPasswordRepeat] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [role, setRole] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
     // const [profilePictureUrl, setProfilePictureUrl] = useState("");
     const [message, setMessage] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
@@ -64,8 +67,9 @@ const RegisterFormMobile = () => {
     useEffect(() => {
         buttonValid();
     }, [email, password, name, passwordRepeat, phoneNumber, role]);
-    return (
-        <div className="container mx-auto flex flex-col items-center justify-center p-8 w-[500px] md:w-[600px] md:bg-white md:rounded-xl md:shadow-md/20">
+
+  return (
+    <div className="container mx-auto flex flex-col items-center justify-center mb-13 p-8 w-[500px] md:w-[600px] md:bg-white md:rounded-xl md:shadow-md/20">
       <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
         <h2 className="flex justify-center text-xl font-semibold mb-4">REGISTER</h2>
 
@@ -97,26 +101,44 @@ const RegisterFormMobile = () => {
 
             <div>
               <p className="text-blue-700 font-semibold">Password <span className="text-red-600">*</span></p>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="register-input"
-                required
-              />
+              <div className="relative">
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  className="register-input"
+                  required
+                />
+                <div
+                    className="absolute right-3 top-3 cursor-pointer text-gray-600"
+                    onClick={() => setShowPassword(!showPassword)}
+                >
+                    {showPassword ? <EyeOff size={20} className="text-white" /> : <Eye size={20} className="text-white" />}
+                </div>
+              </div>
             </div>
             
             <div>
               <p className="text-blue-700 font-semibold">Repeat Password <span className="text-red-600">*</span></p>
-              <input
-                type="password"
-                value={passwordRepeat}
-                onChange={(e) => setPasswordRepeat(e.target.value)}
-                placeholder="Password"
-                className="register-input"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPasswordRepeat ? "text" : "password"}
+                  value={passwordRepeat}
+                  onChange={(e) => setPasswordRepeat(e.target.value)}
+                  placeholder="Password"
+                  className="register-input"
+                  required
+                />
+                <div
+                      className="absolute right-3 top-3 cursor-pointer text-gray-600"
+                      onClick={() => setShowPasswordRepeat(!showPasswordRepeat)}
+                  >
+                      {showPasswordRepeat ? <EyeOff size={20} className="text-white" /> : <Eye size={20} className="text-white" />}
+                  </div>
+
+              </div>
             </div>
 
             <div className="w-full md:w-1/2">
