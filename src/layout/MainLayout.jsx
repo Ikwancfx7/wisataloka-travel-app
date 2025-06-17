@@ -19,7 +19,7 @@ const MainLayout = () => {
         <FootbarMobile />
       </div>
       
-      <main className="flex-grow">
+      <main className="flex-grow pt-13 md:pt-0">
         <Outlet />
       </main>
       
