@@ -20,6 +20,9 @@ import UpdateActivity from "../pages/Admin/UpdateActivity";
 import ManageUsers from "../pages/Admin/ManageUsers";
 import AdminProfile from "../pages/Admin/AdminProfile";
 import ManagePayment from "../pages/Admin/ManagePayment";
+import ManageBanner from "../pages/Admin/ManageBanner";
+import CreateBanner from "../pages/Admin/CreateBanner";
+import UpdateBanner from "../pages/Admin/UpdateBanner";
 
 import ProfilePage from "../pages/ProfilePage";
 
@@ -143,6 +146,30 @@ const AppRouter = () => {
           element={
             <AdminRoute>
               <UpdateActivity />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="banners"
+          element={
+            <AdminRoute>
+              <ManageBanner />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="create-banner"
+          element={
+            <AdminRoute>
+              <CreateBanner />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="update-banner/:id"
+          element={
+            <AdminRoute>
+              <UpdateBanner />
             </AdminRoute>
           }
         />
