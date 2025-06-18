@@ -19,8 +19,8 @@ const Promos = () => {
     }, []);
 
     return (
-        <div className="bg-gray-50 w-full">
-            <div className="container mx-auto py-12 px-6">
+        <div className="w-full">
+            <div className="px-4">
                 <h2 className="text-3xl font-bold text-center mb-6">Special Promos</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {promos.slice(0, 4).map((promo) => (
