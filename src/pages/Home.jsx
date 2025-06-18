@@ -3,35 +3,33 @@ import Promos from "../components/Promos";
 import CategoryFilterLanding from "../components/CategoryFilterLanding";
 import ShowBanners from "../components/ShowBanners";
 
-const HomePage = () => {
-    const BGLanding = "/images/BGLanding.jpg";
-    
+const HomePage = () => {    
     return (
-        <>
-            <div className="relative flex items-center justify-center md:h-[560px] mb-10">
-                {/* <img src={BGLanding} alt="BGLanding"
-                    className="flex relative w-full h-full object-cover" 
-                /> */}
-                <ShowBanners />
-                <div className="container mx-auto absolute flex justify-center items-center z-10">
-                    <div className="absolute flex flex-col items-center gap-5 md:gap-6">
-                        <h1 className="text-white text-xl md:text-5xl font-bold">Welcome to Wisataloka</h1>
+        <div>
+            
+            <div className="relative h-screen md:h-[560px] mb-10 bg-blue-400">
+                <div className="absolute inset-0 z-0">
+                    <ShowBanners />
+                </div>
+                <div className="relative z-10 w-full h-full flex justify-center items-center">
+                    <div className="w-full max-w-screen-2xl mx-auto flex flex-col items-center gap-5 md:gap-6 px-4">
+                        <h1 className="text-white text-xl md:text-5xl font-bold text-center">
+                            Welcome to Wisataloka
+                        </h1>
                         <div className="flex justify-center">
                             <CategoryFilterLanding />
                         </div>
-                        {/* <Link 
-                            to="/activities"
-                            className="flex justify-center bg-white text-black px-4 py-2 rounded-2xl"
-                        >
-                            Explore Now
-                        </Link> */}
                     </div>
                 </div>
             </div>
 
-            <Promos />
+            <div className="flex justify-center px-4">
+                <div className="w-full max-w-screen-xl">
+                    <Promos />
+                </div>
+            </div>
             
-        </>
+        </div>
     );
 }
 
