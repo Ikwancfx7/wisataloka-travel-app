@@ -40,7 +40,7 @@ export const CartProvider = ({ children }) => {
 
   const updateCart = async (cartId, quantity) => {
     try {
-      console.log("Calling PUT /api/v1/update-cart/" + cartId, { quantity });
+      console.log("Calling POST /api/v1/update-cart/" + cartId, { quantity });
       await axiosInstance.post(`/api/v1/update-cart/${cartId}`, { quantity });
       await fetchCart();
     } catch (err) {
