@@ -11,11 +11,11 @@ const Cart = () => {
   // const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const promoId = location.state?.promoId || null;
   const [promoCode, setPromoCode] = useState("");
   const [promo, setPromo] = useState(null);
   const [message, setMessage] = useState("");
   const [isPromoApplied, setIsPromoApplied] = useState(false);
-  const promoId = location.state?.promoId
   const [selectedItems, setSelectedItems] = useState([]);
 
   
@@ -25,23 +25,28 @@ const Cart = () => {
     } else {
       setSelectedItems([...selectedItems, itemId]);
     }
+
+    console.log("Selected items:", selectedItems);
   };
   
   const totalSelected = cartItems.reduce((total, item) => {
     if (selectedItems.includes(item.id)) {
+      console.log("Item ID:", item.id, "Quantity:", item.quantity, "Price:", item.activity.price);
       return total + item.activity.price * item.quantity;
     }
     return total;
   }, 0);
+
+  const selectedCartItems = cartItems.filter(item => selectedItems.includes(item.id));
 
   const totalPriceWithPromo = isPromoApplied && promo
   ? Math.max(0, totalSelected - promo.promo_discount_price)
   : totalSelected;
 
   
-  const totalHarga = cartItems.reduce((total, item) => {
-    return total + item.activity.price * item.quantity;
-  }, 0);
+  // const totalHarga = cartItems.reduce((total, item) => {
+  //   return total + item.activity.price * item.quantity;
+  // }, 0);
   
   const handleQtyChange = async (cartId, newQty) => {
     setIsPromoApplied(false);
@@ -56,11 +61,17 @@ const Cart = () => {
       console.error("Promo ID tidak ditemukan di location.state");
       return;
     }
+
+    if (selectedItems.length === 0) {
+      setMessage("Pilih item terlebih dahulu untuk menerapkan promo.");
+      return;
+    }
+
     try {
       const response = await axiosInstance.get(`/api/v1/promo/${promoId}`);
       const promoData = response.data.data;
       
-      if (totalHarga < promoData.minimum_claim_price) {
+      if (totalSelected < promoData.minimum_claim_price) {
         const errorMsg = (`Minimal belanja Rp ${promoData.minimum_claim_price.toLocaleString("id-ID")} untuk menggunakan promo ini.`);
         setMessage(errorMsg);
       } else {
@@ -80,11 +91,16 @@ const Cart = () => {
   const handleCheckout = async () => {
       try {
         const response = await axiosInstance.post("/api/v1/generate-payment-methods");
+
+        const currentSelectedItems = cartItems.filter(item =>
+          selectedItems.includes(item.id)
+        );
+
         console.log("Payment methods generated:", response.data);
         navigate("/checkout",{
         state: {
           promoId: isPromoApplied ? promo.id : null,
-          totalPriceWithPromo
+          selectedCartItems: currentSelectedItems
         }
       });
     } catch (error) {
@@ -92,8 +108,10 @@ const Cart = () => {
     }
   }
   
-  // console.log("harga discount promo", promo.promo_discount_price);
-  console.log("totalPriceWithPromo:", totalPriceWithPromo);
+  useEffect(() => {
+    console.log("Selected items updated:", selectedCartItems);
+  }, [selectedCartItems]);
+
 
   useEffect(() => {
     if (location.state && location.state.promoCode) {
@@ -107,8 +125,8 @@ const Cart = () => {
   if (loading) return <p className="text-center">cart loading...</p>;
 
   return (
-    <div className="container mx-auto h-screen">
-        <h1 className="flex justify-center text-xl font-semibold py-5 md:pt-20">MY CART</h1>
+    <div className="container mx-auto h-screen py-25">
+        <h1 className="flex justify-center text-xl font-semibold">MY CART</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10 lg:px-40 py-5 text-sm md:text-lg">
             <div className="md:col-span-2">
                 <div className="space-y-6">
@@ -127,12 +145,11 @@ const Cart = () => {
                     {cartItems.map((item) => (
                     <div key={item.id} className="flex items-center justify-between border-b pb-4 gap-2">
                         <div className="flex flex-row items-center gap-2">
-
                           <input
                             type="checkbox"
                             checked={selectedItems.includes(item.id)}
                             onChange={() => handleSelection(item.id)}
-                            className="form-checkbox h-5 w-5 text-blue-600"
+                            className="form-checkbox h-5 w-5 text-blue-600 cursor-pointer"
                           />
                           <div className="flex flex-row gap-2 items-center">
                             <img
