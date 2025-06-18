@@ -7,7 +7,9 @@ const TopbarMobile = () => {
         <div className="fixed z-50 top-0 left-0 right-0 flex flex-row justify-between items-center w-full px-6 md:px-13 lg:px-15 pt-4 pb-2 bg-white">
             <div className="flex flex-row justify-between items-center w-full ">
                 <Link to="/" className="text-2xl font-semibold">
-                    <img src="/images/Wisataloka-blue.png" alt="logo wisataloka" />
+                    <img src="/images/Wisataloka-blue.png" alt="logo wisataloka" 
+                        className="w-40"
+                    />
                 </Link>
             </div>
             
