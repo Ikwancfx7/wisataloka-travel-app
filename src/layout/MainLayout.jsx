@@ -16,7 +16,9 @@ const MainLayout = () => {
       </div>
       
       <div className="w-full md:hidden">
-        <TopbarMobile />
+        <div className={`w-full z-30 md:hidden ${isLandingPage ? "absolute top-0 left-0" : "sticky top-0"}`}>
+          <TopbarMobile isLandingPage={isLandingPage} />
+        </div>
         <FootbarMobile />
       </div>
       
