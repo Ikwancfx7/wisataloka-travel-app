@@ -29,11 +29,11 @@ const Navbar = ({isLandingPage}) => {
                     <Link to="/" className="text-3xl">
                         {isLandingPage && !isScrolled ? (
                             <img src="/images/Wisataloka-white.png" alt="logo wisataloka" 
-                                className="w-24 md:w-40"
+                                className="w-50"
                             />
                         ):(
                             <img src="/images/Wisataloka-blue.png" alt="logo wisataloka" 
-                                className="w-24 md:w-40"
+                                className="w-50"
                             />
                         )}
                     </Link>
