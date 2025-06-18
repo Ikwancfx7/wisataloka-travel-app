@@ -18,7 +18,7 @@ const PromoPage = () => {
     }, []);
 
     return (
-        <div className="max-w-screen-2xl mx-auto py-5 md:py-20 px-5 bg-gray-100">
+        <div className="max-w-screen-2xl mx-auto py-25 px-5">
             <h2 className="text-3xl font-bold text-center mb-6">Special Promos</h2>
 
             <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">

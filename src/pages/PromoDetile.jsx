@@ -40,7 +40,7 @@ const PromoDetile = () => {
   if (!promo) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto min-h-screen">
+    <div className="px-6 py-25 max-w-3xl mx-auto min-h-screen">
       <img
         src={promo.imageUrl}
         alt={promo.title}

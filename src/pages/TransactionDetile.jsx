@@ -53,8 +53,8 @@ const TransactionDetile = () => {
   const hasUploadedProof = !!transaction?.proofPaymentUrl;
 
   return (
-    <div className="p-6 lg:px-30 space-y-6 bg-gray-50 min-h-screen py-5 md:py-20">
-      <h1 className="text-2xl font-bold text-center">Transaction Detile</h1>
+    <div className="p-6 lg:px-30 space-y-6 min-h-screen py-25">
+      <h1 className="text-3xl font-bold text-center mb-6">Transaction Detile</h1>
 
       <div className="p-4 rounded shadow space-y-2 bg-white">
         <p><span className="font-semibold">ID Invoice:</span> {invoiceId}</p>
@@ -119,7 +119,7 @@ const TransactionDetile = () => {
       {!isPaymentSuccess && !hasUploadedProof && (
         <UploadProofPayment transactionId={id} />
       )}
-      {hasUploadedProof && (
+      {hasUploadedProof && !isExpired && !isCancelled && (
         <div className="bg-blue-100 text-blue-700 p-3 rounded mt-2 italic">
           Transaction proof uploaded successfully. Please wait for admin verification.
         </div>
