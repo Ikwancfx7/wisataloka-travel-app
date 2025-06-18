@@ -49,7 +49,7 @@ const Activities = () => {
   if (loading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="bg-gray-50 px-5 min-h-screen py-5 md:py-20">
+    <div className="bg-gray-50 px-5 min-h-screen py-25">
       <div className="flex justify-center mb-5 md:mb-10">
         <h1 className="text-xl md:text-3xl md:font-semibold">
           Your Next Adventure Starts Here
