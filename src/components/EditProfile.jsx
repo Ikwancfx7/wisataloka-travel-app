@@ -85,10 +85,8 @@ const EditProfile = () => {
             await updateProfile(removePictureProfile);
             
             setForm(removePictureProfile);
-            // toast("Profile picture deleted successfully.", { autoClose: 1000 });
         } catch (error) {
             console.error("Delete profile picture failed:", error);
-            // toast("Delete profile picture failed.", { autoClose: 1000 });
         }
     };
 
