@@ -9,23 +9,27 @@ const MainLayout = () => {
   const isLandingPage = location.pathname === "/";
 
   return (
-    <div className="flex flex-col pb-15 md:pb-0">
-      <div className={`sticky top-0 hidden md:flex w-full z-20 ${isLandingPage ? "absolute top-0 left-0" : "relative"}`}>
+    <div className="flex flex-col min-h-screen w-full bg-gray-50">
+
+      <div className={`w-full z-30 ${isLandingPage ? "absolute top-0 left-0" : "sticky top-0"} hidden md:flex`}>
         <Navbar isLandingPage={isLandingPage} />
       </div>
       
-      <div className="md:hidden">
+      <div className="w-full md:hidden">
         <TopbarMobile />
         <FootbarMobile />
       </div>
       
-      <main className="flex-grow pt-13 md:pt-0">
+      <main className="flex-grow w-full pb-20">
         <Outlet />
       </main>
       
-      <div className="hidden md:flex">
-        <Footer />
+      <div className="w-full hidden md:flex justify-center">
+        <div className="w-full max-w-screen-2xl px-4">
+          <Footer />
+        </div>
       </div>
+
     </div>
   );
 };
