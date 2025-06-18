@@ -23,10 +23,19 @@ const Navbar = ({isLandingPage}) => {
 
     return (
         <div className={`${navBarClasses} z-50 transition-all duration-300 w-full`}>
+            <div className="bg-white/80 z-10 w-full"></div>
             <div className="container mx-auto flex justify-between items-center px-4 md:px-8 lg:px-12 py-3">
                 <div>
                     <Link to="/" className="text-3xl">
-                        WISTALOKA
+                        {isLandingPage && !isScrolled ? (
+                            <img src="/images/Wisataloka-white.png" alt="logo wisataloka" 
+                                className="w-24 md:w-40"
+                            />
+                        ):(
+                            <img src="/images/Wisataloka-blue.png" alt="logo wisataloka" 
+                                className="w-24 md:w-40"
+                            />
+                        )}
                     </Link>
                 </div>
                 <div className="flex flex-row gap-5 items-center">
