@@ -13,7 +13,7 @@ const HomePage = () => {
                     className="flex relative w-full h-full object-cover" 
                 /> */}
                 <ShowBanners />
-                <div className="container mx-auto absolute flex justify-center items-center z-30">
+                <div className="container mx-auto absolute flex justify-center items-center z-10">
                     <div className="absolute flex flex-col items-center gap-5 md:gap-6">
                         <h1 className="text-white text-xl md:text-5xl font-bold">Welcome to Wisataloka</h1>
                         <div className="flex justify-center">
