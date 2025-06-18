@@ -13,39 +13,44 @@ const Cart = () => {
   const location = useLocation();
   const [promoCode, setPromoCode] = useState("");
   const [promo, setPromo] = useState(null);
-  const [promoError, setPromoError] = useState(null);
   const [message, setMessage] = useState("");
   const [isPromoApplied, setIsPromoApplied] = useState(false);
   const promoId = location.state?.promoId
+  const [selectedItems, setSelectedItems] = useState([]);
 
+  
+  const handleSelection = (itemId) => {
+    if (selectedItems.includes(itemId)) {
+      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+    } else {
+      setSelectedItems([...selectedItems, itemId]);
+    }
+  };
+  
+  const totalSelected = cartItems.reduce((total, item) => {
+    if (selectedItems.includes(item.id)) {
+      return total + item.activity.price * item.quantity;
+    }
+    return total;
+  }, 0);
+
+  const totalPriceWithPromo = isPromoApplied && promo
+  ? Math.max(0, totalSelected - promo.promo_discount_price)
+  : totalSelected;
+
+  
   const totalHarga = cartItems.reduce((total, item) => {
     return total + item.activity.price * item.quantity;
   }, 0);
-
-
+  
   const handleQtyChange = async (cartId, newQty) => {
     setIsPromoApplied(false);
     setMessage("");
     if (newQty < 1) return;
-      console.log("cartId:", cartId ,"newQty:", newQty);
+    console.log("cartId:", cartId ,"newQty:", newQty);
       await updateCart(cartId, newQty);
-  };
-
-  const handleCheckout = async () => {
-    try {
-      const response = await axiosInstance.post("/api/v1/generate-payment-methods");
-      console.log("Payment methods generated:", response.data);
-      navigate("/checkout",{
-        state: {
-          promoId: promo?.id || null,
-          totalPriceWithPromo
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
+    };
+  
   const handleApplyPromo = async () => {
     if (!promoId) {
       console.error("Promo ID tidak ditemukan di location.state");
@@ -54,11 +59,10 @@ const Cart = () => {
     try {
       const response = await axiosInstance.get(`/api/v1/promo/${promoId}`);
       const promoData = response.data.data;
-
+      
       if (totalHarga < promoData.minimum_claim_price) {
-        // setPromo(promoData);
-        setPromoError(`Minimal belanja Rp ${promoData.minimum_claim_price.toLocaleString("id-ID")} untuk menggunakan promo ini.`);
-        setMessage(promoError);
+        const errorMsg = (`Minimal belanja Rp ${promoData.minimum_claim_price.toLocaleString("id-ID")} untuk menggunakan promo ini.`);
+        setMessage(errorMsg);
       } else {
         setPromo(promoData);
         setPromoCode(promoData.promo_code);
@@ -67,18 +71,27 @@ const Cart = () => {
         console.log("Promo applied:", promoData);
       }
     } catch (error) {
-      setPromoError("Failed to apply promo.");
+      setMessage("Failed to apply promo.");
       console.error(error);
       setIsPromoApplied(false);
     }
   };
 
-  const totalPriceWithPromo = (()=>{
-    if (!promo) return totalHarga;
-
-    return Math.max(0, totalHarga - promo.promo_discount_price);
-  })();
-
+  const handleCheckout = async () => {
+      try {
+        const response = await axiosInstance.post("/api/v1/generate-payment-methods");
+        console.log("Payment methods generated:", response.data);
+        navigate("/checkout",{
+        state: {
+          promoId: isPromoApplied ? promo.id : null,
+          totalPriceWithPromo
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   // console.log("harga discount promo", promo.promo_discount_price);
   console.log("totalPriceWithPromo:", totalPriceWithPromo);
 
@@ -112,25 +125,34 @@ const Cart = () => {
                       </div>
                     )}
                     {cartItems.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between border-b pb-4">
-                        <div className="flex flex-row gap-2 items-center">
-                          <img
-                            src={item.activity.imageUrls[0]}
-                            alt={`Gambar ${item.activity.title}`}
-                            className="w-24 h-24 object-cover rounded-lg"
-                            onError={(e) => {
-                              e.target.onerror = null; // cegah infinite loop
-                              e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
-                            }}
+                    <div key={item.id} className="flex items-center justify-between border-b pb-4 gap-2">
+                        <div className="flex flex-row items-center gap-2">
+
+                          <input
+                            type="checkbox"
+                            checked={selectedItems.includes(item.id)}
+                            onChange={() => handleSelection(item.id)}
+                            className="form-checkbox h-5 w-5 text-blue-600"
                           />
-                          <div>
-                            <h2 className="text-lg font-semibold">{item.activity.title}</h2>
-                            <p className="text-sm text-gray-500">Harga: Rp {item.activity?.price ? item.activity.price.toLocaleString("id-ID"): "N/A"}</p>
-                            <p className="text-sm text-gray-500">
-                              Subtotal: Rp {item.activity?.price 
-                                ? (item.activity.price * item.quantity).toLocaleString("id-ID")
-                                : "-"}
-                            </p>
+                          <div className="flex flex-row gap-2 items-center">
+                            <img
+                              src={item.activity.imageUrls[0]}
+                              alt={`Gambar ${item.activity.title}`}
+                              className="w-24 h-24 object-cover rounded-lg"
+                              onError={(e) => {
+                                e.target.onerror = null; // cegah infinite loop
+                                e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
+                              }}
+                            />
+                            <div>
+                              <h2 className="text-lg font-semibold">{item.activity.title}</h2>
+                              <p className="text-sm text-gray-500">Harga: Rp {item.activity?.price ? item.activity.price.toLocaleString("id-ID"): "N/A"}</p>
+                              <p className="text-sm text-gray-500">
+                                Subtotal: Rp {item.activity?.price 
+                                  ? (item.activity.price * item.quantity).toLocaleString("id-ID")
+                                  : "-"}
+                              </p>
+                            </div>
                           </div>
                         </div>
 
@@ -155,7 +177,7 @@ const Cart = () => {
 
                           <button
                               onClick={() => {removeFromCart(item.id)}}
-                              className="text-sm ml-4 px-3 py-1 ring-1 ring-red-500 text-red-500 md:bg-red-500 md:text-white rounded hover:cursor-pointer"
+                              className="text-sm ml-4 px-3 py-1 ring-1 ring-red-500 text-red-500 rounded hover:cursor-pointer"
                           >
                               Delete
                           </button>
@@ -165,7 +187,7 @@ const Cart = () => {
                 </div>
             </div>
 
-            <div className="p-4 flex flex-col border rounded shadow-md gap-4">
+            <div className="p-4 flex flex-col justify-start rounded-lg shadow-md/50 gap-4">
                 <h2 className="text-xl font-semibold">Summary</h2>
                 
                 <div className="flex flex-col gap-2 text-sm">
@@ -181,7 +203,7 @@ const Cart = () => {
                     />
                     <button
                       onClick={handleApplyPromo}
-                      className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600 hover:cursor-pointer transition duration-300 ease-in-out"
+                      className="bg-blue-500 text-white px-4 rounded-lg hover:bg-blue-600 hover:cursor-pointer transition duration-300 ease-in-out"
                     >
                       Apply
                     </button>
@@ -192,17 +214,23 @@ const Cart = () => {
                 </div>
 
                 {isPromoApplied ? (
-                  <p>Total: <span className="font-bold">Rp {totalPriceWithPromo ? totalPriceWithPromo.toLocaleString("id-ID") : "0"}</span></p>
+                  <>
+                    <p>Total item terpilih: <span className="font-semibold">{selectedItems.length}</span></p>
+                    <p>Total: <span className="font-bold">Rp {totalPriceWithPromo ? totalPriceWithPromo.toLocaleString("id-ID") : "0"}</span></p>
+                  </>
                 ):(
-                  <p>Total: <span className="font-bold">Rp {totalHarga ? totalHarga.toLocaleString("id-ID") : "0"}</span></p>
+                  <>
+                    <p>Total item terpilih: <span className="font-semibold">{selectedItems.length}</span></p>
+                    <p>Total: <span className="font-bold">Rp {totalSelected ? totalSelected.toLocaleString("id-ID") : "0"}</span></p>
+                  </>
                 )}
 
                 <button
                   onClick={handleCheckout}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded hover:cursor-pointer
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer
                     transition duration-300 ease-in-out
                     disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={cartItems.length === 0}
+                  disabled={selectedItems.length === 0}
                 >
                 Checkout
                 </button>
