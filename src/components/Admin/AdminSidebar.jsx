@@ -23,6 +23,7 @@ const AdminSidebar = () => {
         <Link to="/admin/users" className="hover:underline">Manage Users</Link>
         <Link to="/admin/transactions" className="hover:underline">Manage Transactions</Link>
         <Link to="/admin/banners" className="hover:underline">Manage Banners</Link>
+        <Link to="/admin/categories" className="hover:underline">Manage Categories</Link>
         <button onClick={handleLogout} className="hover:cursor-pointer bg-red-200 rounded-lg">Logout</button>
       </nav>
     </aside>
