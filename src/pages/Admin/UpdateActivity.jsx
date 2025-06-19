@@ -2,14 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import { PostUpdateActivity } from "../../api/ActivityApi";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { UploadImage } from "../../api/UploadApi";
+import { uploadImage } from "../../api/UploadApi";
 import { GetActivityById } from "../../api/ActivityApi";
+import CategoryDropdown from "../../components/CategoryDropdown";
 
 const UpdateActivity = () => {
   const { id } = useParams(); // ambil ID dari URL params
   const fileInputRef = useRef(null);
   const [imageFile, setImageFile] = useState(null);
-
   const [form, setForm] = useState({
     categoryId: "",
     title: "",
@@ -51,7 +51,6 @@ const UpdateActivity = () => {
       });
     } catch (err) {
       console.error("Failed to fetch activity:", err);
-      toast.error("Gagal mengambil data aktivitas");
     }
   };
 
@@ -87,23 +86,23 @@ const UpdateActivity = () => {
   };
 
   const handleUploadImage = async () => {
-    if (!imageFile) return toast.error("Pilih gambar dulu");
+    if (!imageFile) return toast.error("Please, select an image", { autoClose: 1000 });
 
     const formData = new FormData();
     formData.append("image", imageFile);
 
     try {
-      const res = await UploadImage(formData);
+      const res = await uploadImage(formData);
       const uploadedUrl = res.url;
       
       if (!uploadedUrl || !uploadedUrl.includes("/images/")) {
-        toast.error("Gagal mendapatkan URL gambar yang valid.");
+        toast.error("Failed to get image URL", { autoClose: 1000 });
         return;
       }
 
       setForm((prev) => {
       // Cek apakah ada blob di index pertama
-        const newImageUrls = [...prev.imageUrls];
+      const newImageUrls = [...prev.imageUrls];
         if (newImageUrls[0]?.includes("blob")) {
             newImageUrls[0] = uploadedUrl; // Ganti dengan yang valid
           } else {
@@ -112,9 +111,6 @@ const UpdateActivity = () => {
 
         return { ...prev, imageUrls: newImageUrls };
       });
-
-      // console.log("imageUrls sebelum submit:", form.imageUrls);
-      // console.log("Apakah array?", Array.isArray(form.imageUrls));
 
       toast.success("Gambar berhasil diunggah");
       setImageFile(null);
@@ -146,22 +142,26 @@ const UpdateActivity = () => {
         total_reviews: Number(form.total_reviews),
       });
 
-      toast.success("Activity updated successfully!");
+      toast.success("Activity updated successfully!", { autoClose: 1000 });
     } catch (err) {
       console.error(err);
-      toast.error("Failed to update activity");
+      toast.error("Failed to update activity", { autoClose: 1000 });
     }
   };
-
-  console.log("imageUrls",form.imageUrls);
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Update Activity</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <label className="block">
-          <span className="font-semibold">Category ID:</span>
-          <input
+          <span className="font-semibold">Category:</span>
+          <CategoryDropdown
+            selectedCategoryId={form.categoryId}
+            onChange={(id) =>
+              setForm((prev) => ({ ...prev, categoryId: id }))
+            }
+          />
+          {/* <input
             type="text"
             name="categoryId"
             value={form.categoryId}
@@ -169,7 +169,7 @@ const UpdateActivity = () => {
             placeholder="Category ID"
             className="w-full border px-3 py-2 rounded"
             required
-          />
+          /> */}
         </label>
 
         <label className="block">
@@ -358,7 +358,7 @@ const UpdateActivity = () => {
 
         <button
           type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer transition duration-300 ease-in-out"
         >
           Update Activity
         </button>
