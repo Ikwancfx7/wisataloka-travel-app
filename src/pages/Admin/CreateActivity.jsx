@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PostCreateActivity } from "../../api/ActivityApi";
 import { toast } from "react-toastify";
+import CategoryDropdown from "../../components/CategoryDropdown";
 
 const CreateActivity = () => {
   const [form, setForm] = useState({
@@ -37,7 +38,7 @@ const CreateActivity = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await CreateActivity(form);
+      await PostCreateActivity(form);
       toast.success("Activity created successfully!");
       setForm({
         categoryId: "",
@@ -66,15 +67,21 @@ const CreateActivity = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         
         <label className="block">
-          <span className="font-semibold">Category ID:</span>
-          <input
+          <span className="font-semibold">Category:</span>
+          <CategoryDropdown
+            selectedCategoryId={form.categoryId}
+            onChange={(id) =>
+              setForm((prev) => ({ ...prev, categoryId: id }))
+            }
+          />
+          {/* <input
             type="text"
             name="categoryId"
             value={form.categoryId}
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
             required
-          />
+          /> */}
         </label>
 
         <label className="block">
