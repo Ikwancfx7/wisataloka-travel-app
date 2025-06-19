@@ -41,7 +41,7 @@ const ManageActivities = () => {
         <h1 className="text-2xl font-bold">Manage Activities</h1>
         <button
           onClick={() => navigate("/admin/create-activity")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer"
         >
           + Create New Activity
         </button>
