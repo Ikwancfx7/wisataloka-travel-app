@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { GetBannerById, PostUpdateBanner } from "../../api/BannerApi";
-import { UploadImage } from "../../api/UploadApi";
+import { uploadImage } from "../../api/UploadApi";
 import { toast } from "react-toastify";
 
 const UpdateBanner = ({ banner, onClose }) => {
@@ -32,7 +32,7 @@ const UpdateBanner = ({ banner, onClose }) => {
     formData.append("image", imageFile);
 
     try {
-      const res = await UploadImage(formData);
+      const res = await uploadImage(formData);
       const uploadedUrl = res?.url;
 
       if (!uploadedUrl || !uploadedUrl.includes("/images/")) {
