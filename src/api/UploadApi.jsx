@@ -1,6 +1,6 @@
 import axiosInstance from "./AxiosInstance";
 
-export const UploadImage = async (image) => {
+export const uploadImage = async (image) => {
     try{
         const response = await axiosInstance.post("/api/v1/upload-image", image);
         return response.data;
