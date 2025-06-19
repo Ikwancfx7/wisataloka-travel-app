@@ -69,13 +69,13 @@ const RegisterFormMobile = () => {
     }, [email, password, name, passwordRepeat, phoneNumber, role]);
 
   return (
-    <div className="container mx-auto flex flex-col items-center justify-center mb-13 p-8 w-[500px] md:w-[600px] md:bg-white md:rounded-xl md:shadow-md/20">
+    <div className="flex flex-col items-center justify-center mb-13 p-8 w-full md:bg-white md:rounded-xl md:shadow-md/20">
       <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
         <h2 className="flex justify-center text-xl font-semibold mb-4">REGISTER</h2>
 
         <div className="flex flex-col sm:items-center md:flex-row md:items-start md:justify-evenly gap-5 mb-4 w-full">
           <div className="flex flex-col gap-5 w-full md:w-1/2">
-            <div>
+            <div className="w-full">
               <p className="text-blue-700 font-semibold">Nama <span className="text-red-600">*</span></p>
               <input
                 type="text"
@@ -87,7 +87,7 @@ const RegisterFormMobile = () => {
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <p className="text-blue-700 font-semibold">Email <span className="text-red-600">*</span></p>
               <input
                 type="email"
@@ -99,7 +99,7 @@ const RegisterFormMobile = () => {
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <p className="text-blue-700 font-semibold">Password <span className="text-red-600">*</span></p>
               <div className="relative">
 
@@ -120,7 +120,7 @@ const RegisterFormMobile = () => {
               </div>
             </div>
             
-            <div>
+            <div className="w-full">
               <p className="text-blue-700 font-semibold">Repeat Password <span className="text-red-600">*</span></p>
               <div className="relative">
                 <input
@@ -141,7 +141,7 @@ const RegisterFormMobile = () => {
               </div>
             </div>
 
-            <div className="w-full md:w-1/2">
+            <div className="w-full">
               <div>
                 <p className="text-blue-700 font-semibold">Phone Number <span className="text-red-600">*</span></p>
                 <input
@@ -155,8 +155,8 @@ const RegisterFormMobile = () => {
               </div>
             </div>
 
-            <div className="flex flex-row items-center gap-20 mt-3">
-              <p className="font-semibold text-blue-700">Role<span className="text-red-600">*</span> :</p>
+            <div className="flex flex-row justify-center items-center gap-10 mt-3 w-full">
+              <p className="font-semibold text-blue-700">Role :<span className="text-red-600">*</span></p>
               <div className="flex flex-row items-center gap-5">
                 <div className="flex items-center">
                   <button
