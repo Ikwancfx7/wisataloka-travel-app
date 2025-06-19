@@ -23,6 +23,7 @@ import ManagePayment from "../pages/Admin/ManagePayment";
 import ManageBanner from "../pages/Admin/ManageBanner";
 import CreateBanner from "../pages/Admin/CreateBanner";
 import UpdateBanner from "../pages/Admin/UpdateBanner";
+import ManageCategory from "../pages/Admin/Managecategory";
 
 import ProfilePage from "../pages/ProfilePage";
 
@@ -170,6 +171,14 @@ const AppRouter = () => {
           element={
             <AdminRoute>
               <UpdateBanner />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="categories"
+          element={
+            <AdminRoute>
+              <ManageCategory />
             </AdminRoute>
           }
         />
