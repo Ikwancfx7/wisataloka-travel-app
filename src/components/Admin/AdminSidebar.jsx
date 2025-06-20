@@ -19,11 +19,13 @@ const AdminSidebar = () => {
       <h2 className="text-xl font-bold mb-4">Admin Panel</h2>
       <nav className="flex flex-col gap-2">
         <Link to="/admin" className="hover:underline">Dashboard</Link>
-        <Link to="/admin/activities" className="hover:underline">Manage Activities</Link>
         <Link to="/admin/users" className="hover:underline">Manage Users</Link>
+        <Link to="/admin/activities" className="hover:underline">Manage Activities</Link>
         <Link to="/admin/transactions" className="hover:underline">Manage Transactions</Link>
-        <Link to="/admin/banners" className="hover:underline">Manage Banners</Link>
+        <Link to="/admin/promos" className="hover:underline">Manage Promos</Link>
         <Link to="/admin/categories" className="hover:underline">Manage Categories</Link>
+        <Link to="/admin/banners" className="hover:underline">Manage Banners</Link>
+
         <button onClick={handleLogout} className="hover:cursor-pointer bg-red-200 rounded-lg">Logout</button>
       </nav>
     </aside>
