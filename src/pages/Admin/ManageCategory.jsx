@@ -91,10 +91,10 @@ const ManageCategory = () => {
         <div className="flex gap-2">
           <input
             type="text"
-            placeholder="Cari nama kategori..."
+            placeholder="Search by category name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border px-3 py-2 rounded w-64"
+            className="border px-3 py-2 rounded-lg w-64"
           />
           <button
             onClick={() => {

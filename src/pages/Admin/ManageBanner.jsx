@@ -8,6 +8,7 @@ const ManageBanner = () => {
   const [banners, setBanners] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
   const [editBanner, setEditBanner] = useState(null);
+  const [search, setSearch] = useState("");
 
   const fetchBanners = async () => {
     const data = await GetBanners();
@@ -23,18 +24,30 @@ const ManageBanner = () => {
     fetchBanners();
   };
 
-
+  const filteredBanners = banners.filter((banner) =>
+    banner.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Manage Banners</h1>
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          onClick={() => setShowCreate(true)}
-        >
-          + Create Banner
-        </button>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by banner name..."
+            className="border px-4 py-2 rounded-lg w-64"
+          />
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer"
+            onClick={() => setShowCreate(true)}
+          >
+            + Create Banner
+          </button>
+
+        </div>
       </div>
 
       {showCreate && <CreateBanner onClose={() => {
@@ -48,7 +61,7 @@ const ManageBanner = () => {
       }} />}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {banners.map((banner) => (
+        {filteredBanners.map((banner) => (
           <div key={banner.id} className="border rounded shadow p-4 space-y-2">
             <img
               src={banner.imageUrl}

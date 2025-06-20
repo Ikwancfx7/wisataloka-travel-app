@@ -56,11 +56,11 @@ const CreateBanner = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 cursor-pointer"
         >
           ✕
         </button>
@@ -111,13 +111,13 @@ const CreateBanner = ({ onClose }) => {
             <button
               type="button"
               onClick={handleUploadImage}
-              className="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
             >
               Upload
             </button>
           </div>
 
-          <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+          <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full cursor-pointer">
             Create Banner
           </button>
         </form>
