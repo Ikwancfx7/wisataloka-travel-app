@@ -1,4 +1,3 @@
-// components/CategoryDropdown.jsx
 import { useEffect, useRef, useState } from "react";
 import { getCategories } from "../api/CategoryApi";
 
