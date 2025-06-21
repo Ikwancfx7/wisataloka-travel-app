@@ -1,6 +1,6 @@
 import axiosInstance from "./AxiosInstance"
 
-export const GetActivities = async () => {
+export const getActivities = async () => {
     try{
         const response = await axiosInstance.get("/api/v1/activities");
         return response.data.data;
@@ -9,7 +9,7 @@ export const GetActivities = async () => {
     }
 };
 
-export const GetActivityById = async (id) => {
+export const getActivityById = async (id) => {
     try{
         const response = await axiosInstance.get(`/api/v1/activity/${id}`);
         return response.data.data;
@@ -18,7 +18,16 @@ export const GetActivityById = async (id) => {
     }
 }
 
-export const PostCreateActivity = async (createActivityData) => {
+export const getActivityByCategory = async (categoryId) => {
+    try{
+        const response = await axiosInstance.get(`/api/v1/activities-by-category/${categoryId}`);
+        return response.data.data;
+    } catch (error) {
+        throw error.response?.data || error;
+    }
+}
+
+export const postCreateActivity = async (createActivityData) => {
     try{
         const response = await axiosInstance.post("/api/v1/create-activity", createActivityData);
         return response.data;
@@ -27,7 +36,7 @@ export const PostCreateActivity = async (createActivityData) => {
     }
 };
 
-export const PostUpdateActivity = async (id, updateActivityData) => {
+export const postUpdateActivity = async (id, updateActivityData) => {
     try{
         const response = await axiosInstance.post(`/api/v1/update-activity/${id}`, updateActivityData);
         return response.data;
@@ -36,7 +45,7 @@ export const PostUpdateActivity = async (id, updateActivityData) => {
     }
 };
 
-export const DelDeleteActivity = async (id) => {
+export const delDeleteActivity = async (id) => {
     try{
         const response = await axiosInstance.delete(`/api/v1/delete-activity/${id}`);
         return response.data;
