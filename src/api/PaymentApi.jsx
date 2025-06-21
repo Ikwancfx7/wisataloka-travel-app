@@ -9,7 +9,7 @@ export const GetPaymentMethods = async () => {
     }
 };
 
-export const GetMyTransactions = async () => {
+export const getMyTransactions = async () => {
     try {
         const response = await axiosInstance.get("/api/v1/my-transactions");
         return response.data.data;
@@ -18,7 +18,7 @@ export const GetMyTransactions = async () => {
     }
 };
 
-export const GetTransactionById = async (id) => {
+export const getTransactionById = async (id) => {
     try {
         const response = await axiosInstance.get(`/api/v1/transaction/${id}`);
         return response.data.data;
