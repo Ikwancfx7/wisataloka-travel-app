@@ -69,7 +69,7 @@ const UploadProofPayment = ({ transactionId }) => {
         accept="image/*"
         onChange={handleImageChange}
         ref={fileInputRef}
-        className="block"
+        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
       />
 
       {previewUrl && (
@@ -83,7 +83,7 @@ const UploadProofPayment = ({ transactionId }) => {
         type="button"
         onClick={handleUpload}
         disabled={loading}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50 cursor-pointer"
+        className="bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 disabled:opacity-50 cursor-pointer"
       >
         {loading ? "Uploading..." : "Upload"}
       </button>
