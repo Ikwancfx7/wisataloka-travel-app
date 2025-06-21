@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "../api/AxiosInstance";
 import { Link } from "react-router-dom";
+import { getPromos } from "../api/PromoApi";
 
 const Promos = () => {
     const [promos, setPromos] = useState([]);
@@ -8,8 +8,8 @@ const Promos = () => {
     useEffect(() => {
         const fetchPromos = async () => {
             try {
-                const response = await axiosInstance.get("/api/v1/promos");
-                setPromos(response.data.data);
+                const response = await getPromos();
+                setPromos(response);
             } catch (error) {
                 console.error("Failed to fetch promos:", error);
             }
