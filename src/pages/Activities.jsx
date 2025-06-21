@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import axiosInstance from "../api/AxiosInstance";
 import ActivityCard from "../components/ActivityCard";
 import CategoryFilter from "../components/CategoryFilter";
 import ActivitySearch from "../components/ActivitySearchCard";
+import { getActivities, getActivityByCategory } from "../api/ActivityApi";
 import { useLocation } from "react-router-dom";
+import Breadcrumb from "../components/BreadCrump";
 
 const Activities = () => {
   const location = useLocation();
@@ -21,12 +22,12 @@ const Activities = () => {
         setLoading(true);
         let response;
         if (selectedCategory) {
-          response = await axiosInstance.get(`/api/v1/activities-by-category/${selectedCategory}`);
+          response = await getActivityByCategory(selectedCategory);
         }
         else {
-          response = await axiosInstance.get("/api/v1/activities");
+          response = await getActivities();
         }
-        setActivities(response.data.data);
+        setActivities(response);
       } catch (error) {
         console.error("Gagal mengambil data aktivitas:", error);
       } finally {
@@ -37,10 +38,6 @@ const Activities = () => {
     fetchActivities();
   }, [selectedCategory]);
 
-  // useEffect(() => {
-  //   setSelectedCategory(categoryFromQuery || null);
-  // }, [categoryFromQuery]);
-
 
   const filteredActivities = activities.filter((activity) => 
     activity.title.toLowerCase().includes(searchTerm.toLowerCase()
@@ -49,31 +46,31 @@ const Activities = () => {
   if (loading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="bg-gray-50 px-5 min-h-screen py-25">
-      <div className="flex justify-center mb-5 md:mb-10">
-        <h1 className="text-xl md:text-3xl md:font-semibold">
-          Your Next Adventure Starts Here
-        </h1>
+    <div>
+      <div className="hidden md:block pt-25 px-20">
+        <Breadcrumb />
       </div>
-
-      <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 mb-5 ">
-        <CategoryFilter selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
-        <div className="hidden md:flex">
-          <ActivitySearch search={searchTerm} onSearchChange={setSearchTerm} />
+      <div className="bg-gray-50 px-5 min-h-screen py-20 md:py-0 md:pb-20 pb-25">
+        <div className="flex justify-center mb-5 md:mb-10">
+          <h1 className="text-xl md:text-3xl md:font-semibold">
+            Your Next Adventure Starts Here
+          </h1>
         </div>
-        {/* <div className="hidden sticky top-10 h-fit md:flex w-1/2">
-        </div> */}
-      </div>
 
-      <div className="flex justify-center">
-        {/* <div className="flex justify-center md:hidden px-20">
+        <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 mb-5 ">
           <CategoryFilter selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
-        </div> */}
-        {filteredActivities.length === 0 && <p>No activities found.</p>}
-        <div className="grid gap-4 md:gap-6 grid-cols-2 md:grid-cols-3">
-          {filteredActivities.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} />
-          ))}
+          <div className="hidden md:flex">
+            <ActivitySearch search={searchTerm} onSearchChange={setSearchTerm} />
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          {filteredActivities.length === 0 && <p>No activities found.</p>}
+          <div className="grid gap-4 md:gap-6 grid-cols-2 md:grid-cols-3">
+            {filteredActivities.map((activity) => (
+              <ActivityCard key={activity.id} activity={activity} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
