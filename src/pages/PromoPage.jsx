@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axiosInstance from "../api/AxiosInstance";
+import { getPromos } from "../api/PromoApi";
+import Breadcrumb from "../components/BreadCrump";
 
 const PromoPage = () => {
     const [promos, setPromos] = useState([]);
@@ -8,8 +9,8 @@ const PromoPage = () => {
     useEffect(() => {
         const fetchPromos = async () => {
             try {
-                const response = await axiosInstance.get("/api/v1/promos");
-                setPromos(response.data.data);
+                const response = await getPromos();
+                setPromos(response);
             } catch (error) {
                 console.error("Failed to fetch promos:", error);
             }
@@ -18,26 +19,30 @@ const PromoPage = () => {
     }, []);
 
     return (
-        <div className="max-w-screen-2xl mx-auto py-25 px-5">
-            <h2 className="text-3xl font-bold text-center mb-6">Special Promos</h2>
-
-            <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-                {promos.map((promo) => (
-                <Link to={`/promo/${promo.id}`} key={promo.id} 
-                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50 transition duration-300 ease-in-out">
-                    <img src={promo.imageUrl} alt={promo.title} className="h-48 w-full object-cover" />
-                    <div className="p-4">
-                    <h3 className="font-semibold text-xl">{promo.title}</h3>
-                    <p className="text-sm mt-2">{promo.description}</p>
-                    <p className="text-sm mt-2 text-gray-500">
-                        🎁 Diskon: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
-                    </p>
-                    <p className="text-sm text-gray-500">Kode: {promo.promo_code}</p>
-                    </div>
-                </Link>
-                ))}
+        <div>
+            <div className="hidden md:block pt-25 px-20">
+                <Breadcrumb />
             </div>
+            <div className="max-w-screen-2xl mx-auto py-20 md:py-0 md:pb-20 px-6 md:px-25">
+                <h2 className="text-3xl font-bold text-center mb-6">Special Promos</h2>
 
+                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+                    {promos.map((promo) => (
+                    <Link to={`/promo/${promo.id}`} key={promo.id} 
+                        className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50 transition duration-300 ease-in-out">
+                        <img src={promo.imageUrl} alt={promo.title} className="h-48 w-full object-cover" />
+                        <div className="p-4">
+                        <h3 className="font-semibold text-xl">{promo.title}</h3>
+                        <p className="text-sm mt-2">{promo.description}</p>
+                        <p className="text-sm mt-2 text-gray-500">
+                            🎁 Diskon: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
+                        </p>
+                        <p className="text-sm text-gray-500">Kode: {promo.promo_code}</p>
+                        </div>
+                    </Link>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }
