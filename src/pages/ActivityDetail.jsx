@@ -3,6 +3,8 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../api/AxiosInstance";
 import { useCart } from "../contexts/CartContext";
 import { toast } from "react-toastify";
+import Breadcrumb from "../components/BreadCrump";
+import BackButton from "../components/BackButton";
 
 const ActivityDetail = () => {
   const { addToCart } = useCart();
@@ -36,84 +38,92 @@ const ActivityDetail = () => {
   const imageUrl = activity?.imageUrls?.[0] || "/images/default-activity.jpg";
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-25">
-      <img
-        src={imageUrl}
-        alt={`Gambar ${activity.title}`}
-        className="w-full h-96 object-cover rounded-lg mb-6"
-        onError={(e) => {
-          e.target.onerror = null; // cegah infinite loop
-          e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
-        }}
-      />
-  
-      <div className="flex flex-row justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
-          <p className="text-gray-500 mb-4">
-            Kategori: {activity.category?.name}
-          </p>
+    <div>
+      <div className="hidden md:block pt-25 px-20 ">
+        <Breadcrumb />
+      </div>
+      <div className="block md:hidden pt-20 px-6">
+        <BackButton />
+      </div>
+      <div className="max-w-6xl mx-auto px-10 md:px-25 py-6 md:py-0 pb-25 md:pb-20">
+        <img
+          src={imageUrl}
+          alt={`Gambar ${activity.title}`}
+          className="w-full aspect-video md:h-96 object-cover mb-6 rounded-lg"
+          onError={(e) => {
+            e.target.onerror = null; // cegah infinite loop
+            e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
+          }}
+        />
+    
+        <div className="flex flex-row justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
+            <p className="text-gray-500 mb-4">
+              Kategori: {activity.category?.name}
+            </p>
+          </div>
+
+          <button
+            onClick={() => {
+              const token = localStorage.getItem("token");
+
+              if (!token) {
+                toast.error("Silakan login terlebih dahulu", { autoClose: 2000 });
+                navigate("/login", { state: { from: location } });
+                return;
+              }
+              addToCart(activity); 
+              toast.success("Berhasil menambahkan ke keranjang", { autoClose: 1000 });
+            }}
+            className="bg-blue-100 text-blue-900 border border-blue-900 px-6 py-2 rounded hover:bg-blue-50 hover:cursor-pointer"
+          >
+            Add to Cart
+          </button>
         </div>
 
-        <button
-          onClick={() => {
-            const token = localStorage.getItem("token");
+        <div className="flex items-center gap-4 mb-4">
+              <p className="text-yellow-500 font-semibold">⭐ {activity.rating}</p>
+              <p className="text-gray-500">{activity.total_reviews} ulasan</p>
+        </div>
 
-            if (!token) {
-              toast.error("Silakan login terlebih dahulu", { autoClose: 2000 });
-              navigate("/login", { state: { from: location } });
-              return;
-            }
-            addToCart(activity); 
-            toast.success("Berhasil menambahkan ke keranjang", { autoClose: 1000 });
-          }}
-          className="bg-blue-100 text-blue-900 border border-blue-900 px-6 py-2 rounded hover:bg-blue-50 hover:cursor-pointer"
-        >
-          Add to Cart
-        </button>
-      </div>
+        <p className="text-gray-700 mb-6 text-justify">{activity.description}</p>
 
-      <div className="flex items-center gap-4 mb-4">
-            <p className="text-yellow-500 font-semibold">⭐ {activity.rating}</p>
-            <p className="text-gray-500">{activity.total_reviews} ulasan</p>
-      </div>
-
-      <p className="text-gray-700 mb-6 text-justify">{activity.description}</p>
-
-      <div className="flex flex-row items-center text-2xl font-semibold gap-1 mb-4 bg-green-100 rounded p-5">
-        <p className="text-green-600 text-lg">
-          Price:
-        </p>
-        <p className="font-semibold text-green-600"> Rp {activity.price ? activity.price.toLocaleString("id-ID") : "0"}</p>
-        {activity.price_discount && (
-          <p className="line-through text-gray-400 ml-2 text-sm md:text-lg">
-            Rp {activity.price_discount.toLocaleString("id-ID")}
+        <div className="flex flex-row items-center text-2xl font-semibold gap-1 mb-4 bg-green-100 rounded p-5">
+          <p className="text-green-600 text-lg">
+            Price:
           </p>
-        )}
+          <p className="font-semibold text-green-600"> Rp {activity.price ? activity.price.toLocaleString("id-ID") : "0"}</p>
+          {activity.price_discount && (
+            <p className="line-through text-gray-400 ml-2 text-sm md:text-lg">
+              Rp {activity.price_discount.toLocaleString("id-ID")}
+            </p>
+          )}
+        </div>
+
+        <p className="text-gray-800 font-medium mb-1 text-lg">Address:</p>
+        <p className="text-gray-600 mb-4 text-justify">
+          {activity.address}, {activity.city}, {activity.province}
+        </p>
+
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-2">Fasilities:</h2>
+          <div
+            className="prose max-w-none text-gray-700"
+            dangerouslySetInnerHTML={{ __html: activity.facilities }}
+          />
+        </div>
+
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-2">Location:</h2>
+          <div
+            className="rounded-lg overflow-hidden"
+            dangerouslySetInnerHTML={{ __html: activity.location_maps }}
+          />
+        </div>
+
+        
       </div>
-
-      <p className="text-gray-800 font-medium mb-1 text-lg">Address:</p>
-      <p className="text-gray-600 mb-4 text-justify">
-        {activity.address}, {activity.city}, {activity.province}
-      </p>
-
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Fasilities:</h2>
-        <div
-          className="prose max-w-none text-gray-700"
-          dangerouslySetInnerHTML={{ __html: activity.facilities }}
-        />
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Location:</h2>
-        <div
-          className="rounded-lg overflow-hidden"
-          dangerouslySetInnerHTML={{ __html: activity.location_maps }}
-        />
-      </div>
-
-      
     </div>
   );
 };
