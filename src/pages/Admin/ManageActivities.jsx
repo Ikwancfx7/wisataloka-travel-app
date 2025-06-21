@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/AxiosInstance";
-import { DelDeleteActivity } from "../../api/ActivityApi";
+import { delDeleteActivity } from "../../api/ActivityApi";
 import { toast } from "react-toastify";
 
 const ManageActivities = () => {
@@ -26,7 +26,7 @@ const ManageActivities = () => {
     if (!confirm) return;
 
     try {
-      await DelDeleteActivity(id);
+      await delDeleteActivity(id);
       toast.success("Aktivitas berhasil dihapus");
       fetchActivities(); // Refresh list setelah delete
     } catch (err) {

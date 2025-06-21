@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import { PostUpdateActivity } from "../../api/ActivityApi";
+import { postUpdateActivity } from "../../api/ActivityApi";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../api/UploadApi";
-import { GetActivityById } from "../../api/ActivityApi";
+import { getActivityById } from "../../api/ActivityApi";
 import CategoryDropdown from "../../components/CategoryDropdown";
 
 const UpdateActivity = () => {
@@ -32,7 +32,7 @@ const UpdateActivity = () => {
 
   const fetchActivityData = async () => {
     try {
-      const data = await GetActivityById(id);
+      const data = await getActivityById(id);
 
       setForm({
         categoryId: data.categoryId || "",
@@ -133,7 +133,7 @@ const UpdateActivity = () => {
         return toast.error("Minimal satu gambar harus diunggah.");
       }
 
-      await PostUpdateActivity(id,{
+      await postUpdateActivity(id,{
         ...form,
         imageUrls: cleanedImageUrls,
         price: Number(form.price),

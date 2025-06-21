@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PostCreateActivity } from "../../api/ActivityApi";
+import { postCreateActivity } from "../../api/ActivityApi";
 import { toast } from "react-toastify";
 import CategoryDropdown from "../../components/CategoryDropdown";
 
@@ -38,7 +38,7 @@ const CreateActivity = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await PostCreateActivity(form);
+      await postCreateActivity(form);
       toast.success("Activity created successfully!");
       setForm({
         categoryId: "",
