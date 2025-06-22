@@ -63,25 +63,39 @@ const TransactionDetile = () => {
         <BackButton />
       </div>
       <div className="space-y-6 min-h-screen max-w-screen-md mx-auto px-6 pt-6 pb-25 md:pb-20">
-        <h1 className="text-3xl font-bold text-center mb-6">Transaction Detile</h1>
+        <h1 className="text-blue-950 text-2xl font-bold text-center mb-6">Transaction Detile</h1>
 
-        <div className="p-4 rounded shadow space-y-2 bg-white text-[12px] md:text-sm">
+        <div className="p-4 rounded shadow space-y-2 bg-green-50 text-[12px] md:text-sm">
           <p><span className="font-semibold">ID Invoice:</span> {invoiceId}</p>
-          {isCancelled || status === "failed"? (
-            <p><span className="font-semibold">Status:</span> <span className="text-red-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
-          ): isExpired ? (
-            <p><span className="font-semibold">Status:</span> <span className="text-red-600">Expaired</span></p>
-          ) : status === "success"? (
-            <p><span className="font-semibold">Status:</span> <span className="text-green-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
-          ) : (
-            <p><span className="font-semibold">Status:</span> <span className="text-yellow-600">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+          {status === "success" ? (
+            <p><span className="font-semibold">Status:</span> <span className="text-green-600 font-bold">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+          ):(
+            status === "failed" ? (
+              <p><span className="font-semibold">Status:</span> <span className="text-red-600 font-bold">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+            ):(
+              status === "pending" && isExpired && !hasUploadedProof ? (
+                <p><span className="font-semibold">Status:</span> <span className="text-red-600 font-bold">Expired</span></p>
+              ):(
+                status === "cancelled" ? (
+                  <p><span className="font-semibold">Status:</span> <span className="text-red-600 font-bold">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+                ):(
+                  <p><span className="font-semibold">Status:</span> <span className="text-yellow-600 font-bold">{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</span></p>
+                )
+              )
+            )
           )}
-          <p><span className="font-semibold">Total Payment:</span> Rp {totalAmount.toLocaleString("id-ID")}</p>
-          <p><span className="font-semibold">Expired:</span> {new Date(expiredDate).toLocaleString("id-ID")}</p>
 
-          {isExpired ? (
+          <p><span className="font-semibold">Total Payment:</span> Rp {totalAmount.toLocaleString("id-ID")}</p>
+          {/* <p><span className="font-semibold">Expired:</span> {new Date(expiredDate).toLocaleString("id-ID")}</p> */}
+          {status === "pending" && !isExpired && !hasUploadedProof && (
+            <p className="flex justify-center py-2 w-full text-[16px] font-semibold text-green-900 italic bg-green-100 rounded-xl">Complete the transaction before {new Date(expiredDate).toLocaleString("id-ID")} </p>
+          )
+
+          }
+
+          {isExpired && !hasUploadedProof && !status === "cancelled" ? (
             <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
-              <p className="font-semibold">Transaksi ini telah kedaluwarsa. Silakan buat transaksi baru.</p>
+              <p className="font-semibold">Transaction has expired.</p>
             </div>
           ) : (
             <>
@@ -91,11 +105,11 @@ const TransactionDetile = () => {
               </div>
 
               <div className="bg-green-100 p-4 rounded-t-2xl mt-2">
-                <p className="text-sm text-gray-500">Virtual Account Name</p>
+                <p className="text-sm text-gray-500 italic">Virtual Account Name</p>
                 <p className="text-xl font-bold tracking-widest">{payment_method.virtual_account_name}</p>
               </div>
               <div className="bg-green-100 p-4 rounded-b-2xl mt-2">
-                <p className="text-sm text-gray-500">Virtual Account Number</p>
+                <p className="text-sm text-gray-500 italic">Virtual Account Number</p>
                 <p className="text-xl font-bold tracking-widest">{payment_method.virtual_account_number}</p>
               </div>
             </>
@@ -105,7 +119,7 @@ const TransactionDetile = () => {
         <div>
           <h2 className="text-sm font-semibold mb-2">Items Detile:</h2>
           {transaction_items.map((item, index) => (
-            <div key={index} className="p-4 rounded mb-2 shadow bg-white text-[12px] md:text-sm">
+            <div key={index} className="p-4 rounded mb-2 shadow bg-green-50 text-[12px] md:text-sm">
               <p className="font-semibold">{item.title}</p>
               <p>Jumlah: {item.quantity}</p>
               <p>Harga Satuan: Rp {item.price.toLocaleString("id-ID")}</p>
@@ -128,7 +142,7 @@ const TransactionDetile = () => {
           <UploadProofPayment transactionId={id} />
         )}
         {hasUploadedProof && status === "pending" ? (
-          <div className="bg-blue-100 text-blue-700 p-3 rounded mt-2 italic">
+          <div className="bg-blue-100 text-blue-700 p-3 rounded-lg mt-2 italic">
             Transaction proof uploaded successfully. Please wait for admin verification.
           </div>
         ):(

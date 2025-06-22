@@ -61,7 +61,7 @@ const UploadProofPayment = ({ transactionId }) => {
   };
 
   return (
-    <div className="space-y-4 bg-white p-4 rounded-xl shadow-md mt-6">
+    <div className="space-y-4 bg-green-100 p-4 rounded-lg shadow-md mt-6">
       <h2 className="text-lg font-semibold italic">Upload Payment Proof</h2>
 
       <input

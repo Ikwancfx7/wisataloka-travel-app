@@ -101,7 +101,7 @@ const ManageCategory = () => {
               setEditingCategory(null);
               setIsFormOpen(true);
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer"
           >
             + Tambah Kategori
           </button>
