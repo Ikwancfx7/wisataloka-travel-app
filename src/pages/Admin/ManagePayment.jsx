@@ -71,8 +71,8 @@ const ManageTransaction = () => {
                   {trx.status.charAt(0).toUpperCase() + trx.status.slice(1)}
               </span>
             </p>
-            <p><strong>Total:</strong> Rp{trx.totalAmount.toLocaleString()}</p>
-            <p><strong>Metode:</strong> {trx.payment_method.name}</p>
+            <p><strong>Total Payment:</strong> Rp{trx.totalAmount.toLocaleString()}</p>
+            <p><strong>Payment Method:</strong> {trx.payment_method.name}</p>
 
             {trx.proofPaymentUrl ? (
               <img
