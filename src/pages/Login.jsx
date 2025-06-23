@@ -36,8 +36,8 @@ const LoginPage = () => {
 
   return (
     <div className="w-full h-screen flex justify-center md:items-center">
-      <div className="w-full max-w-screen-2xl h-full">
-        <div className="w-full h-full hidden md:block relative">
+      <div className="relative w-full h-full">
+        <div className="absolute inset-0 z-10">
           {banners.map((banner, index) => (
             <img
               key={banner.id}
@@ -57,9 +57,8 @@ const LoginPage = () => {
 
           <div className="absolute inset-0 w-full h-full z-10 bg-black/60"></div>
 
-          <div className="absolute z-20 flex flex-col justify-center items-center w-[500px] h-[400px] bg-white p-6 rounded-xl shadow-md/20 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute z-20 flex flex-col justify-center items-center w-[500px] h-[400px] bg-white/85 p-6 rounded-xl shadow-md/20 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <LoginForm setMessage={setMessage}/>
-            {/* <p className="mt-4">Message</p> */}
             {message &&  (
               <div className='mt-4'>
                     <p className={`text-center ${message === 'Login success' ? 'text-green-600' : 'text-red-600'}`}>

@@ -62,13 +62,13 @@ const Navbar = ({isLandingPage}) => {
                         <div className="flex flex-row gap-1">
                             <Link 
                                 to="/login"
-                                className="flex justify-center items-center bg-gray-100/10 hover:border rounded-xl py-2 w-20 h-10"
+                                className="flex justify-center items-center bg-green-50 hover:bg-green-100 border-1 border-gray-400 rounded-xl py-2 w-20 h-10 transition-all duration-300 ease-in-out"
                             >
                                 Login
                             </Link>
                             <Link 
                                 to="/register"
-                                className="flex justify-center items-center bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-20 py-2"
+                                className="flex justify-center items-center bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-20 py-2 transition-all duration-300 ease-in-out"
                             >
                                 Register
                             </Link>

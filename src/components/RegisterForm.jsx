@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
+import { Eye, EyeOff } from "lucide-react";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
@@ -65,56 +66,56 @@ const RegisterForm = () => {
   }, [email, password, name, passwordRepeat, phoneNumber, role]);
 
   return (
-    <div className="container mx-auto flex flex-col items-center justify-center mt-25 p-8 w-[500px] md:w-[600px] md:bg-white md:rounded-xl md:shadow-md/20">
+    <div className="container mx-auto flex flex-col items-center justify-center mt-25 p-8 z-20 w-[500px] md:w-[700px] md:bg-white/85 md:rounded-xl md:shadow-md/20">
       <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
         <h2 className="flex justify-center text-xl font-semibold mb-4">REGISTER</h2>
 
         <div className="flex flex-col sm:items-center md:flex-row md:items-start md:justify-evenly gap-5 mb-4 w-full">
           <div className="w-full md:w-1/2">
             <div>
-              <p>Nama <span className="text-red-600">*</span></p>
+              <p className="italic">Name <span className="text-red-600">*</span></p>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Nama Lengkap"
-                className="w-full p-2 border rounded mb-3"
+                placeholder="Full Name"
+                className="custom-input-register"
                 required
               />
             </div>
 
             <div>
-              <p>Email <span className="text-red-600">*</span></p>
+              <p className="italic">Email <span className="text-red-600">*</span></p>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="w-full p-2 border rounded mb-3"
+                className="custom-input-register"
                 required
               />
             </div>
 
             <div>
-              <p>Password <span className="text-red-600">*</span></p>
+              <p className="italic">Password <span className="text-red-600">*</span></p>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full p-2 border rounded mb-3"
+                className="custom-input-register"
                 required
               />
             </div>
             
             <div>
-              <p>Repeat Password <span className="text-red-600">*</span></p>
+              <p className="italic">Repeat Password <span className="text-red-600">*</span></p>
               <input
                 type="password"
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
                 placeholder="Password"
-                className="w-full p-2 border rounded mb-3"
+                className="custom-input-register"
                 required
               />
             </div>
@@ -122,23 +123,23 @@ const RegisterForm = () => {
 
           <div className="w-full md:w-1/2">
             <div>
-              <p>Phone Number <span className="text-red-600">*</span></p>
+              <p className="italic">Phone Number <span className="text-red-600">*</span></p>
               <input
                 type="text"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="Phone Number"
-                className="w-full p-2 border rounded mb-3"
+                className="custom-input-register"
                 required
               />
             </div>
 
             <div>
-              <p>Role <span className="text-red-600">*</span></p>
+              <p className="italic">Role <span className="text-red-600">*</span></p>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full p-2 border rounded mb-3"
+                className="custom-input-register"
                 required
               >
                 <option value="" disabled>Select Role</option>
@@ -146,11 +147,9 @@ const RegisterForm = () => {
                 <option value="admin">Admin</option>
               </select>
             </div>
+            
           </div>
         </div>
-        {/* {!isPasswordMatch && (
-          <p className="text-red-600 mb-4">Passwords do not match</p>
-        )} */}
 
         <button
           type="submit"

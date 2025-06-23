@@ -66,7 +66,7 @@ const LoginForm = ({ setMessage }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
-                    className="w-full p-2 border rounded mb-3"
+                    className="w-full border px-5 py-2 rounded-full mb-3 focus:outline-none"
                     required
                 />
             </div>
@@ -81,7 +81,7 @@ const LoginForm = ({ setMessage }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
-                        className="w-full p-2 border rounded mb-3"
+                        className="w-full border px-5 py-2 rounded-full mb-3 focus:outline-none"
                         required
                     />
                     <div
@@ -95,13 +95,13 @@ const LoginForm = ({ setMessage }) => {
             <button
                 type="submit"
                 disabled={loading || !valid}
-                className={`w-full bg-blue-500 text-white p-2 rounded ${valid ? 'hover:bg-blue-800 hover:cursor-pointer':'pointer-events-none opacity-50'}`}
+                className={`w-full bg-blue-500 text-white p-2 mt-4 rounded-full ${valid ? 'hover:bg-blue-600 hover:cursor-pointer transition duration-300 ease-in-out':'pointer-events-none opacity-50'}`}
                 >
                 Login
             </button>
             <div className="flex flex-row items-center mt-4 gap-1">
                 <p>Don't have an account?</p>
-                <Link to="/register" className="text-blue-500">Register</Link>
+                <Link to="/register" className="text-blue-600">Register</Link>
             </div>
         </form>
     )

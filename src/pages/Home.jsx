@@ -6,7 +6,6 @@ import ShowBanners from "../components/ShowBanners";
 const HomePage = () => {    
     return (
         <div>
-            
             <div className="relative w-full h-[360px] md:h-[560px] mb-10 bg-blue-400">
                 <div className="absolute inset-0 z-10">
                     <ShowBanners />
