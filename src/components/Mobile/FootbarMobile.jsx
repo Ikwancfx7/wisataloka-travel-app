@@ -8,13 +8,13 @@ const FootbarMobile = () => {
                 <img src="/icons/explore.png" alt="Explore" className="w-6 h-6" />
                 Explore
             </Link>
-            <Link to="/transactions" className="flex flex-col items-center text-xs">
-                <img src="/icons/transaction.png" alt="Transactions" className="w-6 h-6" />
-                Transaksi
-            </Link>
             <Link to="/promo" className="flex flex-col items-center text-xs">
                 <img src="/icons/promoIcon.png" alt="Promo" className="w-6 h-6" />
                 Promo
+            </Link>
+            <Link to="/transactions" className="flex flex-col items-center text-xs">
+                <img src="/icons/transaction.png" alt="Transactions" className="w-6 h-6" />
+                Transaksi
             </Link>
             <Link to="/profile" className="flex flex-col items-center text-xs">
                 <div className="w-6 h-6">

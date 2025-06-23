@@ -3,6 +3,7 @@ import { useNavigate, useLocation, useSearchParams, Link } from "react-router-do
 import { loginUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
+import LoadingAnimation from "./LoadingAnimation";
 
 const LoginForm = ({ setMessage }) => {  
     const [email, setEmail] = useState("");
@@ -97,7 +98,16 @@ const LoginForm = ({ setMessage }) => {
                 disabled={loading || !valid}
                 className={`w-full bg-blue-500 text-white p-2 mt-4 rounded-full ${valid ? 'hover:bg-blue-600 hover:cursor-pointer transition duration-300 ease-in-out':'pointer-events-none opacity-50'}`}
                 >
-                Login
+                {loading ? (
+                    <div className='flex flex-row justify-center items-center'>
+                        <div>
+                            <LoadingAnimation/>
+                        </div>
+                        <div>Login</div>
+                    </div>
+                ):(
+                    <div>Login</div>
+                )}
             </button>
             <div className="flex flex-row items-center mt-4 gap-1">
                 <p>Don't have an account?</p>

@@ -46,12 +46,12 @@ const Activities = () => {
   if (loading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div>
+    <div className="w-full">
       <div className="hidden md:block pt-25 px-20">
         <Breadcrumb />
       </div>
       <div className="bg-gray-50 px-5 min-h-screen py-20 md:py-0 md:pb-20 pb-25">
-        <div className="flex justify-center mb-5 md:mb-10">
+        <div className="flex justify-center mb-5">
           <h1 className="text-xl md:text-3xl md:font-semibold">
             Your Next Adventure Starts Here
           </h1>
@@ -64,9 +64,10 @@ const Activities = () => {
           </div>
         </div>
 
-        <div className="flex justify-center">
-          {filteredActivities.length === 0 && <p>No activities found.</p>}
-          <div className="grid gap-4 md:gap-6 grid-cols-2 md:grid-cols-3">
+        {filteredActivities.length === 0 && <p className="text-center w-full">No activities found.</p>}
+
+        <div className="flex justify-center w-full">
+          <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-3 w-full md:max-w-screen-lg">
             {filteredActivities.map((activity) => (
               <ActivityCard key={activity.id} activity={activity} />
             ))}

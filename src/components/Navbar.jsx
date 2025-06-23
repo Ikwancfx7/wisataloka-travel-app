@@ -22,7 +22,7 @@ const Navbar = ({isLandingPage}) => {
         : "fixed top-0 left-0 right-0 bg-white text-black shadow";
 
     return (
-        <div className={`${navBarClasses} z-50 transition-all duration-300 w-full`}>
+        <div className={`${navBarClasses} z-50 transition-all duration-300 eaese-in-out w-full`}>
             <div className="w-full max-w-screen-2xl mx-auto flex justify-between items-center px-4 md:px-8 py-3">
                 <div>
                     <Link to="/" className="text-3xl">
@@ -62,7 +62,7 @@ const Navbar = ({isLandingPage}) => {
                         <div className="flex flex-row gap-1">
                             <Link 
                                 to="/login"
-                                className="flex justify-center items-center bg-green-50 hover:bg-green-100 border-1 border-gray-400 rounded-xl py-2 w-20 h-10 transition-all duration-300 ease-in-out"
+                                className={`flex justify-center items-center ${isLandingPage && !isScrolled ? "hover:bg-black/20 text-white" : "bg-green-50 text-black hover:bg-green-100"}  border-1 border-gray-400 rounded-xl py-2 w-20 h-10 transition-all duration-300 ease-in-out`}
                             >
                                 Login
                             </Link>

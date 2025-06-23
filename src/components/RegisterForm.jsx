@@ -31,8 +31,6 @@ const RegisterForm = () => {
   setValid(isValid);
   };
 
-  // const isPasswordMatch = password.trim() & passwordRepeat.trim() ? (password === passwordRepeat ? true : false) : false;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

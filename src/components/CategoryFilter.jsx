@@ -52,7 +52,7 @@ const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
           setSearchTerm(e.target.value),
           setShowDropdown(true);
         }}
-        className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       {showDropdown && (
         <div className="custom-scroll absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-md max-h-60 overflow-auto">

@@ -52,7 +52,7 @@ const ShowBanners = () => {
                     {banners.map((banner, index) => (
                         <div
                             key={banner.id}
-                            className={`z-0 top-0 left-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
+                            className={`absolute z-0 top-0 left-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
                                 index === currentIndex ? "opacity-100" : "opacity-0"
                             }`}
                         >
