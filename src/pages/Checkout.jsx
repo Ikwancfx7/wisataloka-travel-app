@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PaymentMethod from "../components/PaymentMethod";
-import axiosInstance from "../api/AxiosInstance";
+import { createTransaction, getMyTransactions } from "../api/PaymentApi";
+import { getPromoById } from "../api/PromoApi";
 import { useCart } from "../contexts/CartContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -37,14 +38,16 @@ const Checkout = () => {
         }
 
         try {
-            await axiosInstance.post("/api/v1/create-transaction", {
+            const payload = {
                 cartIds: selectedCartItems.map(item => item.id),
                 paymentMethodId: selectedPaymentMethod,
-            });
-           
-            const res = await axiosInstance.get("/api/v1/my-transactions");
+            }
 
-            const sortedTransactions = res.data.data.sort(
+            await createTransaction(payload);
+
+            const res = await getMyTransactions();
+
+            const sortedTransactions = res.sort(
                 (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
             );
 
@@ -67,8 +70,8 @@ const Checkout = () => {
             if (!promoId) return;
 
             try {
-                const response = await axiosInstance.get(`/api/v1/promo/${promoId}`);
-                const promoData = response.data.data;
+                const response = await getPromoById(promoId);
+                const promoData = response;
                 setPromo(promoData);
                 console.log("Promo data:", promoData);
                 setDiscount(promoData.promo_discount_price || 0);
