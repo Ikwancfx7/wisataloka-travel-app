@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axiosInstance from "../../api/AxiosInstance";
+import { getAllTransactions, updateTransactionStatus } from "../../api/PaymentApi";
 
 const ManageTransaction = () => {
   const [transactions, setTransactions] = useState([]);
@@ -12,9 +12,9 @@ const ManageTransaction = () => {
 
   const fetchTransactions = async () => {
     try {
-      const res = await axiosInstance.get("/api/v1/all-transactions");
-      setTransactions(res.data.data);
-      setFilteredTransactions(res.data.data);
+      const res = await getAllTransactions();
+      setTransactions(res);
+      setFilteredTransactions(res);
     } catch (error) {
       console.error("Failed to fetch transactions", error);
     }
@@ -22,10 +22,8 @@ const ManageTransaction = () => {
 
   const handleUpdateStatus = async (id, status) => {
     try {
-      await axiosInstance.post(`/api/v1/update-transaction-status/${id}`, {
-        status,
-      });
-      fetchTransactions(); // refresh data
+      await updateTransactionStatus(id, {status});
+      fetchTransactions();
     } catch (err) {
       console.error("Failed to update transaction status", err);
     }
@@ -58,7 +56,7 @@ const ManageTransaction = () => {
           />
         </label>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {filteredTransactions.map((trx) => {
           const isWaitingForVerification = trx.proofPaymentUrl && trx.status === "pending";
           const isAccepted = trx.status === "success";
@@ -66,7 +64,7 @@ const ManageTransaction = () => {
           const isCancelled = trx.status === "cancelled";
 
           return (
-            <div key={trx.id} className="border p-4 rounded shadow space-y-2">
+            <div key={trx.id} className="p-5 rounded-xl shadow-lg/20 space-y-2">
               <p><strong>Invoice:</strong> {trx.invoiceId}</p>
               <p>
                   <strong>Status:</strong>{" "}
