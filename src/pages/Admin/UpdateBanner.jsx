@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { GetBannerById, PostUpdateBanner } from "../../api/BannerApi";
+import { postUpdateBanner } from "../../api/BannerApi";
 import { uploadImage } from "../../api/UploadApi";
 import { toast } from "react-toastify";
 
@@ -56,7 +56,7 @@ const UpdateBanner = ({ banner, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await PostUpdateBanner(banner.id, form);
+      await postUpdateBanner(banner.id, form);
       toast.success("Banner berhasil diperbarui");
       if (onClose) onClose();
     } catch (error) {
