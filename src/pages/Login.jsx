@@ -1,19 +1,17 @@
-// src/pages/LoginPage.jsx
 import LoginForm from "../components/LoginForm";
 import { useState } from "react";
 import { useEffect } from "react";
-import { GetBanners } from "../api/BannerApi";
+import { getBanners } from "../api/BannerApi";
 
 const LoginPage = () => {
   const [message, setMessage] = useState("");
-  // console.log("API KEY:", import.meta.env.VITE_API_KEY);
   const [banners, setBanners] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const data = await GetBanners();
+        const data = await getBanners();
         setBanners(data);
         console.log(data);
       } catch (error) {
@@ -31,8 +29,8 @@ const LoginPage = () => {
   }, [currentIndex]);
 
   const handleNext = () => {
-        setCurrentIndex((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
-    };
+      setCurrentIndex((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <div className="w-full h-screen flex justify-center md:items-center">
