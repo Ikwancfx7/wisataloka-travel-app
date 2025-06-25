@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GetBanners } from "../api/BannerApi";
+import { getBanners } from "../api/BannerApi";
 import RegisterForm from "../components/RegisterForm";
 import RegisterFormMobile from "../components/Mobile/RegisterFormMobile";
 const RegisterPage = () => {
@@ -9,7 +9,7 @@ const RegisterPage = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const data = await GetBanners();
+        const data = await getBanners();
         setBanners(data);
         console.log(data);
       } catch (error) {
