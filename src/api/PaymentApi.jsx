@@ -1,6 +1,6 @@
 import axiosInstance from "./AxiosInstance";
 
-export const GetPaymentMethods = async () => {
+export const getPaymentMethods = async () => {
     try {
         const response = await axiosInstance.get("/api/v1/payment-methods");
         return response.data.data;
@@ -27,7 +27,7 @@ export const getTransactionById = async (id) => {
     }
 };
 
-export const GetAllTransactions = async () => {
+export const getAllTransactions = async () => {
     try {
         const response = await axiosInstance.get("/api/v1/all-transactions");
         return response.data.data;
@@ -36,7 +36,7 @@ export const GetAllTransactions = async () => {
     }
 };
 
-export const CreateTransaction = async (data) => {
+export const createTransaction = async (data) => {
     try {
         const response = await axiosInstance.post("/api/v1/create-transaction", data);
         return response.data.data;
@@ -45,7 +45,7 @@ export const CreateTransaction = async (data) => {
     }
 };
 
-export const CancelTransaction = async (id) => {
+export const cancelTransaction = async (id) => {
     try {
         const response = await axiosInstance.post(`/api/v1/cancel-transaction/${id}`);
         return response.data.data;
@@ -54,19 +54,17 @@ export const CancelTransaction = async (id) => {
     }
 };
 
-export const UpdateTransactionProofPayment = async (id, data) => {
+export const updateTransactionProofPayment = async (id, data) => {
     try {
-        const response = await axiosInstance.post(`/api/v1/update-transaction-proof-payment/${id}`, data);
-        return response.data.data;
+        await axiosInstance.post(`/api/v1/update-transaction-proof-payment/${id}`, data);
     } catch (error) {
         throw error.response?.data ?? { message: error.message || "Something went wrong" };
     }
 }
 
-export const UpdateTransactionStatus = async (id, data) => {
+export const updateTransactionStatus = async (id, status) => {
     try {
-        const response = await axiosInstance.post(`/api/v1/update-transaction-status/${id}`, data);
-        return response.data.data;
+        await axiosInstance.post(`/api/v1/update-transaction-status/${id}`, status );
     } catch (error) {
         throw error.response?.data ?? { message: error.message || "Something went wrong" };
     }
