@@ -1,14 +1,12 @@
 import { useCart } from "../contexts/CartContext";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/AxiosInstance";
-// import PaymentMethod from "../components/PaymentMethod";
+import { getPaymentMethods } from "../api/PaymentApi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-// import Checkout from "./Checkout";
 
 
 const Cart = () => {
   const { cartItems, loading, updateCart, removeFromCart } = useCart();
-  // const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const promoId = location.state?.promoId || null;
@@ -42,11 +40,6 @@ const Cart = () => {
   const totalPriceWithPromo = isPromoApplied && promo
   ? Math.max(0, totalSelected - promo.promo_discount_price)
   : totalSelected;
-
-  
-  // const totalHarga = cartItems.reduce((total, item) => {
-  //   return total + item.activity.price * item.quantity;
-  // }, 0);
   
   const handleQtyChange = async (cartId, newQty) => {
     setIsPromoApplied(false);
@@ -88,9 +81,23 @@ const Cart = () => {
     }
   };
 
+  const handleSelectAll = () => {
+    if (selectedItems.length === cartItems.length) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(cartItems.map((item) => item.id));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedItems.length === 0) return;
+    await Promise.all(selectedItems.map(removeFromCart)); 
+    setSelectedItems([]);
+  };
+
   const handleCheckout = async () => {
       try {
-        const response = await axiosInstance.post("/api/v1/generate-payment-methods");
+        const response = await getPaymentMethods();
 
         const currentSelectedItems = cartItems.filter(item =>
           selectedItems.includes(item.id)
@@ -127,9 +134,9 @@ const Cart = () => {
   return (
     <div className="container mx-auto h-screen py-25">
         <h1 className="flex justify-center text-xl font-semibold">MY CART</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10 lg:px-40 py-5 text-sm md:text-lg">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-5 lg:px-40 py-5 text-sm md:text-lg">
             <div className="md:col-span-2">
-                <div className="space-y-6">
+                <div className="space-y-2 w-full">
                     {cartItems.length === 0 && (
                       <div className="flex flex-col items-center justify-center h-full gap-2">
                         <div className="text-center text-gray-500">
@@ -142,16 +149,40 @@ const Cart = () => {
                         </Link>
                       </div>
                     )}
+                    {cartItems.length > 0 && (
+                      <div className="flex items-center justify-between bg-white p-2 rounded-lg mb-3 shadow-sm">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={selectedItems.length === cartItems.length && cartItems.length > 0}
+                            onChange={handleSelectAll}
+                            className="h-5 w-5 cursor-pointer"
+                          />
+                          <span className="font-medium">Select All</span>
+                        </div>
+
+                        <button
+                          onClick={handleDeleteSelected}
+                          disabled={selectedItems.length === 0}
+                          className={`px-4 py-1 rounded-lg text-sm border 
+                            ${selectedItems.length
+                              ? "border-red-500 text-red-500 hover:bg-red-50 cursor-pointer"
+                              : "border-gray-300 text-gray-300 cursor-not-allowed"}`}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                     {cartItems.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between border-b pb-4 gap-2">
-                        <div className="flex flex-row items-center gap-2">
+                    <div key={item.id} className="flex flex-row items-center md:justify-between bg-white shadow-sm/20 rounded-lg p-2 gap-2 w-full">
+                        <div className="flex flex-row justify-evenly items-center gap-2 w-full">
                           <input
                             type="checkbox"
                             checked={selectedItems.includes(item.id)}
                             onChange={() => handleSelection(item.id)}
                             className="form-checkbox h-5 w-5 text-blue-600 cursor-pointer"
                           />
-                          <div className="flex flex-row gap-2 items-center">
+                          <div className="flex flex-row justify-start items-center gap-2 w-full">
                             <img
                               src={item.activity.imageUrls[0]}
                               alt={`Gambar ${item.activity.title}`}
@@ -162,8 +193,8 @@ const Cart = () => {
                               }}
                             />
                             <div>
-                              <h2 className="text-lg font-semibold">{item.activity.title}</h2>
-                              <p className="text-sm text-gray-500">Harga: Rp {item.activity?.price ? item.activity.price.toLocaleString("id-ID"): "N/A"}</p>
+                              <h2 className="text-lg font-semibold line-clamp-1">{item.activity.title}</h2>
+                              <p className="text-sm text-gray-500">Price: Rp {item.activity?.price ? item.activity.price.toLocaleString("id-ID"): "N/A"}</p>
                               <p className="text-sm text-gray-500">
                                 Subtotal: Rp {item.activity?.price 
                                   ? (item.activity.price * item.quantity).toLocaleString("id-ID")
@@ -177,7 +208,7 @@ const Cart = () => {
                           <div className="flex flex-row items-center text-sm">
                             <button
                                 onClick={() => handleQtyChange(item.id, item.quantity - 1)}
-                                className="px-2 py-1 bg-gray50 rounded hover:cursor-pointer border border-gray-200"
+                                className="px-2 py-1 bg-gray-50 rounded hover:cursor-pointer border border-gray-200"
                             >
                                 -
                             </button>
@@ -186,25 +217,18 @@ const Cart = () => {
                             </span>
                             <button
                                 onClick={() => handleQtyChange(item.id, item.quantity + 1)}
-                                className="px-2 py-1 bg-gray50 rounded hover:cursor-pointer border border-gray-200"
+                                className="px-2 py-1 bg-gray-50 rounded hover:cursor-pointer border border-gray-200"
                             >
                                 +
                             </button>
                           </div>
-
-                          <button
-                              onClick={() => {removeFromCart(item.id)}}
-                              className="text-sm ml-4 px-3 py-1 ring-1 ring-red-500 text-red-500 rounded hover:cursor-pointer"
-                          >
-                              Delete
-                          </button>
                         </div>
                     </div>
                     ))}
                 </div>
             </div>
 
-            <div className="p-4 flex flex-col justify-start rounded-lg shadow-md/50 gap-4">
+            <div className="p-4 flex flex-col justify-start rounded-lg shadow-md/20 gap-4 bg-white">
                 <h2 className="text-xl font-semibold">Summary</h2>
                 
                 <div className="flex flex-col gap-2 text-sm">
@@ -244,7 +268,7 @@ const Cart = () => {
 
                 <button
                   onClick={handleCheckout}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer
                     transition duration-300 ease-in-out
                     disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={selectedItems.length === 0}
