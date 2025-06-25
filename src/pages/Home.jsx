@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Promos from "../components/Promos";
 import CategoryFilterLanding from "../components/CategoryFilterLanding";
 import ShowBanners from "../components/ShowBanners";
