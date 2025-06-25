@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import axiosInstance from "../api/AxiosInstance";
+import { updateTransactionProofPayment } from "../api/PaymentApi";
+import { uploadImage } from "../api/UploadApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -30,18 +31,16 @@ const UploadProofPayment = ({ transactionId }) => {
     formData.append("image", image);
 
     try {
-        const uploadRes = await axiosInstance.post("/api/v1/upload-image", formData);
-        console.log("Upload Response:", uploadRes);
-        const uploadedImageUrl = uploadRes.data.url;
-        setUploadedUrl(uploadedImageUrl);
+      const uploadRes = await uploadImage(formData);
+      console.log("Upload Response:", uploadRes);
+      const uploadedImageUrl = uploadRes.url;
+      setUploadedUrl(uploadedImageUrl);
 
-        if (!uploadedImageUrl) {
-            throw new Error("Failed to get uploaded image URL.");
-        }
+      if (!uploadedImageUrl) {
+          throw new Error("Failed to get uploaded image URL.");
+      }
 
-        await axiosInstance.post(`/api/v1/update-transaction-proof-payment/${transactionId}`, {
-          proofPaymentUrl: uploadedImageUrl,
-        });
+      await updateTransactionProofPayment(transactionId, { proofPaymentUrl: uploadedImageUrl });
 
       toast.success("Payment proof uploaded successfully.", { autoClose: 1000 });
       fileInputRef.current.value = "";
