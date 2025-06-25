@@ -1,6 +1,5 @@
-// src/pages/admin/ManageBanner.jsx
 import { useEffect, useState } from "react";
-import { GetBanners, DelDeleteBanner } from "../../api/BannerApi";
+import { getBanners, delDeleteBanner } from "../../api/BannerApi";
 import CreateBanner from "./CreateBanner";
 import UpdateBanner from "./UpdateBanner";
 
@@ -11,7 +10,7 @@ const ManageBanner = () => {
   const [search, setSearch] = useState("");
 
   const fetchBanners = async () => {
-    const data = await GetBanners();
+    const data = await getBanners();
     setBanners(data);
   };
 
@@ -20,7 +19,7 @@ const ManageBanner = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    await DelDeleteBanner(id);
+    await delDeleteBanner(id);
     fetchBanners();
   };
 
