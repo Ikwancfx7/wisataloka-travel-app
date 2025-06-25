@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { PostCreateBanner } from "../../api/BannerApi";
+import { postCreateBanner } from "../../api/BannerApi";
 import { uploadImage } from "../../api/UploadApi";
 import { toast } from "react-toastify";
 
@@ -46,7 +46,7 @@ const CreateBanner = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await PostCreateBanner(form);
+      await postCreateBanner(form);
       toast.success("Banner berhasil dibuat");
       if (onClose) onClose();
     } catch (err) {
