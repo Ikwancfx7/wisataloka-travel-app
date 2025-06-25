@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GetBanners } from "../api/BannerApi";
+import { getBanners } from "../api/BannerApi";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const ShowBanners = () => {
@@ -9,7 +9,7 @@ const ShowBanners = () => {
     useEffect(() => {
         const fetchBanners = async () => {
             try{
-                const data = await GetBanners();
+                const data = await getBanners();
                 setBanners(data);
                 console.log(data);
             }catch(error){
