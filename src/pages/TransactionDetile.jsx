@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axiosInstance from "../api/AxiosInstance";
+import { getTransactionById, cancelTransaction } from "../api/PaymentApi";
 import UploadProofPayment from "../components/UploadProofPayment";
 import Breadcrumb from "../components/BreadCrump";
 import BackButton from "../components/BackButton";
@@ -10,14 +10,11 @@ const TransactionDetile = () => {
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isExpired, setIsExpired] = useState(false);
-  const [isCancelled, setIsCancelled] = useState(false);
 
-  const isPaymentSuccess = transaction && transaction.status === "success";
   const handleCancelTransaction = async () => {
     try {
-        await axiosInstance.post(`/api/v1/cancel-transaction/${id}`);
-        window.location.reload(); // Refresh halaman
-        setIsCancelled(true);
+        await cancelTransaction(id);
+        window.location.reload();
       } catch (err) {
         console.error("Gagal membatalkan transaksi:", err);
       }
@@ -27,11 +24,10 @@ const TransactionDetile = () => {
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
-        const res = await axiosInstance.get(`/api/v1/transaction/${id}`);
-        const trx = res.data.data;
+        const res = await getTransactionById(id);
+        const trx = res;
         setTransaction(trx);
 
-        // Cek apakah transaksi sudah expired
         const now = new Date();
         const expired = new Date(trx.expiredDate);
         if (now > expired) {
@@ -53,6 +49,8 @@ const TransactionDetile = () => {
   const { status, payment_method, totalAmount, expiredDate, transaction_items, invoiceId } = transaction;
 
   const hasUploadedProof = !!transaction?.proofPaymentUrl;
+  const isPaymentCancelled = status === "cancelled";
+  const isPaymentSuccess = status === "success";
 
   return (
     <div>
@@ -86,14 +84,13 @@ const TransactionDetile = () => {
           )}
 
           <p><span className="font-semibold">Total Payment:</span> Rp {totalAmount.toLocaleString("id-ID")}</p>
-          {/* <p><span className="font-semibold">Expired:</span> {new Date(expiredDate).toLocaleString("id-ID")}</p> */}
           {status === "pending" && !isExpired && !hasUploadedProof && (
             <p className="flex justify-center py-2 w-full text-[16px] font-semibold text-green-900 italic bg-green-100 rounded-xl">Complete the transaction before {new Date(expiredDate).toLocaleString("id-ID")} </p>
           )
 
           }
 
-          {isExpired && !hasUploadedProof && !status === "cancelled" ? (
+          {isExpired && !hasUploadedProof && !isPaymentCancelled ? (
             <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
               <p className="font-semibold">Transaction has expired.</p>
             </div>
@@ -132,13 +129,13 @@ const TransactionDetile = () => {
           <button
             className={`bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
             onClick={handleCancelTransaction}
-            disabled={isExpired || isCancelled || isPaymentSuccess || hasUploadedProof}
+            disabled={isExpired || status === "cancelled" || isPaymentSuccess || hasUploadedProof}
           >
             Cancel Transaction
           </button>
         </div>
 
-        {!isPaymentSuccess && !hasUploadedProof && !isExpired && (
+        {!isPaymentSuccess && !hasUploadedProof && !isExpired && !isPaymentCancelled && (
           <UploadProofPayment transactionId={id} />
         )}
         {hasUploadedProof && status === "pending" ? (
@@ -148,8 +145,6 @@ const TransactionDetile = () => {
         ):(
           null
         )}
-
-        
       </div>
     </div>
   );
