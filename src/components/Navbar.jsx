@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import { logoutUser } from "../api/AuthApi";
 import { useAuth } from "../contexts/AuthContext";
 import NavProfile from "../components/NavProfile";
 import { useCart } from "../contexts/CartContext";
