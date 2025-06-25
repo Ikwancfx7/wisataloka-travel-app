@@ -20,16 +20,16 @@ const Promos = () => {
 
     return (
         <div className="w-full">
-            <div className="px-4">
+            <div>
                 <h2 className="text-3xl font-bold text-center mb-6">Special Promos</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {promos.slice(0, 4).map((promo) => (
                     <Link to={`/promo/${promo.id}`} key={promo.id} 
-                        className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50">
-                        <img src={promo.imageUrl} alt={promo.title} className="h-48 w-full object-cover" />
+                        className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50 p-2">
+                        <img src={promo.imageUrl} alt={promo.title} className="md:h-48 md:w-full object-cover rounded-2xl" />
                         <div className="p-4">
-                        <h3 className="font-semibold text-xl">{promo.title}</h3>
-                        <p className="text-sm mt-2 line-clamp-2">{promo.description}</p>
+                        <h3 className="font-semibold text-sm md:text-xl line-clamp-1">{promo.title}</h3>
+                        <p className="text-sm mt-2 line-clamp-1">{promo.description}</p>
                         <p className="text-sm mt-2 text-gray-500">
                             🎁 Diskon: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
                         </p>
