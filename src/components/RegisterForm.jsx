@@ -9,9 +9,10 @@ const RegisterForm = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [role, setRole] = useState("");
-  // const [profilePictureUrl, setProfilePictureUrl] = useState("");
   const [message, setMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,6 @@ const RegisterForm = () => {
         passwordRepeat: password,
         role,
         phoneNumber,
-        // profilePictureUrl,
       };
       const data = await registerUser(userData);
 
@@ -96,26 +96,42 @@ const RegisterForm = () => {
 
             <div>
               <p className="italic">Password <span className="text-red-600">*</span></p>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="custom-input-register"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  className="custom-input-register"
+                  required
+                />
+                <div
+                    className="absolute right-3 top-3 cursor-pointer text-gray-600"
+                    onClick={() => setShowPassword(!showPassword)}
+                >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </div>
+              </div>
             </div>
-            
+
             <div>
               <p className="italic">Repeat Password <span className="text-red-600">*</span></p>
-              <input
-                type="password"
-                value={passwordRepeat}
-                onChange={(e) => setPasswordRepeat(e.target.value)}
-                placeholder="Password"
-                className="custom-input-register"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPasswordRepeat ? "text" : "password"}
+                  value={passwordRepeat}
+                  onChange={(e) => setPasswordRepeat(e.target.value)}
+                  placeholder="Password"
+                  className="custom-input-register"
+                  required
+                />
+                <div
+                  className="absolute right-3 top-3 cursor-pointer text-gray-600"
+                  onClick={() => setShowPasswordRepeat(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -123,11 +139,11 @@ const RegisterForm = () => {
             <div>
               <p className="italic">Phone Number <span className="text-red-600">*</span></p>
               <input
-                type="text"
+                type="tel"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="Phone Number"
-                className="custom-input-register"
+                className="custom-input-register appearance-none"
                 required
               />
             </div>
@@ -145,8 +161,8 @@ const RegisterForm = () => {
                 <option value="admin">Admin</option>
               </select>
             </div>
-            
           </div>
+
         </div>
 
         <button
