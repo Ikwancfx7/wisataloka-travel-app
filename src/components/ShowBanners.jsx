@@ -19,14 +19,6 @@ const ShowBanners = () => {
         fetchBanners();
     },[]);
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-    //     }, 5000);
-
-    //     return () => clearInterval(interval);
-    // }, [banners]);
-
     useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
