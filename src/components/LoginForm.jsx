@@ -76,7 +76,6 @@ const LoginForm = ({ setMessage }) => {
                     <p>Password <span className='text-red-600'>*</span></p>
                 </div>
                 <div className="relative">
-
                     <input
                         type={showPassword ? "text" : "password"}
                         value={password}
