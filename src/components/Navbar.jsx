@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import NavProfile from "../components/NavProfile";
 import { useCart } from "../contexts/CartContext";
+import { ShoppingCart } from "lucide-react"; 
 
 const Navbar = ({isLandingPage}) => {
     const { token, loading } = useAuth();
@@ -10,6 +11,9 @@ const Navbar = ({isLandingPage}) => {
 
     const [isScrolled, setIsScrolled] = useState(false);
     const handleScroll = () => setIsScrolled(window.scrollY > 30);
+
+    const { pathname } = useLocation();
+    const isActive = (path) => pathname.startsWith(path);
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
@@ -37,19 +41,20 @@ const Navbar = ({isLandingPage}) => {
                     </Link>
                 </div>
                 <div className="flex flex-row gap-5 items-center">
-                    <Link to="/activities" className="button-nav">
+                    <Link to="/activities" className={`button-nav ${isActive("/activities") && " font-semibold text-blue-700"}`}>
                         Explore
                     </Link>
-                    <Link to="/promo" className="button-nav">
+                    <Link to="/promo" className={`button-nav ${isActive("/promo") && "font-semibold text-blue-700"}`}>
                         Promos
                     </Link>
-                    <Link to="/transactions" className="button-nav">
+                    <Link to="/transactions" className={`button-nav ${isActive("/transactions") && "font-semibold text-blue-700"}`}>
                         Transactions
                     </Link>
                         {/* 🎯 Cart Icon + Badge */}
                     <div className="button-nav">
                         <Link to="/cart" className="relative">
-                            <img src={isLandingPage? (!isScrolled ? "/images/shopping-cart_white.png" : "/images/shopping-cart.png") : "/images/shopping-cart.png"} alt="Icon Cart" className="w-6 h-7" />
+                            <ShoppingCart className={`w-6 h-7 ${isLandingPage? (!isScrolled ? "text-white" : "text-black") : `text-black ${isActive("/cart") && "text-blue-700"}`}`}/>
+                            {/* <img src={isLandingPage? (!isScrolled ? "/images/shopping-cart_white.png" : "/images/shopping-cart.png") : "/images/shopping-cart.png"} alt="Icon Cart" className="w-6 h-7" /> */}
                             {totalQuantity > 0 && (
                                 <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                                 {totalQuantity}
