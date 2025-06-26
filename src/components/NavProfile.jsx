@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../api/AxiosInstance";
+import { getloggedUser } from "../api/ProfileApi";
 import { useAuth } from "../contexts/AuthContext";
 
 const NavbarProfile = () => {
@@ -11,11 +11,10 @@ const NavbarProfile = () => {
   const { logout } = useAuth();
 
   useEffect(() => {
-    // Ambil info user dari API atau localStorage
     const fetchUser = async () => {
       try {
-        const res = await axiosInstance.get("/api/v1/user");
-        setUser(res.data.data);
+        const res = await getloggedUser();
+        setUser(res);
       } catch (err) {
         console.error(err);
       }
@@ -25,8 +24,7 @@ const NavbarProfile = () => {
   }, []);
 
   const handleLogout = () => {
-      try {
-      // await logoutUser();     
+      try {  
       logout();
       navigate("/");
       window.location.reload();
@@ -47,10 +45,9 @@ const NavbarProfile = () => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Avatar (toggle dropdown) */}
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="w-10 h-10 rounded-full overflow-hidden border hover:ring-2 hover:cursor-pointer ring-blue-500"
+        className="w-12 h-12 rounded-full overflow-hidden border-2 border-white hover:ring-2 hover:cursor-pointer ring-blue-500"
       >
         {user?.profilePictureUrl ? (
           <img
