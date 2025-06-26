@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axiosInstance from "../../api/AxiosInstance";
+import { getloggedUser, getAllUsers, postUpdateUserRole } from "../../api/ProfileApi";
 import { toast } from "react-toastify";
 
 const ManageUsers = () => {
@@ -13,8 +13,8 @@ const ManageUsers = () => {
   const getUsers = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get('/api/v1/all-user');
-      setUsers(response.data.data);
+      const response = await getAllUsers();
+      setUsers(response);
       setError(null);
     } catch (error) {
       setError("Gagal memuat data user");
@@ -26,8 +26,8 @@ const ManageUsers = () => {
 
   const getCurrentUser = async () => {
     try {
-      const res = await axiosInstance.get('/api/v1/user');
-      setCurrentUser(res.data.data);
+      const res = await getloggedUser();
+      setCurrentUser(res);
     } catch (error) {
       console.error("Gagal mengambil data user saat ini", error);
     }
@@ -35,9 +35,10 @@ const ManageUsers = () => {
 
   const updateUserRole = async (userId, newRole) => {
     try {
-      await axiosInstance.post(`/api/v1/update-user-role/${userId}`, {
+      const payload = {
         role: newRole,
-      });
+      };
+      await postUpdateUserRole(userId, payload);
       toast.success("Role berhasil diperbarui!", { autoClose: 1000 });
       getUsers(); // refresh data
     } catch (error) {
@@ -57,8 +58,6 @@ const ManageUsers = () => {
 
   if (loading) return <p>Loading users...</p>;
   if (error) return <p className="text-red-600">{error}</p>;
-
-//   const profileUrl = users?.profilePictureUrl?.[0] || "/images/default-profile.jpg";
 
   return (
     <div className="max-w-5xl mx-auto p-4">

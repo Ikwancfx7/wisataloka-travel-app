@@ -21,20 +21,10 @@ const TopbarMobile = ({isLandingPage}) => {
         <div className={`${navBarClasses} z-50 transition-all duration-300 ease-in-out flex flex-row justify-between items-center w-full px-6 py-2`}>
             <div className="flex flex-row justify-between items-center w-full ">
                 <Link to="/" className="text-3xl">
-                        {/* {isLandingPage && !isScrolled ? (
-                            <img src="/images/Wisataloka-white.png" alt="logo wisataloka" 
-                                className="w-35"
-                            />
-                        ):(
-                            <img src="/images/Wisataloka-blue.png" alt="logo wisataloka" 
-                                className="w-35"
-                            />
-                        )} */}
                         <img 
                             src={isLandingPage?(!isScrolled ? "/images/Wisataloka-white.png":"/images/Wisataloka-blue.png") : "/images/Wisataloka-blue.png"} 
                             alt="Logo Wisataloka"
                             className="w-35" 
-                        
                         />
                     </Link>
             </div>
@@ -48,7 +38,7 @@ const TopbarMobile = ({isLandingPage}) => {
                 )}
             </Link>
         </div>
-    )
-}
+    );
+};
 
 export default TopbarMobile;

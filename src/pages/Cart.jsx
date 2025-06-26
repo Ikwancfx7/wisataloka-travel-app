@@ -132,8 +132,8 @@ const Cart = () => {
   if (loading) return <p className="text-center">cart loading...</p>;
 
   return (
-    <div className="container mx-auto h-screen py-25">
-        <h1 className="flex justify-center text-xl font-semibold">MY CART</h1>
+    <div className="container mx-auto min-h-screen py-25">
+        <h1 className="flex justify-center text-xl md:text-3xl font-bold">My Cart</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-5 lg:px-40 py-5 text-sm md:text-lg">
             <div className="md:col-span-2">
                 <div className="space-y-2 w-full">

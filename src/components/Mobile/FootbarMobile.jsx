@@ -10,17 +10,17 @@ const FootbarMobile = () => {
             </Link>
             <Link to="/promo" className="flex flex-col items-center text-xs">
                 <img src="/icons/promoIcon.png" alt="Promo" className="w-6 h-6" />
-                Promo
+                Promos
             </Link>
             <Link to="/transactions" className="flex flex-col items-center text-xs">
                 <img src="/icons/transaction.png" alt="Transactions" className="w-6 h-6" />
-                Transaksi
+                Transactions
             </Link>
             <Link to="/profile" className="flex flex-col items-center text-xs">
                 <div className="w-6 h-6">
                     <ProfilePicture />
                 </div>
-                Akun
+                Profile
             </Link>
         </div>
     )
