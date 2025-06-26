@@ -1,23 +1,23 @@
-import axiosInstance from "./AxiosInstance";
 import { useState, useEffect } from "react";
+import { getloggedUser } from "./ProfileApi";
 
 const ProfilePicture = () => {
     const [user, setUser] = useState(null);
+    
     useEffect(() => {
         const getProfilePicture = async () => {
             try {
-                const response = await axiosInstance.get("/api/v1/user");
-                setUser(response.data.data); // Update the user state with the fetched data
+                const response = await getloggedUser();
+                setUser(response);
             } catch (error) {
                 throw error.response?.data || error;
             }
         }
-
         getProfilePicture();
     },[]);
     
     return (
-        <div>
+        <div className="w-full h-full">
             {user?.profilePictureUrl ? (
               <img
                 src={user.profilePictureUrl}
