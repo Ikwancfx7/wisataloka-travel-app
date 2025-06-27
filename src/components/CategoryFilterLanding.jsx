@@ -1,7 +1,6 @@
-// components/CategoryFilterLanding.jsx
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../api/AxiosInstance";
+import { getCategories } from "../api/CategoryApi";
 
 const CategoryFilterLanding = () => {
   const [categories, setCategories] = useState([]);
@@ -13,8 +12,8 @@ const CategoryFilterLanding = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axiosInstance.get("/api/v1/categories");
-        setCategories(res.data.data);
+        const res = await getCategories();
+        setCategories(res);
       } catch (err) {
         console.error("Gagal mengambil kategori:", err);
       }
@@ -39,7 +38,6 @@ const CategoryFilterLanding = () => {
 
   const handleCategorySelect = (categoryId) => {
     setShowDropdown(false);
-    // Arahkan ke halaman activities + query kategori
     navigate(`/activities?category=${categoryId}`);
   };
 
