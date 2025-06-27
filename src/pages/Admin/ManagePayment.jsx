@@ -26,8 +26,15 @@ const ManageTransaction = () => {
   const fetchTransactions = async () => {
     try {
       const res = await getAllTransactions();
-      setTransactions(res);
-      setFilteredTransactions(res);
+
+      const sorted = res.sort(
+        (a, b) =>
+          new Date(b.orderDate || b.createdAt) -
+          new Date(a.orderDate || a.createdAt)
+      );
+
+      setTransactions(sorted);
+      setFilteredTransactions(sorted);
     } catch (error) {
       console.error("Failed to fetch transactions", error);
     }
