@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllTransactions, updateTransactionStatus } from "../../api/PaymentApi";
 import { Check, X  } from 'lucide-react';
+import { getAllUsers } from "../../api/ProfileApi";
 
 const ManageTransaction = () => {
   const [transactions, setTransactions] = useState([]);
@@ -8,6 +9,8 @@ const ManageTransaction = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [usersMap, setUsersMap] = useState({});
+
 
   const openDetail = (trx) => {
     setSelectedTransaction(trx);
@@ -39,6 +42,23 @@ const ManageTransaction = () => {
       console.error("Failed to fetch transactions", error);
     }
   };
+
+  useEffect(() => {
+    const fetchDataUsers = async () => {
+      try {
+        const users = await getAllUsers();
+
+        const map = Object.fromEntries(users.map(u => [u.id, u.name]));
+        setUsersMap(map);
+
+        fetchTransactions();
+      } catch (err) {
+        console.error("Failed to load users/transactions", err);
+      }
+    };
+
+    fetchDataUsers();
+  }, []);
 
   const handleUpdateStatus = async (id, status) => {
     try {
@@ -143,6 +163,7 @@ const ManageTransaction = () => {
 
               <div className="flex flex-row justify-between gap-5">
                 <div>
+                  <p><strong>Name:</strong> {usersMap[selectedTransaction.userId] ?? "-"}</p>
                   <p><strong>Invoice:</strong> {selectedTransaction.invoiceId}</p>
                   <p><strong>Status:</strong>
                     <span 
