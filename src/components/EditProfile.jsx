@@ -48,9 +48,9 @@ const EditProfile = () => {
         try {
             setLoading(true);
             const res = await uploadImage(formData);
-            setForm({
-                ...form, profilePictureUrl: res.data.url
-            })
+            const uploadedUrl = res.url;
+            setForm(prev => ({ ...prev, profilePictureUrl: uploadedUrl }));
+            toast("Image uploaded successfully!", { autoClose: 1000 });
         } catch (err) {
             console.error(err);
             toast("Failed to upload image.", { autoClose: 1000 });
