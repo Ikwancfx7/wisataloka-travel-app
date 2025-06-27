@@ -5,14 +5,14 @@ import Activities from "../pages/Activities";
 import ActivityDetail from "../pages/ActivityDetail";
 import Cart from "../pages/Cart";
 import Transactions from "../pages/Transactions";
-import MainLayout from "../layout/MainLayout";
-import AuthLayout from "../layout/AuthLayout";
+import MainLayout from "../layouts/MainLayout";
+import AuthLayout from "../layouts/AuthLayout";
 import Checkout from "../pages/Checkout";
 import TransactionDetile from "../pages/TransactionDetile";
 import PromoDetile from "../pages/PromoDetile";
 import PromoPage from "../pages/PromoPage";
 
-import AdminLayout from "../layout/AdminLayout";
+import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageActivities from "../pages/Admin/ManageActivities";
 import CreateActivity from "../pages/Admin/CreateActivity";
