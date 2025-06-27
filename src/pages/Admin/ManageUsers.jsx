@@ -60,23 +60,75 @@ const ManageUsers = () => {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
+    <div className="max-w-5xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Manage Users</h1>
-      {filteredUsers.length === 0 ? (
-        <p>No users found.</p>
-      ) : (
-        <div className="space-y-4">
-          <div className="mb-4">
+      <label className="flex flex-row items-center gap-2 mb-5">
+            <p>
+              Search: 
+            </p>
             <input
               type="text"
               placeholder="Cari nama user/admin..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full md:w-1/2 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full md:w-1/2 px-4 py-2 border rounded-full shadow-sm focus:outline-none focus:ring focus:border-blue-300"
             />
+          </label>
+      {filteredUsers.length === 0 ? (
+        <p className="p-5 text-center w-full">No users found.</p>
+      ) : (
+        <div className="space-y-4">
+          <div className="rounded">
+            <table className="w-full table-fixed text-sm">
+              <thead className="bg-gray-200 text-left">
+                <tr>
+                  <th className="p-3">User</th>
+                  <th className="p-3">Email</th>
+                  <th className="p-3">Role</th>
+                  <th className="p-3">Phone</th>
+                  <th className="p-3 text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {filteredUsers.map((u) => {
+                  const isSelf = currentUser?.id === u.id;
+                  return (
+                    <tr key={u.id} className="border-b border-gray-300 hover:bg-gray-50">
+                      <td className="p-3 flex items-center gap-3">
+                        <img
+                          src={u.profilePictureUrl || "/images/default-profile.jpg"}
+                          alt={u.name}
+                          className="w-8 h-8 rounded-full object-cover"
+                          onError={(e) => (e.target.src = "/images/default-profile.jpg")}
+                        />
+                        <span>{u.name}</span>
+                      </td>
+                      <td className="p-3">{u.email}</td>
+                      <td className="p-3 capitalize">{u.role}</td>
+                      <td className="p-3">{u.phoneNumber}</td>
+                      <td className="p-3 text-center">
+                        {!isSelf && (
+                          <button
+                            onClick={() =>
+                              updateUserRole(u.id, u.role === "admin" ? "user" : "admin")
+                            }
+                            className="px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700"
+                          >
+                            Make {u.role === "admin" ? "User" : "Admin"}
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
 
-          {filteredUsers.map(user => {
+
+
+          {/* {filteredUsers.map(user => {
             const profileUrl = user.profilePictureUrl || "/images/default-profile.jpg";
             const isSelf = currentUser?.id === user.id;
 
@@ -112,7 +164,7 @@ const ManageUsers = () => {
                     )}
                 </div>
             )
-            })}
+            })} */}
         </div>
       )}
     </div>

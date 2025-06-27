@@ -29,17 +29,17 @@ const PromoPage = () => {
                     <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-3 w-full md:max-w-screen-lg">
                         {promos.map((promo) => (
                         <Link to={`/promo/${promo.id}`} key={promo.id} 
-                            className="flex flex-row md:flex-col p-2 bg-white rounded-3xl md:rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50 transition duration-300 ease-in-out">
+                            className="flex flex-row items-center md:flex-col md:items-start gap-3 p-2 md:p-4 bg-white rounded-3xl md:rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50 transition duration-300 ease-in-out">
                             <img 
                                 src={promo.imageUrl} 
                                 alt={promo.title}
-                                className="h-40 w-40 md:h-48 md:w-full object-cover rounded-3xl md:rounded-xl"
+                                className="h-36 w-36 md:h-48 md:w-full object-cover rounded-3xl md:rounded-xl"
                             />
-                            <div className="p-4">
-                                <h3 className="font-semibold text-lg">{promo.title}</h3>
-                                <p className="text-sm mt-2 line-clamp-2">{promo.description}</p>
+                            <div className="w-full">
+                                <h3 className="font-semibold text-lg line-clamp-1">{promo.title}</h3>
+                                <p className="text-sm mt-2 line-clamp-1">{promo.description}</p>
                                 <p className="text-sm mt-2 text-gray-500">
-                                    🎁 Diskon: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
+                                    Discount: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
                                 </p>
                                 <p className="text-sm text-gray-500">Kode: {promo.promo_code}</p>
                             </div>

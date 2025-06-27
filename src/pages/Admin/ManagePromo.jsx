@@ -129,15 +129,15 @@ const ManagePromo = () => {
                                 setSelectedPromo(promo);
                                 setShowPopup(true);
                             }}
-                            className="px-3 py-1 border text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg cursor-pointer"
+                            className="button-edit"
                         >
                             Edit
                         </button>
                         <button
                             onClick={() => handleDelete(promo.id)}
-                            className="px-3 py-1 border text-red-600 border-red-600 rounded-lg hover:bg-red-50 cursor-pointer"
+                            className="button-delete"
                         >
-                            Hapus
+                            Delete
                         </button>
                     </div>
                 </div>

@@ -70,13 +70,13 @@ const ManageBanner = () => {
             <h2 className="text-lg font-semibold">{banner.name}</h2>
             <div className="flex justify-between">
               <button
-                className="text-yellow-600 hover:underline"
+                className="button-edit"
                 onClick={() => setEditBanner(banner)}
               >
                 Edit
               </button>
               <button
-                className="text-red-600 hover:underline"
+                className="button-delete"
                 onClick={() => handleDelete(banner.id)}
               >
                 Delete

@@ -138,15 +138,15 @@ const ManageCategory = () => {
                 <div className="flex flex-row justify-between mt-2">
                   <button
                     onClick={() => handleEditClick(category)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 text-sm rounded-lg cursor-pointer"
+                    className="button-edit"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(category.id)}
-                    className="border border-red-500 rounded-lg px-4 py-1 text-red-600 hover:bg-red-50 cursor-pointer"
+                    className="button-delete"
                   >
-                    Hapus
+                    Delete
                   </button>
                 </div>
               </div>
