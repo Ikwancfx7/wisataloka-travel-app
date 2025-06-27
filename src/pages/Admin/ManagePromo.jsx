@@ -17,14 +17,14 @@ const ManagePromo = () => {
     const [selectedPromo, setSelectedPromo] = useState(null);
 
     useEffect(() => {
-    fetchPromos();
+        fetchPromos();
     }, []);
 
     useEffect(() => {
-    const filtered = promos.filter((promo) =>
-        promo.title.toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredPromos(filtered);
+        const filtered = promos.filter((promo) =>
+            promo.title.toLowerCase().includes(search.toLowerCase())
+        );
+        setFilteredPromos(filtered);
     }, [search, promos]);
 
     const fetchPromos = async () => {
@@ -91,8 +91,8 @@ const ManagePromo = () => {
                     />
                     <button
                         onClick={() => {
-                        setSelectedPromo(null);
-                        setShowPopup(true);
+                            setSelectedPromo(null);
+                            setShowPopup(true);
                         }}
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer"
                     >

@@ -42,7 +42,7 @@ const CategoryForm = ({ initialData, onSubmit, onCancel }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 h-screen">
             <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md relative">
                 <button
                     onClick={onCancel}

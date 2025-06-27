@@ -125,46 +125,6 @@ const ManageUsers = () => {
               </tbody>
             </table>
           </div>
-
-
-
-          {/* {filteredUsers.map(user => {
-            const profileUrl = user.profilePictureUrl || "/images/default-profile.jpg";
-            const isSelf = currentUser?.id === user.id;
-
-            return (
-                <div className="flex flex-row justify-between items-center border p-4 rounded shadow-sm hover:shadow-md transition">
-                  <div
-                    key={user.id}
-                    className="flex items-center gap-4"
-                    >
-                    <img
-                        src={profileUrl}
-                        alt={user.name}
-                        className="w-16 h-16 rounded-full object-cover"
-                        onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "/images/default-profile.jpg"; // fallback profile picture
-                        }}
-                    />
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-lg">{user.name}</span>
-                        <span className="text-gray-600">{user.email}</span>
-                        <span className="text-sm text-gray-500">Role: {user.role}</span>
-                        <span className="text-sm text-gray-500">Phone: {user.phoneNumber}</span>
-                    </div>
-                  </div>
-                  {!isSelf && (
-                      <button
-                        onClick={() => updateUserRole(user.id, user.role === "admin" ? "user" : "admin")}
-                        className="w-30 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition hover:cursor-pointer"
-                      >
-                        Jadikan {user.role === "admin" ? "User" : "Admin"}
-                      </button>
-                    )}
-                </div>
-            )
-            })} */}
         </div>
       )}
     </div>
