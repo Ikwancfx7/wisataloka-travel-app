@@ -151,159 +151,81 @@ const ManageTransaction = () => {
 
       {showDetailModal && selectedTransaction && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-xl w-full relative shadow-xl max-h-[80vh] overflow-y-auto custom-scroll">
+          <div className="bg-white p-4 relative">
             <button
               onClick={closeDetail}
-              className="absolute top-2 right-3 text-3xl text-red-500 hover:text-red-600 cursor-pointer"
+              className="absolute top-1 right-3 text-3xl text-red-500 hover:text-red-600 cursor-pointer"
             >
               &times;
             </button>
-            <div className="flex flex-col gap-1">
-              <h2 className="text-lg text-center font-bold mb-3">Transaction Detail</h2>
+            <div className="bg-white p-6 rounded-lg max-w-xl w-full max-h-[80vh] overflow-y-auto custom-scroll">
+              <div className="flex flex-col gap-1">
+                <h2 className="text-lg text-center font-bold mb-3">Transaction Detail</h2>
 
-              <div className="flex flex-row justify-between gap-5">
-                <div>
-                  <p><strong>Name:</strong> {usersMap[selectedTransaction.userId] ?? "-"}</p>
-                  <p><strong>Invoice:</strong> {selectedTransaction.invoiceId}</p>
-                  <p><strong>Status:</strong>
-                    <span 
-                      className={`px-2 rounded-full text-sm ml-1
-                          ${selectedTransaction.status === "success"  && "bg-green-100 text-green-700"}
-                          ${selectedTransaction.status === "pending"  && "bg-yellow-100 text-yellow-700"}
-                          ${selectedTransaction.status === "failed"   && "bg-red-100 text-red-700"}
-                          ${selectedTransaction.status === "cancelled"&& "bg-gray-100 text-gray-600"}
-                        `}
-                    >
-                      {selectedTransaction.status}
-                    </span>
-                  </p>
-                  <p><strong>Total:</strong> Rp {selectedTransaction.totalAmount.toLocaleString()}</p>
-                  <p><strong>Payment Method:</strong> {selectedTransaction.payment_method.name}</p>
+                <div className="flex flex-row justify-between gap-5">
+                  <div>
+                    <p><strong>Name:</strong> {usersMap[selectedTransaction.userId] ?? "-"}</p>
+                    <p><strong>Invoice:</strong> {selectedTransaction.invoiceId}</p>
+                    <p><strong>Status:</strong>
+                      <span 
+                        className={`px-2 rounded-full text-sm ml-1
+                            ${selectedTransaction.status === "success"  && "bg-green-100 text-green-700"}
+                            ${selectedTransaction.status === "pending"  && "bg-yellow-100 text-yellow-700"}
+                            ${selectedTransaction.status === "failed"   && "bg-red-100 text-red-700"}
+                            ${selectedTransaction.status === "cancelled"&& "bg-gray-100 text-gray-600"}
+                          `}
+                      >
+                        {selectedTransaction.status}
+                      </span>
+                    </p>
+                    <p><strong>Total:</strong> Rp {selectedTransaction.totalAmount.toLocaleString()}</p>
+                    <p><strong>Payment Method:</strong> {selectedTransaction.payment_method.name}</p>
+                  </div>
+                  <div className="italic text-xs">
+                    <p>created at: {formatDate(selectedTransaction.orderDate)}</p>
+                  </div>
                 </div>
-                <div className="italic text-xs">
-                  <p>created at: {formatDate(selectedTransaction.orderDate)}</p>
-                </div>
-              </div>
 
-              <div className="w-full py-2">
-                {selectedTransaction.proofPaymentUrl ? (
-                    <img
-                      src={selectedTransaction.proofPaymentUrl}
-                      alt="Payment Proof"
-                      className="w-[60%] text-center rounded border"
-                    />
-                  ) : (
-                    <p className="text-sm text-gray-500 italic py-2 text-center">Waiting for payment proof</p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-semibold">Items:</h3>
-              <ul className="mt-2 space-y-1">
-                {selectedTransaction.transaction_items.map((item) => (
-                  <li key={item.id}>
-                    <div className="flex flex-row items-center gap-2 bg-green-50 p-2 rounded-lg">
+                <div className="w-full py-2">
+                  {selectedTransaction.proofPaymentUrl ? (
                       <img
-                        src={item.imageUrls[0]}
-                        alt={item.title}
-                        className="w-8 h-8 mt-1 rounded-lg"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/images/default-activity.jpg";
-                        }}
+                        src={selectedTransaction.proofPaymentUrl}
+                        alt="Payment Proof"
+                        className="w-[60%] text-center rounded border"
                       />
-                      <p>
-                        {item.title} ({item.quantity}x)
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
-
-      {/* <div className="grid grid-cols-1 gap-4">
-        {filteredTransactions.map((trx) => {
-          const isWaitingForVerification = trx.proofPaymentUrl && trx.status === "pending";
-          const isAccepted = trx.status === "success";
-          const isRejected = trx.status === "failed";
-          const isCancelled = trx.status === "cancelled";
-
-          return (
-            <div key={trx.id} className="p-5 rounded-xl shadow-lg/20 space-y-2">
-              <p><strong>Invoice:</strong> {trx.invoiceId}</p>
-              <p>
-                  <strong>Status:</strong>{" "}
-                  <span className={
-                    isAccepted ? "text-green-600" :
-                    isRejected ? "text-red-600" :
-                    isCancelled ? "text-gray-500" : "text-yellow-600"
-                  }>
-                    {trx.status.charAt(0).toUpperCase() + trx.status.slice(1)}
-                </span>
-              </p>
-              <p><strong>Total Payment:</strong> Rp{trx.totalAmount.toLocaleString()}</p>
-              <p><strong>Payment Method:</strong> {trx.payment_method.name}</p>
-
-              {trx.proofPaymentUrl ? (
-                <img
-                  src={trx.proofPaymentUrl}
-                  alt="Payment Proof"
-                  className="w-48 rounded border"
-                />
-              ) : (
-                <p className="text-sm text-gray-500 italic">Waiting for payment proof</p>
-              )}
-              
-              {isWaitingForVerification && (
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleUpdateStatus(trx.id, "success")}
-                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded cursor-pointer"
-                  >
-                    Accept Payment
-                  </button>
-                  <button
-                    onClick={() => handleUpdateStatus(trx.id, "failed")}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded cursor-pointer"
-                  >
-                    Reject
-                  </button>
+                    ) : (
+                      <p className="text-sm text-gray-500 italic py-2 text-center">Waiting for payment proof</p>
+                  )}
                 </div>
-              )}
+              </div>
 
-              {isAccepted && <p className="text-green-600 font-medium">Payment Accepted</p>}
-              {isRejected && <p className="text-red-600 font-medium">Payment Rejected</p>}
-              {isCancelled && <p className="text-gray-500 font-medium">Transaction Cancelled</p>}
-
-              <div className="mt-2">
-                <p className="font-semibold">Items:</p>
-                <ul className="list-disc ml-6">
-                  {trx.transaction_items.map((item) => (
+              <div>
+                <h3 className="font-semibold">Items:</h3>
+                <ul className="mt-2 space-y-1">
+                  {selectedTransaction.transaction_items.map((item) => (
                     <li key={item.id}>
-                      {item.title} ({item.quantity}x)
-                      <br />
-                      <img
-                        src={item.imageUrls[0]}
-                        alt={item.title}
-                        className="w-32 mt-1 rounded"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/images/default-activity.jpg";
-                        }}
-                      />
+                      <div className="flex flex-row items-center gap-2 bg-green-50 p-2 rounded-lg">
+                        <img
+                          src={item.imageUrls[0]}
+                          alt={item.title}
+                          className="w-8 h-8 mt-1 rounded-lg"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/images/default-activity.jpg";
+                          }}
+                        />
+                        <p>
+                          {item.title} ({item.quantity}x)
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-          )
-        })}
-      </div> */}
+          </div>
+        </div>
+      )}
 
     </div>
   );
