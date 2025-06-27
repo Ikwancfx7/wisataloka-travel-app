@@ -1,21 +1,33 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../api/AxiosInstance";
+import { getActivities } from "../../api/ActivityApi";
 import { delDeleteActivity } from "../../api/ActivityApi";
 import { toast } from "react-toastify";
+import CreateActivity from "./CreateActivity";
+import UpdateActivity from "./UpdateActivity";
 
 const ManageActivities = () => {
   const [activities, setActivities] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+  const [filteredActivities, setFilteredActivities] = useState([]);
+  const [showCreate, setShowCreate] = useState(false);
+  const [editActivity, setEditActivity] = useState(null);
 
   useEffect(() => {
     fetchActivities();
   }, []);
 
+  useEffect(() => {
+    const filtered = activities.filter((activity) =>
+      activity.title.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredActivities(filtered);
+  }, [activities, search]);
+
   const fetchActivities = async () => {
     try {
-      const res = await axiosInstance.get("/api/v1/activities");
-      setActivities(res.data.data);
+      const res = await getActivities();
+      setActivities(res);
     } catch (error) {
       console.error("Failed to fetch activities", error);
     }
@@ -39,16 +51,36 @@ const ManageActivities = () => {
     <div className="p-6 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Manage Activities</h1>
-        <button
-          onClick={() => navigate("/admin/create-activity")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer"
-        >
-          + Create New Activity
-        </button>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by promo name..."
+            className="border px-4 py-2 rounded-lg w-64"
+          />
+          <button
+            onClick={() => setShowCreate(true)}
+              
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer"
+          >
+            + Create New Activity
+          </button>
+        </div>
       </div>
 
+      {showCreate && <CreateActivity onClose={() => {
+        setShowCreate(false);
+        fetchActivities();
+      }} />}
+
+      {editActivity && <UpdateActivity activity={editActivity} onClose={() => {
+        setEditActivity(null);
+        fetchActivities();
+      }} />}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {activities.map((activity) => (
+        {filteredActivities.map((activity) => (
           <div key={activity.id} className="border p-4 rounded shadow space-y-2">
             <img
               src={activity.imageUrls?.[0] || "/images/default-activity.jpg"}
@@ -61,16 +93,16 @@ const ManageActivities = () => {
               Rp{activity.price.toLocaleString()}
             </p>
 
-            <div className="flex gap-2 mt-2">
+            <div className="flex justify-between mt-2">
               <button
-                onClick={() => navigate(`/admin/update-activity/${activity.id}`)}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
+                onClick={() => setEditActivity(activity)}
+                className="button-edit"
               >
                 Edit
               </button>
               <button
                 onClick={() => handleDelete(activity.id)}
-                className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+                className="button-delete"
               >
                 Delete
               </button>
