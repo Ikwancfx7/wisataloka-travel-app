@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getloggedUser } from "../api/ProfileApi";
 import { useAuth } from "../contexts/AuthContext";
+import { ChevronDown } from "lucide-react";
 
 const NavbarProfile = () => {
   const [user, setUser] = useState(null);
@@ -44,42 +45,54 @@ const NavbarProfile = () => {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative w-10 md:w-50" ref={dropdownRef}>
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="w-12 h-12 rounded-full overflow-hidden border-2 border-white hover:ring-2 hover:cursor-pointer ring-blue-500"
+        className="flex flex-row items-center gap-2 cursor-pointer ring-blue-500 w-full"
       >
-        {user?.profilePictureUrl ? (
-          <img
-            src={user.profilePictureUrl}
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-300 text-sm text-white">
-            {user?.name?.[0] || "P"}
-          </div>
-        )}
+        <div className="flex items-center justify-center w-full md:w-[40%] h-full">
+          {user?.profilePictureUrl ? (
+            <img
+              src={user.profilePictureUrl}
+              alt="Profile"
+              className="aspect-square rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-sm text-white">
+              {user?.name?.[0] || "P"}
+            </div>
+          )}
+        </div>
+        <div className="hidden md:flex flex-col text-[12px] overflow-hidden">
+          <p className="text-start font-bold line-clamp-1">{user?.name}</p>
+          <p className="text-start text-gray-500 line-clamp-1">{user?.email}</p>
+        </div>
+        <ChevronDown className="hidden md:block w-6 h-6" />
       </button>
 
       {/* Dropdown menu */}
-      {showDropdown && (
-        <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-md z-10 py-2">
-          <Link
-            to={user?.role === "user" ? "/profile" : "/admin/profile"}
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            onClick={() => setShowDropdown(false)}
-          >
-            Edit Profile
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:cursor-pointer"
-          >
-            Logout
-          </button>
-        </div>
-      )}
+      {/* {showDropdown && (
+      )} */}
+      <div className={`
+          absolute left-0 right-0 mt-2 w-full shadow-md rounded-md z-10 py-2 max-w-xs mx-auto md:left-auto md:right-0 origin-top md:origin-top-right transition transform duration-200 ease-out
+          ${showDropdown
+            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 scale-85 -translate-y-2 pointer-events-none"}
+        `}>
+        <Link
+          to={user?.role === "user" ? "/profile" : "/admin/profile"}
+          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          onClick={() => setShowDropdown(false)}
+        >
+          Edit Profile
+        </Link>
+        <button
+          onClick={handleLogout}
+          className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 };
