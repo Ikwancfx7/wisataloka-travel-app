@@ -48,23 +48,24 @@ const ManageActivities = () => {
   };
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Manage Activities</h1>
-        <div className="flex gap-2">
+    <div className="md:p-6 space-y-4">
+      <div className="flex flex-col md:flex-row md:justify-between items-center gap-5 w-full">
+        <h1 className="text-2xl font-bold md:w-1/2">Manage Activities</h1>
+        <div className="flex flex-row justify-between md:justify-end w-full md:w-1/2 gap-2 text-sm">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by promo name..."
-            className="border px-4 py-2 rounded-lg w-64"
+            className="border p-1 md:px-4 md:py-2 rounded-lg w-64"
           />
           <button
             onClick={() => setShowCreate(true)}
               
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 lg:px-4 lg:py-2 rounded-lg cursor-pointer"
           >
-            + Create New Activity
+            <p className="hidden lg:block">+ Create New Activity</p>
+            <p className="block lg:hidden">+ Add</p>
           </button>
         </div>
       </div>
@@ -79,9 +80,9 @@ const ManageActivities = () => {
         fetchActivities();
       }} />}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
         {filteredActivities.map((activity) => (
-          <div key={activity.id} className="border p-4 rounded shadow space-y-2">
+          <div key={activity.id} className="p-4 rounded-lg shadow-sm/40 space-y-2">
             <img
               src={activity.imageUrls?.[0] || "/images/default-activity.jpg"}
               alt={activity.title}

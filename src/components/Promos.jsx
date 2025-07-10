@@ -26,11 +26,11 @@ const Promos = () => {
                     {promos.slice(0, 4).map((promo) => (
                     <Link to={`/promo/${promo.id}`} key={promo.id} 
                         className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-lg/50 p-2">
-                        <img src={promo.imageUrl} alt={promo.title} className="md:h-48 md:w-full object-cover rounded-xl" />
-                        <div className="w-full">
-                            <h3 className="font-semibold text-lg md:text-xl line-clamp-1">{promo.title}</h3>
-                            <p className="text-sm mt-2 line-clamp-1">{promo.description}</p>
-                            <p className="text-sm mt-2 text-gray-500">
+                        <img src={promo.imageUrl} alt={promo.title} className="aspect-video h-24 md:h-44 md:w-full object-cover rounded-xl" />
+                        <div className="w-full mt-3">
+                            <h3 className="font-semibold text-sm md:text-lg line-clamp-1">{promo.title}</h3>
+                            <p className="text-sm line-clamp-1">{promo.description}</p>
+                            <p className="text-sm text-gray-500">
                                 Discount: Rp {promo.promo_discount_price.toLocaleString("id-ID")}
                             </p>
                             <p className="text-sm hidden md:block text-gray-500">Kode: {promo.promo_code}</p>

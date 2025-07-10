@@ -38,7 +38,7 @@ const PaymentMethod = ({ selectedPaymentMethod, onChange }) => {
                         <button
                             key={method.id}
                             onClick={() => onChange(method.id)}
-                            className={`relative flex items-center gap-2 p-3 rounded ring-2 ring-blue-100 transition-all duration-200 hover:cursor-pointer
+                            className={`relative flex items-center gap-2 p-3 bg-white rounded ring-2 ring-blue-100 transition-all duration-200 hover:cursor-pointer
                                     ${isSelected ? "ring-2 ring-blue-200 bg-green-100" : "border-gray-300 hover:bg-green-100"}
                                 `}
                         >

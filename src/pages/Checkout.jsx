@@ -88,13 +88,13 @@ const Checkout = () => {
     return (
         <div className="bg-gray-50 py-25">
             <div className="container mx-auto flex flex-col px-5 md:px-30 lg:px-50 min-h-screen">
-                <h1 className="flex justify-center text-2xl font-semibold">Checkout</h1>
+                <h1 className="flex justify-center text-2xl md:text-3xl italic font-semibold">Checkout</h1>
                 <div className="space-y-6 text-xs mt-5">
                     {selectedCartItems.length === 0 && <p className="text-center">Empty</p>}
                     {selectedCartItems.map((item) => {
                         return (
-                            <div key={item.id} className="flex flex-col lg:flex-row lg:justify-between gap-2">
-                                <div className="flex flex-row gap-2">
+                            <div key={item.id} className="flex flex-col lg:flex-row lg:justify-between gap-2 w-full">
+                                <div className="flex flex-row gap-2 md:w-3/4 cursor-pointer">
                                     <img 
                                         src={item.activity.imageUrls[0] || "/images/default-activity.jpg"} 
                                         alt="gambar activity"
@@ -106,15 +106,15 @@ const Checkout = () => {
                                     />
                                     <div className="flex flex-col justify-between w-full">
                                         <h2 className="text-xl font-semibold">{item.activity.title}</h2>
-                                        <div className="flex flex-row justify-between items-center text-sm md:text-lg">
+                                        <div className="flex flex-row justify-between items-center text-sm md:text-lg w-full">
                                             <p className="text-green-700 font-semibold">Rp {item.activity.price.toLocaleString("id-ID")}</p>
                                             <p>x {item.quantity}</p>
                                         </div>
                                     </div>
                                 </div>
         
-                                <div className="flex flex-row justify-between items-center text-sm md:text-lg font-semibold">
-                                    <p>Subtotal:</p>
+                                <div className="flex flex-row justify-between md:justify-end md:w-1/4 items-center text-sm md:text-lg font-semibold text-green-600">
+                                    <p className="block md:hidden">Subtotal:</p>
                                     <p>Rp {(item.activity.price * item.quantity).toLocaleString("id-ID")}</p>
                                 </div>
                             </div>

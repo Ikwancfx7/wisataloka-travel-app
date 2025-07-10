@@ -9,11 +9,11 @@ const ActivityCard = ({ activity }) => {
   return (
     <Link 
       to={`/activities/${activity.id}`}
-      className="flex flex-row items-center md:flex-col md:items-start gap-3 rounded-3xl md:rounded-xl overflow-hidden shadow-lg hover:shadow-lg/50 transition duration-300 ease-in-out bg-white p-2 md:p-4">
+      className="flex flex-row items-center md:flex-col md:items-start gap-3 rounded-2xl md:rounded-xl overflow-hidden shadow-sm/20 hover:shadow-lg/50 transition duration-300 ease-in-out bg-white p-2 md:p-4">
       <img
         src={imageUrl}
         alt={`Gambar ${activity.title}`}
-        className="w-40 md:w-full h-40 md:h-48 object-cover rounded-3xl md:rounded-xl shadow-lg"
+        className="w-36 h-28 md:w-full md:h-44 object-cover rounded-2xl md:rounded-xl shadow-lg"
         onError={(e) => {
           e.target.onerror = null; // cegah infinite loop
           e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API

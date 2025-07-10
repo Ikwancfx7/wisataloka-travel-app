@@ -149,6 +149,7 @@ const Cart = () => {
                         </Link>
                       </div>
                     )}
+
                     {cartItems.length > 0 && (
                       <div className="flex items-center justify-between bg-white p-2 rounded-lg mb-3 shadow-sm">
                         <div className="flex items-center gap-2">
@@ -173,6 +174,7 @@ const Cart = () => {
                         </button>
                       </div>
                     )}
+
                     {cartItems.map((item) => (
                     <div key={item.id} className="flex flex-row items-center md:justify-between bg-white shadow-sm/20 rounded-lg p-2 gap-2 w-full">
                         <div className="flex flex-row justify-evenly items-center gap-2 w-full">
@@ -182,7 +184,9 @@ const Cart = () => {
                             onChange={() => handleSelection(item.id)}
                             className="form-checkbox h-5 w-5 text-blue-600 cursor-pointer"
                           />
-                          <div className="flex flex-row justify-start items-center gap-2 w-full">
+                          <Link 
+                            to={`/activities/${item.activityId}`}
+                            className="flex flex-row justify-start items-center gap-2 w-full">
                             <img
                               src={item.activity.imageUrls[0]}
                               alt={`Gambar ${item.activity.title}`}
@@ -201,7 +205,7 @@ const Cart = () => {
                                   : "-"}
                               </p>
                             </div>
-                          </div>
+                          </Link>
                         </div>
 
                         <div className="flex items-center gap-2">
