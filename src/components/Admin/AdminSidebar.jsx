@@ -1,5 +1,6 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { LogOut } from "lucide-react";
 
 const AdminSidebar = () => {
   const { logout } = useAuth();
@@ -14,22 +15,65 @@ const AdminSidebar = () => {
     }
   }
 
-  const { pathname } = useLocation();
-  const isActive = (path) => pathname.startsWith(path);
+  const navClass = (isActive) =>
+  `nav-link-admin ${isActive ? "bg-blue-100 font-semibold text-black" : ""}`;
 
   return (
-    <aside className="w-64 bg-white shadow-md p-4 h-full">
-      {/* <h2 className="text-xl font-bold mb-4">Admin Panel</h2> */}
-      <nav className="flex flex-col">
-        <Link to="/admin" className={`px-2 py-2 transition-all duration-300 ease-in-out font-bold`}>Dashboard</Link>
-        <Link to="/admin/users" className={`nav-link-admin ${isActive("/admin/users") ? "bg-blue-100" : ""}`}>Manage Users</Link>
-        <Link to="/admin/transactions" className={`nav-link-admin ${isActive("/admin/transactions") ? "bg-blue-100" : ""}`}>Manage Transactions</Link>
-        <Link to="/admin/activities" className={`nav-link-admin ${isActive("/admin/activities") ? "bg-blue-100" : ""}`}>Manage Activities</Link>
-        <Link to="/admin/promos" className={`nav-link-admin ${isActive("/admin/promos") ? "bg-blue-100" : ""}`}>Manage Promos</Link>
-        <Link to="/admin/categories" className={`nav-link-admin ${isActive("/admin/categories") ? "bg-blue-100" : ""}`}>Manage Categories</Link>
-        <Link to="/admin/banners" className={`nav-link-admin ${isActive("/admin/banners") ? "bg-blue-100" : ""}`}>Manage Banners</Link>
+    <aside className="hidden lg:flex flex-col justify-between w-56 bg-green-800 shadow-md text-white h-screen">
+      <h2 className="text-xl font-bold py-5 px-3">Admin Wisataloka</h2>
+      <nav className="flex flex-col justify-between h-full pb-5 px-5">
+        <div className="flex flex-col">
+          <NavLink to="/admin" end className={({ isActive }) => navClass(isActive)}>
+            Dashboard
+          </NavLink>
 
-        <button onClick={handleLogout} className="hover:cursor-pointer bg-red-200 rounded-lg mt-10">Logout</button>
+          <NavLink
+            to="/admin/users"
+            className={({ isActive }) => navClass(isActive)}
+          >
+            Manage Users
+          </NavLink>
+
+          <NavLink
+            to="/admin/transactions"
+            className={({ isActive }) => navClass(isActive)}
+          >
+            Manage Transactions
+          </NavLink>
+
+          <NavLink
+            to="/admin/activities"
+            className={({ isActive }) => navClass(isActive)}
+          >
+            Manage Activities
+          </NavLink>
+
+          <NavLink
+            to="/admin/promos"
+            className={({ isActive }) => navClass(isActive)}
+          >
+            Manage Promos
+          </NavLink>
+
+          <NavLink
+            to="/admin/categories"
+            className={({ isActive }) => navClass(isActive)}
+          >
+            Manage Categories
+          </NavLink>
+
+          <NavLink
+            to="/admin/banners"
+            className={({ isActive }) => navClass(isActive)}
+          >
+            Manage Banners
+          </NavLink>
+        </div>
+
+        <button onClick={handleLogout} className="flex flex-row gap-2 items-center cursor-pointer hover:font-bold rounded-lg mt-10">
+            <LogOut className="hover:font-bold" />
+            <p>Logout</p>
+        </button>
       </nav>
     </aside>
   );
