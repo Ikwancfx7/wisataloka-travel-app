@@ -5,6 +5,7 @@ import { useCart } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 import Breadcrumb from "../components/BreadCrump";
 import BackButton from "../components/BackButton";
+import { ShoppingCart } from "lucide-react";
 
 const ActivityDetail = () => {
   const { addToCart } = useCart();
@@ -45,7 +46,15 @@ const ActivityDetail = () => {
       <div className="block md:hidden pt-20 px-6">
         <BackButton />
       </div>
-      <div className="max-w-6xl mx-auto px-10 md:px-25 py-6 md:py-0 pb-25 md:pb-20">
+      {/* main section */}
+
+      <div>
+        <div className="w-full max-w-6xl mx-auto px-10 md:px-25">
+          
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 md:px-25 py-6 md:py-0 pb-25 md:pb-20">
         <img
           src={imageUrl}
           alt={`Gambar ${activity.title}`}
@@ -58,9 +67,9 @@ const ActivityDetail = () => {
     
         <div className="flex flex-row justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
+            <h1 className="text-xl md:text-3xl font-bold mb-2 line-clamp-1">{activity.title}</h1>
             <p className="text-gray-500 mb-4">
-              Kategori: {activity.category?.name}
+              Category: {activity.category?.name}
             </p>
           </div>
 
@@ -76,9 +85,10 @@ const ActivityDetail = () => {
               addToCart(activity); 
               toast.success("Berhasil menambahkan ke keranjang", { autoClose: 1000 });
             }}
-            className="bg-blue-100 text-blue-900 border border-blue-900 px-6 py-2 rounded hover:bg-blue-50 hover:cursor-pointer"
+            className="flex flex-row gap-1 items-center text-[12px] md:text-lg bg-blue-50 hover:bg-blue-100 hover:cursor-pointer text-blue-900 border border-blue-900 p-1 md:px-6 md:py-2 rounded-lg"
           >
-            Add to Cart
+            <p>Add to</p>
+            <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
@@ -94,14 +104,14 @@ const ActivityDetail = () => {
             Price:
           </p>
           <p className="font-semibold text-green-600"> Rp {activity.price ? activity.price.toLocaleString("id-ID") : "0"}</p>
-          {activity.price_discount && (
+          {activity.price_discount !== 0 && activity.price_discount !== null && (
             <p className="line-through text-gray-400 ml-2 text-sm md:text-lg">
-              Rp {activity.price_discount.toLocaleString("id-ID")}
+              Rp {activity.price_discount ? activity.price_discount.toLocaleString("id-ID") : "0"}
             </p>
           )}
         </div>
 
-        <p className="text-gray-800 font-medium mb-1 text-lg">Address:</p>
+        <p className="font-semibold mb-1 text-lg">Address:</p>
         <p className="text-gray-600 mb-4 text-justify">
           {activity.address}, {activity.city}, {activity.province}
         </p>
