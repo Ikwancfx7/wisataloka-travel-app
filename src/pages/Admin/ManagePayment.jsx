@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllTransactions, updateTransactionStatus } from "../../api/PaymentApi";
-import { Check, X  } from 'lucide-react';
+import { Check, X, SquarePen  } from 'lucide-react';
 import { getAllUsers } from "../../api/ProfileApi";
 
 const ManageTransaction = () => {
@@ -10,6 +10,7 @@ const ManageTransaction = () => {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [usersMap, setUsersMap] = useState({});
+  const [actionUserId, setActionUserId] = useState(null);
 
 
   const openDetail = (trx) => {
@@ -100,7 +101,7 @@ const ManageTransaction = () => {
             className="border px-4 py-2 rounded-full w-full max-w-md"
         />
       </label>
-      <table className="min-w-full text-sm text-center">
+      <table className="min-w-full text-xs md:text-sm text-center">
         <thead className="bg-gray-300">
           <tr>
             <th className="p-2">Invoice</th>
@@ -112,7 +113,7 @@ const ManageTransaction = () => {
         </thead>
         <tbody>
           {filteredTransactions.map((trx) => (
-            <tr key={trx.id} className="border-b-2 border-gray-200">
+            <tr key={trx.id} className="border-b-2 border-gray-200 text-[10px] md:text-[12px]">
               <td className="p-2">{trx.invoiceId}</td>
               <td className="p-2">Rp{trx.totalAmount.toLocaleString()}</td>
               <td className="p-2">
@@ -128,20 +129,28 @@ const ManageTransaction = () => {
                 </span>
               </td>
               <td className="w-48 p-2 text-center">{trx.payment_method.name}</td>
-              <td className="w-36 p-2">
-                <div className="flex flex-row items-center justify-center gap-10">
-                  {trx.status === "pending" && (
-                    <div>
-                      <button onClick={()=>handleUpdateStatus(trx.id,"success")} className="text-green-600 cursor-pointer group">
-                        <Check size={20} className="stroke-[1.5] group-hover:stroke-[2.5] transition-all"/>
-                      </button>
-                      <button onClick={()=>handleUpdateStatus(trx.id,"failed")}  className="text-red-600 cursor-pointer group">
-                        <X size={20} className="stroke-[1.5] group-hover:stroke-[2.5] transition-all" />
-                      </button>
+              <td className="w-36 p-2 h-10">
+                <div className="relative flex flex-row items-center justify-center gap-2">
+                  <SquarePen 
+                    size={20} 
+                    className="stroke-[1.5] group-hover:stroke-[2.5] transition-all cursor-pointer text-green-800 hover:text-green-600" 
+                    onClick={() => setActionUserId(actionUserId === trx.id ? null : trx.id)}
+                  />
+                  {actionUserId === trx.id && (
+                    <div className="absolute top-7 left-1/2 transform -translate-x-1/2 bg-white border border-gray-300 rounded-md shadow-md p-1 flex flex-row items-center gap-2 h-10 z-20">
+                      {trx.status === "pending" && (
+                        <div className="flex gap-1">
+                          <button onClick={()=>handleUpdateStatus(trx.id,"success")} className="p-1 bg-green-200 rounded-lg shadow-2xl text-green-600 cursor-pointer group">
+                            <Check size={20} className="stroke-[1.5] group-hover:stroke-[2.5] transition-all"/>
+                          </button>
+                          <button onClick={()=>handleUpdateStatus(trx.id,"failed")}  className="p-1 bg-red-200 rounded-lg shadow-2xl text-red-600 cursor-pointer group">
+                            <X size={20} className="stroke-[1.5] group-hover:stroke-[2.5] transition-all" />
+                          </button>
+                        </div>
+                      )}
+                      <button onClick={()=>openDetail(trx)} className="text-blue-600 cursor-pointer hover:font-bold w-10">View</button>
                     </div>
                   )}
-                  <button onClick={()=>openDetail(trx)} className="text-blue-600 cursor-pointer hover:font-bold w-10">View</button>
-
                 </div>
               </td>
             </tr>

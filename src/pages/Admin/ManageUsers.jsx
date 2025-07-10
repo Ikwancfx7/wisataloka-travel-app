@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getloggedUser, getAllUsers, postUpdateUserRole } from "../../api/ProfileApi";
 import { toast } from "react-toastify";
+import { SquarePen } from 'lucide-react';
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -8,6 +9,8 @@ const ManageUsers = () => {
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeUserId, setActiveUserId] = useState(null);
+
 
 
   const getUsers = async () => {
@@ -78,15 +81,15 @@ const ManageUsers = () => {
         <p className="p-5 text-center w-full">No users found.</p>
       ) : (
         <div className="space-y-4">
-          <div className="rounded">
+          <div className="text-[8px] md:text-sm rounded">
             <table className="w-full table-fixed text-sm">
-              <thead className="bg-gray-200 text-left">
+              <thead className="bg-gray-200 text-[12px] md:text-sm text-center">
                 <tr>
                   <th className="p-3">User</th>
-                  <th className="p-3">Email</th>
+                  <th className="p-3 w-52">Email</th>
                   <th className="p-3">Role</th>
-                  <th className="p-3">Phone</th>
-                  <th className="p-3 text-center">Action</th>
+                  <th className="hidden md:table-cell p-3">Phone</th>
+                  <th className="p-3">Action</th>
                 </tr>
               </thead>
 
@@ -94,30 +97,41 @@ const ManageUsers = () => {
                 {filteredUsers.map((u) => {
                   const isSelf = currentUser?.id === u.id;
                   return (
-                    <tr key={u.id} className="border-b border-gray-300 hover:bg-gray-50">
-                      <td className="p-3 flex items-center gap-3">
+                    <tr key={u.id} className="text-[10px] md:text-sm text-center border-b border-gray-300 hover:bg-gray-50">
+                      <td className="p-3 flex justify-center items-center md:justify-start gap-3 w-full">
                         <img
                           src={u.profilePictureUrl || "/images/default-profile.jpg"}
                           alt={u.name}
                           className="w-8 h-8 rounded-full object-cover"
                           onError={(e) => (e.target.src = "/images/default-profile.jpg")}
                         />
-                        <span>{u.name}</span>
+                        <span className="hidden md:block">{u.name}</span>
                       </td>
                       <td className="p-3">{u.email}</td>
                       <td className="p-3 capitalize">{u.role}</td>
-                      <td className="p-3">{u.phoneNumber}</td>
-                      <td className="p-3 text-center">
-                        {!isSelf && (
-                          <button
-                            onClick={() =>
-                              updateUserRole(u.id, u.role === "admin" ? "user" : "admin")
-                            }
-                            className="px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700"
-                          >
-                            Make {u.role === "admin" ? "User" : "Admin"}
-                          </button>
-                        )}
+                      <td className="hidden md:table-cell p-3">{u.phoneNumber}</td>
+                      <td className="p-3">
+                        <div className="relative flex flex-col items-center justify-center gap-2">
+                          <SquarePen 
+                            className="w-5 h-5 md:w-6 md:h-6 cursor-pointer text-green-800 hover:text-green-900" 
+                            alt="edit" 
+                            onClick={() => setActiveUserId(activeUserId === u.id ? null : u.id)}
+                          />
+                          {!isSelf && activeUserId === u.id && (
+                            <div className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-white border border-gray-300 rounded-md shadow-md p-1">
+                              <button
+                                onClick={() => {
+                                    updateUserRole(u.id, u.role === "admin" ? "user" : "admin")
+                                    setActiveUserId(null);
+                                  }
+                                }
+                                className="px-3 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer whitespace-nowrap"
+                              >
+                                Make {u.role === "admin" ? "User" : "Admin"}
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   );
