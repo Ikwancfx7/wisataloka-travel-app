@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getTransactionById, cancelTransaction } from "../api/PaymentApi";
 import UploadProofPayment from "../components/UploadProofPayment";
 import Breadcrumb from "../components/BreadCrump";
-import BackButton from "../components/BackButton";
+import Copytext from "../components/CopyText";
 
 const TransactionDetile = () => {
   const { id } = useParams();
@@ -57,10 +57,7 @@ const TransactionDetile = () => {
       <div className="hidden md:block pt-25 px-20">
         <Breadcrumb />
       </div>
-      <div className="block md:hidden pt-20 px-6">
-        <BackButton />
-      </div>
-      <div className="space-y-6 min-h-screen max-w-screen-md mx-auto px-6 pt-6 pb-25 md:pb-20">
+      <div className="space-y-6 min-h-screen max-w-screen-md mx-auto px-6 md:pt-6 py-20 md:pb-20">
         <h1 className="text-blue-950 text-2xl font-bold text-center mb-6">Transaction Detile</h1>
 
         <div className="p-4 rounded shadow space-y-2 bg-green-50 text-[12px] md:text-sm">
@@ -101,13 +98,16 @@ const TransactionDetile = () => {
                 <p className="font-semibold">{payment_method.name}</p>
               </div>
 
-              <div className="bg-green-100 p-4 rounded-t-2xl mt-2">
+              <div className="bg-green-100 p-2 md:p-4 rounded-t-2xl mt-2">
                 <p className="text-sm text-gray-500 italic">Virtual Account Name</p>
-                <p className="text-xl font-bold tracking-widest">{payment_method.virtual_account_name}</p>
+                <p className="text-sm md:text-xl font-bold tracking-widest">{payment_method.virtual_account_name}</p>
               </div>
-              <div className="bg-green-100 p-4 rounded-b-2xl mt-2">
+              <div className="bg-green-100 p-2 md:p-4 rounded-b-2xl mt-2">
                 <p className="text-sm text-gray-500 italic">Virtual Account Number</p>
-                <p className="text-xl font-bold tracking-widest">{payment_method.virtual_account_number}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm md:text-xl font-bold tracking-widest">{payment_method.virtual_account_number}</p>
+                  <Copytext text={payment_method.virtual_account_number} />
+                </div>
               </div>
             </>
           )}
