@@ -55,51 +55,64 @@ const ActivityDetail = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 md:px-25 py-6 md:py-0 pb-25 md:pb-20">
-        <img
-          src={imageUrl}
-          alt={`Gambar ${activity.title}`}
-          className="w-full aspect-video md:h-96 object-cover mb-6 rounded-lg"
-          onError={(e) => {
-            e.target.onerror = null; // cegah infinite loop
-            e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
-          }}
-        />
-    
-        <div className="flex flex-row justify-between items-center">
-          <div>
-            <h1 className="text-xl md:text-3xl font-bold mb-2 line-clamp-1">{activity.title}</h1>
-            <p className="text-gray-500 mb-4">
-              Category: {activity.category?.name}
-            </p>
+        <div className="flex flex-col bg-white p-3 rounded-xl mb-4">
+          <img
+            src={imageUrl}
+            alt={`Gambar ${activity.title}`}
+            className="w-full aspect-video md:h-96 object-cover mb-6 rounded-lg"
+            onError={(e) => {
+              e.target.onerror = null; // cegah infinite loop
+              e.target.src = "/images/default-activity.jpg"; // fallback jika gagal load dari API
+            }}
+          />
+      
+          <div className="flex flex-col lg:flex-row justify-between lg:items-start pb-5 gap-8 w-full">
+            <div className="lg:w-3/5">
+              <h1 className="text-xl md:text-3xl font-bold mb-2 line-clamp-1">{activity.title}</h1>
+              <div className="flex flex-row gap-4">
+                <p className="text-gray-500 mb-4">
+                  {activity.city}, {activity.province}
+                </p>
+                <p className="text-yellow-500 font-semibold">⭐ {activity.rating}</p>
+                <p className="text-gray-500">{activity.total_reviews} reviews</p>
+              </div>
+              <p className="text-gray-700 text-justify">{activity.description}</p>
+            </div>
+
+            <div className="flex flex-col rounded-lg shadow-sm/40 p-3 lg:p-5 lg:w-2/5 gap-2">
+              <div className="flex flex-row items-center font-semibold gap-1 rounded text-lg">
+                <p className="font-bold text-green-600 text-xl"> Rp {activity.price ? activity.price.toLocaleString("id-ID") : "0"}</p>
+                
+                {activity.price_discount !== 0 && activity.price_discount !== null && (
+                  <p className="line-through text-gray-400 ml-2 text-sm">
+                    Rp {activity.price_discount ? activity.price_discount.toLocaleString("id-ID") : "0"}
+                  </p>
+                )}
+              </div>
+
+              <button
+                onClick={() => {
+                  const token = localStorage.getItem("token");
+
+                  if (!token) {
+                    toast.error("Silakan login terlebih dahulu", { autoClose: 2000 });
+                    navigate("/login", { state: { from: location } });
+                    return;
+                  }
+                  addToCart(activity); 
+                  toast.success("Berhasil menambahkan ke keranjang", { autoClose: 1000 });
+                }}
+                className="flex flex-row gap-1 items-center justify-center text-sm md:text-lg bg-blue-50 hover:bg-blue-100 hover:cursor-pointer text-blue-900 border border-blue-900 py-2 md:py-1 rounded-lg"
+              >
+                <p>Add to</p>
+                <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
           </div>
 
-          <button
-            onClick={() => {
-              const token = localStorage.getItem("token");
-
-              if (!token) {
-                toast.error("Silakan login terlebih dahulu", { autoClose: 2000 });
-                navigate("/login", { state: { from: location } });
-                return;
-              }
-              addToCart(activity); 
-              toast.success("Berhasil menambahkan ke keranjang", { autoClose: 1000 });
-            }}
-            className="flex flex-row gap-1 items-center text-[12px] md:text-lg bg-blue-50 hover:bg-blue-100 hover:cursor-pointer text-blue-900 border border-blue-900 p-1 md:px-6 md:py-2 rounded-lg"
-          >
-            <p>Add to</p>
-            <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
-          </button>
         </div>
 
-        <div className="flex items-center gap-4 mb-4">
-              <p className="text-yellow-500 font-semibold">⭐ {activity.rating}</p>
-              <p className="text-gray-500">{activity.total_reviews} ulasan</p>
-        </div>
-
-        <p className="text-gray-700 mb-6 text-justify">{activity.description}</p>
-
-        <div className="flex flex-row items-center text-2xl font-semibold gap-1 mb-4 bg-green-100 rounded p-5">
+        {/* <div className="flex flex-row items-center text-2xl font-semibold gap-1 mb-4 bg-green-100 rounded p-5">
           <p className="text-green-600 text-lg">
             Price:
           </p>
@@ -109,30 +122,30 @@ const ActivityDetail = () => {
               Rp {activity.price_discount ? activity.price_discount.toLocaleString("id-ID") : "0"}
             </p>
           )}
+        </div> */}
+
+        <div className="flex flex-col px-3">
+          <p className="font-semibold mb-1 text-lg">Address:</p>
+          <p className="text-gray-600 mb-4 text-justify">
+            {activity.address}, {activity.city}, {activity.province}
+          </p>
+
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-2">Fasilities:</h2>
+            <div
+              className="prose max-w-none text-gray-700"
+              dangerouslySetInnerHTML={{ __html: activity.facilities }}
+            />
+          </div>
+
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-2">Location:</h2>
+            <div
+              className="rounded-lg overflow-hidden"
+              dangerouslySetInnerHTML={{ __html: activity.location_maps }}
+            />
+          </div>
         </div>
-
-        <p className="font-semibold mb-1 text-lg">Address:</p>
-        <p className="text-gray-600 mb-4 text-justify">
-          {activity.address}, {activity.city}, {activity.province}
-        </p>
-
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">Fasilities:</h2>
-          <div
-            className="prose max-w-none text-gray-700"
-            dangerouslySetInnerHTML={{ __html: activity.facilities }}
-          />
-        </div>
-
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">Location:</h2>
-          <div
-            className="rounded-lg overflow-hidden"
-            dangerouslySetInnerHTML={{ __html: activity.location_maps }}
-          />
-        </div>
-
-        
       </div>
     </div>
   );

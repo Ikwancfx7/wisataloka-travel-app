@@ -4,7 +4,7 @@ import { getloggedUser } from "../api/ProfileApi";
 import { useAuth } from "../contexts/AuthContext";
 import { ChevronDown } from "lucide-react";
 
-const NavbarProfile = () => {
+const NavbarProfile = ({isLandingPage, isScrolled}) => {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -44,18 +44,20 @@ const NavbarProfile = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const textColorClass = isLandingPage ? (isScrolled ? "text-black" : "text-white") : "text-black";
+
   return (
     <div className="relative w-10 md:w-50" ref={dropdownRef}>
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="flex flex-row items-center gap-2 cursor-pointer ring-blue-500 w-full"
+        className="flex flex-row items-center gap-1 cursor-pointer ring-blue-500 w-full"
       >
         <div className="flex items-center justify-center w-full md:w-[40%] h-full">
           {user?.profilePictureUrl ? (
             <img
               src={user.profilePictureUrl}
               alt="Profile"
-              className="aspect-square rounded-full object-cover"
+              className="aspect-square w-12 rounded-full object-cover"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-sm text-white">
@@ -63,18 +65,15 @@ const NavbarProfile = () => {
             </div>
           )}
         </div>
-        <div className="hidden md:flex flex-col text-[12px] overflow-hidden">
+        <div className={`hidden md:flex flex-col text-[12px] overflow-hidden transition duration-300 ease-in-out ${textColorClass}`}>
           <p className="text-start font-bold line-clamp-1">{user?.name}</p>
-          <p className="text-start text-gray-500 line-clamp-1">{user?.email}</p>
+          <p className="text-start line-clamp-1">{user?.email}</p>
         </div>
         <ChevronDown className="hidden md:block w-6 h-6" />
       </button>
 
-      {/* Dropdown menu */}
-      {/* {showDropdown && (
-      )} */}
       <div className={`
-          absolute left-0 right-0 mt-2 w-full shadow-md rounded-md z-10 py-2 max-w-xs mx-auto md:left-auto md:right-0 origin-top md:origin-top-right transition transform duration-200 ease-out
+          absolute bg-white left-0 right-0 mt-2 w-full shadow-md rounded-md z-10 py-2 max-w-xs mx-auto md:left-auto md:right-0 origin-top md:origin-top-right transition transform duration-200 ease-out
           ${showDropdown
             ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
             : "opacity-0 scale-85 -translate-y-2 pointer-events-none"}

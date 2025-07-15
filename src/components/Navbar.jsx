@@ -80,7 +80,7 @@ const Navbar = ({isLandingPage}) => {
                     )}
                     {token && !loading && (
                         <div className="flex flex-row gap-1">
-                            <NavProfile />
+                            <NavProfile isLandingPage={isLandingPage} isScrolled={isScrolled}/>
                         </div>
                     )}
                 </div>
