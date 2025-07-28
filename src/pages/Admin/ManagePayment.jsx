@@ -87,8 +87,8 @@ const ManageTransaction = () => {
   });
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Manage Transactions</h1>
+    <div className="space-y-4 p-2 md:p-4">
+      <h1 className="text-xl md:text-2xl font-bold">Manage Transactions</h1>
       <label className="flex flex-row items-center gap-2 mb-5">
         <p>
           Search: 

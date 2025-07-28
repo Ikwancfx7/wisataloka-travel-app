@@ -78,16 +78,16 @@ const ManagePromo = () => {
     };
 
     return (
-        <div className="p-6 space-y-6">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Manage Promo</h1>
-                <div className="flex gap-2">
+        <div className="p-4 md:p-6 max-w-6xl mx-auto space-y-4 md:space-y-6 min-h-0 overflow-hidden">
+            <div className="flex flex-col md:flex-row md:justify-between gap-4">
+                <h1 className="text-xl md:text-2xl font-bold">Manage Promo</h1>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-sm">
                     <input
                         type="text"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search by promo name..."
-                        className="border px-4 py-2 rounded-lg w-64"
+                        className="border px-4 py-2 rounded-lg w-full sm:w-64"
                     />
                     <button
                         onClick={() => {
@@ -96,7 +96,7 @@ const ManagePromo = () => {
                         }}
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer"
                     >
-                        + Tambah Promo
+                        + Add Promo
                     </button>
                 </div>
             </div>
@@ -106,39 +106,34 @@ const ManagePromo = () => {
             {filteredPromos.map((promo) => (
                 <div
                     key={promo.id}
-                    className="flex flex-col justify-between border rounded-lg p-4 shadow space-y-2 bg-white"
+                    className="card-container"
                 >
-                    <div className="flex flex-col gap-2">
-                        <img
-                            src={promo.imageUrl}
-                            alt={promo.title}
-                            className="w-full h-40 object-cover rounded"
-                        />
-                        <h2 className="text-xl font-semibold line-clamp-1">{promo.title}</h2>
 
-                        <p className="text-sm text-gray-600 line-clamp-3">{promo.description}</p>
+                    <img
+                        src={promo.imageUrl}
+                        alt={promo.title}
+                        className="image-container"
+                    />
+                    <div>
+                        <h2 className="text-lg font-semibold line-clamp-1">{promo.title}</h2>
                         <p className="text-sm text-gray-800 font-medium">Code: {promo.promo_code}</p>
-                        <div className="flex justify-between text-sm text-gray-700">
-                            <span>Diskon: Rp{promo.promo_discount_price.toLocaleString()}</span>
-                            <span>Minimal: Rp{promo.minimum_claim_price.toLocaleString()}</span>
+                        <div className="button-edit-delete">
+                            <button
+                                onClick={() => {
+                                    setSelectedPromo(promo);
+                                    setShowPopup(true);
+                                }}
+                                className="button-edit"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => handleDelete(promo.id)}
+                                className="button-delete"
+                            >
+                                Delete
+                            </button>
                         </div>
-                    </div>
-                    <div className="flex justify-between mt-2">
-                        <button
-                            onClick={() => {
-                                setSelectedPromo(promo);
-                                setShowPopup(true);
-                            }}
-                            className="button-edit"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            onClick={() => handleDelete(promo.id)}
-                            className="button-delete"
-                        >
-                            Delete
-                        </button>
                     </div>
                 </div>
             ))}

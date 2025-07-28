@@ -42,16 +42,16 @@ const CategoryForm = ({ initialData, onSubmit, onCancel }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 h-screen">
-            <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md relative">
+        <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4 overflow-y-auto">
+            <div className="bg-white p-4 md:p-6 rounded-lg shadow-md w-full max-w-md max-h-[90vh] overflow-y-auto relative my-4">
                 <button
                     onClick={onCancel}
-                    className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-2xl cursor-pointer"
+                    className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-2xl cursor-pointer z-10"
                 >
                     &times;
                 </button>
 
-                <h2 className="text-xl font-bold mb-4">
+                <h2 className="text-lg md:text-xl font-bold mb-4 pr-8">
                 {initialData ? "Edit Kategori" : "Tambah Kategori"}
                 </h2>
 
@@ -79,7 +79,7 @@ const CategoryForm = ({ initialData, onSubmit, onCancel }) => {
                 </div>
 
                 {imageUrl && (
-                    <div className="relative w-full h-40 mt-2">
+                    <div className="relative w-full h-32 md:h-40 mt-2">
                         <img
                             src={imageUrl}
                             alt="Preview"
@@ -96,20 +96,20 @@ const CategoryForm = ({ initialData, onSubmit, onCancel }) => {
                     </div>
                 )}
 
-                <div className="flex gap-2 justify-end pt-2">
+                <div className="flex flex-col sm:flex-row gap-2 justify-end pt-2">
                     <button
                         type="submit"
                         disabled={isUploading}
                         className={`${
                             isUploading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 cursor-pointer"
-                        } text-white px-4 py-2 rounded`}
+                        } text-white px-4 py-2 rounded flex-1 sm:flex-none`}
                     >
                         {initialData ? "Save Changes" : "Create"}
                     </button>
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 cursor-pointer"
+                        className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 cursor-pointer flex-1 sm:flex-none"
                     >
                         Cancel
                     </button>

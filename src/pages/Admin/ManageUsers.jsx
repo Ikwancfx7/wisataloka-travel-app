@@ -63,8 +63,8 @@ const ManageUsers = () => {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Manage Users</h1>
+    <div className="max-w-5xl mx-auto p-2">
+      <h1 className="text-xl md:text-2xl font-bold mb-6">Manage Users</h1>
       <label className="flex flex-row items-center gap-2 mb-5">
             <p>
               Search: 
@@ -86,7 +86,7 @@ const ManageUsers = () => {
               <thead className="bg-gray-200 text-[12px] md:text-sm text-center">
                 <tr>
                   <th className="p-3">User</th>
-                  <th className="p-3 w-52">Email</th>
+                  <th className="p-3">Email</th>
                   <th className="p-3">Role</th>
                   <th className="hidden md:table-cell p-3">Phone</th>
                   <th className="p-3">Action</th>

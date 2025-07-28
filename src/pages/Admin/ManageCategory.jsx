@@ -85,25 +85,25 @@ const ManageCategory = () => {
   );
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-        <h1 className="text-2xl font-bold">Manage Categories</h1>
-        <div className="flex gap-2">
+    <div className="p-4 md:p-6 max-w-6xl mx-auto space-y-4 md:space-y-6 min-h-0 overflow-hidden">
+      <div className="flex flex-col md:flex-row md:justify-between gap-4">
+        <h1 className="text-xl md:text-2xl font-bold">Manage Categories</h1>
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-sm">
           <input
             type="text"
             placeholder="Search by category name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border px-3 py-2 rounded-lg w-64"
+            className="border px-3 py-2 rounded-lg w-full sm:w-64 flex-shrink-0"
           />
           <button
             onClick={() => {
               setEditingCategory(null);
               setIsFormOpen(true);
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer whitespace-nowrap"
           >
-            + Tambah Kategori
+            + Add Category
           </button>
         </div>
       </div>
@@ -122,20 +122,20 @@ const ManageCategory = () => {
       {filteredCategories.length === 0 ? (
         <p className="text-gray-500 italic">Kategori tidak ditemukan.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto">
           {filteredCategories.map((category) => (
             <div
               key={category.id}
-              className="bg-white rounded-lg shadow overflow-hidden hover:shadow-xl/20"
+              className="card-container"
             >
               <img
                 src={category.imageUrl}
                 alt={category.name}
-                className="w-full h-40 object-cover"
+                className="image-container"
               />
-              <div className="p-4 space-y-1">
-                <h2 className="text-lg font-semibold">{category.name}</h2>
-                <div className="flex flex-row justify-between mt-2">
+              <div>
+                <h2 className="text-base sm:text-lg font-semibold truncate">{category.name}</h2>
+                <div className="button-edit-delete">
                   <button
                     onClick={() => handleEditClick(category)}
                     className="button-edit"

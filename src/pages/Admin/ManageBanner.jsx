@@ -28,16 +28,16 @@ const ManageBanner = () => {
   );
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Manage Banners</h1>
-        <div className="flex gap-2">
+    <div className="p-4 md:p-6 max-w-6xl mx-auto space-y-4 md:space-y-6 min-h-0 overflow-hidden">
+      <div className="flex flex-col md:flex-row md:justify-between gap-4">
+        <h1 className="text-xl md:text-2xl font-bold">Manage Banners</h1>
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-sm">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by banner name..."
-            className="border px-4 py-2 rounded-lg w-64"
+            className="border px-4 py-2 rounded-lg w-full sm:w-64"
           />
           <button
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer"
@@ -61,26 +61,28 @@ const ManageBanner = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {filteredBanners.map((banner) => (
-          <div key={banner.id} className="border rounded shadow p-4 space-y-2">
+          <div key={banner.id} className="card-container">
             <img
               src={banner.imageUrl}
               alt={banner.name}
-              className="w-full h-40 object-cover rounded"
+              className="image-container"
             />
-            <h2 className="text-lg font-semibold">{banner.name}</h2>
-            <div className="flex justify-between">
-              <button
-                className="button-edit"
-                onClick={() => setEditBanner(banner)}
-              >
-                Edit
-              </button>
-              <button
-                className="button-delete"
-                onClick={() => handleDelete(banner.id)}
-              >
-                Delete
-              </button>
+            <div>
+              <h2 className="text-lg font-semibold">{banner.name}</h2>
+              <div className="button-edit-delete">
+                <button
+                  className="button-edit"
+                  onClick={() => setEditBanner(banner)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="button-delete"
+                  onClick={() => handleDelete(banner.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ))}
