@@ -63,8 +63,8 @@ const ManageUsers = () => {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <div className="max-w-5xl mx-auto p-2">
-      <h1 className="text-xl md:text-2xl font-bold mb-6">Manage Users</h1>
+    <div className="space-y-4 p-2 md:p-5">
+      <h1 className="text-xl md:text-2xl font-bold">Manage Users</h1>
       <label className="flex flex-row items-center gap-2 mb-5">
             <p>
               Search: 
